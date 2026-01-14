@@ -3,33 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KCI SEOキーワード分析ツール</title>
-    <meta http-equiv="refresh" content="0; url=keyword-tool-v4.html">
+    <title>KCI SEOキーワード分析ツール - ログイン</title>
     <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
+        }
         body {
-            font-family: 'Segoe UI', 'Hiragino Sans', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
         }
-        .container {
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             text-align: center;
+            max-width: 400px;
+            width: 90%;
         }
-        a {
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #1e293b;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        input[type="password"] {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input[type="password"]:focus {
+            border-color: #6366f1;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
             color: white;
-            text-decoration: underline;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+        .error {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 15px;
+            display: none;
+        }
+        .error.show {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>KCI SEOキーワード分析ツール</h1>
-        <p>リダイレクト中...</p>
-        <p><a href="keyword-tool-v4.html">自動でリダイレクトされない場合はこちら</a></p>
+    <div class="login-container">
+        <div class="logo">🔐</div>
+        <h1>KCI SEOツール</h1>
+        <p class="subtitle">アクセスにはパスワードが必要です</p>
+        <form onsubmit="return checkPassword()">
+            <div class="input-group">
+                <input type="password" id="password" placeholder="パスワードを入力" autofocus>
+            </div>
+            <button type="submit">ログイン</button>
+        </form>
+        <p class="error" id="error">パスワードが正しくありません</p>
     </div>
+
+    <script>
+        // パスワードのハッシュ値（SHA-256）
+        const CORRECT_HASH = '7d8f01174d4b2d0c4c3429453745e7a0f6ba4499e381f13939307680e7783edf';
+
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function checkPassword() {
+            const password = document.getElementById('password').value;
+            const hash = await sha256(password);
+
+            if (hash === CORRECT_HASH) {
+                // 認証成功 - セッションに保存してリダイレクト
+                sessionStorage.setItem('authenticated', 'true');
+                sessionStorage.setItem('authTime', Date.now().toString());
+                window.location.href = 'keyword-tool-v4.html';
+            } else {
+                document.getElementById('error').classList.add('show');
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+            }
+            return false;
+        }
+
+        // 既に認証済みならリダイレクト
+        if (sessionStorage.getItem('authenticated') === 'true') {
+            const authTime = parseInt(sessionStorage.getItem('authTime') || '0');
+            const now = Date.now();
+            // 24時間以内なら有効
+            if (now - authTime < 24 * 60 * 60 * 1000) {
+                window.location.href = 'keyword-tool-v4.html';
+            } else {
+                sessionStorage.removeItem('authenticated');
+                sessionStorage.removeItem('authTime');
+            }
+        }
+    </script>
 </body>
 </html>
