@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KCI教育センター SEOキーワード分析ツール v4</title>
+    <script>
+        // 認証チェック - 未認証の場合はログインページへリダイレクト
+        (function() {
+            const isAuthenticated = sessionStorage.getItem('authenticated') === 'true';
+            const authTime = parseInt(sessionStorage.getItem('authTime') || '0');
+            const now = Date.now();
+            const isValid = isAuthenticated && (now - authTime < 24 * 60 * 60 * 1000);
+            if (!isValid) {
+                sessionStorage.removeItem('authenticated');
+                sessionStorage.removeItem('authTime');
+                window.location.href = 'index.html';
+            }
+        })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
