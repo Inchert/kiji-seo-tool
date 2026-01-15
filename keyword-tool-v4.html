@@ -70,8 +70,8 @@
         <!-- ヘッダー -->
         <header class="text-center mb-8">
             <h1 class="text-3xl font-bold text-gray-800 mb-2"><span class="text-indigo-600">KCI教育センター</span> SEOキーワード分析ツール <span class="text-sm bg-indigo-500 text-white px-2 py-1 rounded-full ml-2">v4</span></h1>
-            <p class="text-gray-600">キーワード分析から記事構成・競合比較まで、SEO記事作成をワンストップで支援</p>
-            <p class="text-xs text-gray-400 mt-1">kensetsu-mikata.jp 専用 | Excel出力・クラスター編集・競合ヒートマップ・データ保存/復元対応</p>
+            <p class="text-gray-600">キーワード分析から記事構成・競合対策まで、SEO記事作成をワンストップで支援</p>
+            <p class="text-xs text-gray-400 mt-1">kensetsu-mikata.jp 専用 | 競合対策（SAT対策）・Excel出力・クラスター編集・ヒートマップ・データ保存対応</p>
         </header>
 
         <!-- サイト情報設定 -->
@@ -156,29 +156,36 @@
                                 <option value="">-- テーマを選んでください --</option>
                                 <optgroup label="優先度：高（検索ボリューム大）">
                                     <option value="職長">職長・安全衛生責任者教育</option>
+                                    <option value="能力向上">能力向上教育（職長・安責の再教育）</option>
                                     <option value="フルハーネス">フルハーネス型墜落制止用器具特別教育</option>
                                     <option value="足場">足場の組立て等特別教育</option>
-                                    <option value="玉掛け">玉掛け技能講習</option>
-                                    <option value="フォークリフト">フォークリフト運転技能講習</option>
                                 </optgroup>
                                 <optgroup label="優先度：中">
                                     <option value="酸欠">酸素欠乏・硫化水素危険作業特別教育</option>
                                     <option value="低圧電気">低圧電気取扱特別教育</option>
                                     <option value="粉じん">粉じん作業特別教育</option>
-                                    <option value="石綿">石綿取扱い作業従事者特別教育</option>
-                                    <option value="高所作業車">高所作業車運転特別教育</option>
-                                    <option value="クレーン">クレーン運転特別教育</option>
+                                    <option value="石綿">石綿使用建築物等解体等業務特別教育</option>
+                                    <option value="有機溶剤">有機溶剤取扱業務特別教育</option>
+                                    <option value="高所作業車">高所作業車運転特別教育（10m未満）</option>
+                                    <option value="クレーン">クレーン取扱い業務特別教育</option>
+                                    <option value="移動式クレーン">移動式クレーン運転特別教育（1トン未満）</option>
                                     <option value="アーク溶接">アーク溶接等作業特別教育</option>
                                     <option value="小型車両系">小型車両系建設機械運転特別教育</option>
+                                    <option value="ショベルローダー">ショベルローダー等運転特別教育（1トン未満）</option>
+                                    <option value="玉掛け">玉掛け業務特別教育</option>
                                 </optgroup>
                                 <optgroup label="優先度：低">
-                                    <option value="丸のこ">丸のこ等取扱作業従事者教育</option>
-                                    <option value="研削砥石">研削砥石取替試運転業務特別教育</option>
+                                    <option value="丸のこ">丸のこ等取扱い作業者安全衛生教育</option>
+                                    <option value="研削砥石">研削といし取替え・試運転特別教育</option>
                                     <option value="刈払機">刈払機取扱作業者安全衛生教育</option>
                                     <option value="振動工具">振動工具取扱作業者安全衛生教育</option>
-                                    <option value="ロープ高所">ロープ高所作業特別教育</option>
-                                    <option value="ゴンドラ">ゴンドラ取扱特別教育</option>
+                                    <option value="熱中症">熱中症予防教育</option>
+                                    <option value="ロープ高所">ロープ高所作業特別教育（ブランコ作業）</option>
                                     <option value="巻上げ機">巻上げ機運転特別教育</option>
+                                    <option value="テールゲート">テールゲートリフター操作特別教育</option>
+                                    <option value="不整地運搬車">不整地運搬車運転特別教育（1トン未満）</option>
+                                    <option value="ローラー">ローラー運転特別教育</option>
+                                    <option value="除染">除染等業務特別教育</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -423,7 +430,7 @@
                     </div>
 
                     <!-- サマリー -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                         <div class="bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-xl p-4 text-white text-center shadow-lg">
                             <div class="text-3xl font-bold" id="summary-keywords">0</div>
                             <div class="text-sm opacity-90">キーワード数</div>
@@ -442,6 +449,56 @@
                         </div>
                     </div>
 
+                    <!-- 競合対策サマリー（SAT対策） -->
+                    <div class="bg-gradient-to-r from-slate-50 to-indigo-50 border border-indigo-200 rounded-xl p-5 mb-8 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-indigo-800 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-indigo-600">strategy</span>
+                                競合対策サマリー
+                                <span class="text-xs bg-amber-500 text-white px-2 py-0.5 rounded-full font-normal">SAT対策</span>
+                            </h3>
+                            <button onclick="document.getElementById('layer-info').classList.toggle('hidden')" class="text-xs text-indigo-500 hover:text-indigo-700 flex items-center gap-1 bg-white px-2 py-1 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition">
+                                <span class="material-symbols-outlined" style="font-size:14px;">help</span>
+                                3層戦略とは
+                            </button>
+                        </div>
+                        <div id="strategy-summary">
+                            <!-- 動的に生成 -->
+                        </div>
+                        <!-- 3層戦略の説明（トグル表示） -->
+                        <div id="layer-info" class="hidden mt-4 pt-4 border-t border-indigo-200">
+                            <div class="grid md:grid-cols-3 gap-3">
+                                <div class="bg-white rounded-xl p-3 border-2 border-gray-200 shadow-sm">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center">
+                                            <span class="material-symbols-outlined text-gray-600" style="font-size:18px;">menu_book</span>
+                                        </span>
+                                        <span class="font-bold text-gray-700">A層：制度解説系</span>
+                                    </div>
+                                    <p class="text-xs text-gray-500 leading-relaxed">「〜とは」「義務」など基礎情報。競合と同等の土台作り。SEOの基盤となる記事。</p>
+                                </div>
+                                <div class="bg-white rounded-xl p-3 border-2 border-blue-200 shadow-sm">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
+                                            <span class="material-symbols-outlined text-blue-600" style="font-size:18px;">factory</span>
+                                        </span>
+                                        <span class="font-bold text-blue-700">B層：業種特化系</span>
+                                    </div>
+                                    <p class="text-xs text-gray-500 leading-relaxed">「建設業の〜」など業種別コンテンツ。SATにない切り口で差別化を図る。</p>
+                                </div>
+                                <div class="bg-white rounded-xl p-3 border-2 border-green-200 shadow-sm">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="w-7 h-7 rounded-lg bg-green-100 flex items-center justify-center">
+                                            <span class="material-symbols-outlined text-green-600" style="font-size:18px;">record_voice_over</span>
+                                        </span>
+                                        <span class="font-bold text-green-700">C層：体験・事例系</span>
+                                    </div>
+                                    <p class="text-xs text-gray-500 leading-relaxed">受講者の声、失敗談など一次情報。AIでは書けない最大の差別化ポイント。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- グループ一覧 -->
                     <h3 class="font-bold text-gray-700 mb-4">グループ一覧 <span class="text-sm font-normal text-gray-500">（クリックで記事設計へ）</span></h3>
                     <div id="cluster-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
@@ -457,6 +514,8 @@
                                     <th class="p-3 text-left rounded-tl-lg">順位</th>
                                     <th class="p-3 text-left">キーワード</th>
                                     <th class="p-3 text-center">推定Vol</th>
+                                    <th class="p-3 text-center">層</th>
+                                    <th class="p-3 text-center">対策</th>
                                     <th class="p-3 text-center">検索意図</th>
                                     <th class="p-3 text-center">CV期待</th>
                                     <th class="p-3 text-center rounded-tr-lg">一次情報</th>
@@ -1080,6 +1139,32 @@ https://example.com/page3
                                     <div class="text-xs text-gray-500">見出し・タイトル・一次情報をまとめてコピー</div>
                                 </button>
                             </div>
+                            <!-- 保存・履歴ボタン -->
+                            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                <button type="button" onclick="saveArticleStructure()" class="bg-emerald-50 border-2 border-emerald-300 px-6 py-4 rounded-xl hover:bg-emerald-100 text-left">
+                                    <div class="font-semibold text-emerald-700 mb-1 flex items-center gap-2">
+                                        <span class="material-symbols-outlined icon-sm">save</span> 構成を保存
+                                    </div>
+                                    <div class="text-xs text-gray-500">現在の記事構成をLocalStorageに保存</div>
+                                </button>
+                                <button type="button" onclick="openSavedStructures()" class="bg-slate-50 border-2 border-slate-300 px-6 py-4 rounded-xl hover:bg-slate-100 text-left">
+                                    <div class="font-semibold text-slate-700 mb-1 flex items-center gap-2">
+                                        <span class="material-symbols-outlined icon-sm">history</span> 保存履歴
+                                        <span id="saved-structures-count" class="bg-slate-200 text-slate-600 text-xs px-2 py-0.5 rounded-full">0</span>
+                                    </div>
+                                    <div class="text-xs text-gray-500">過去に保存した構成を復元・参照</div>
+                                </button>
+                            </div>
+                            <!-- 法令コードチェック -->
+                            <div class="mt-4">
+                                <button type="button" onclick="runLegalCodeCheck()" class="w-full bg-gradient-to-r from-purple-50 to-indigo-50 border-2 border-purple-300 px-6 py-4 rounded-xl hover:from-purple-100 hover:to-indigo-100 text-left">
+                                    <div class="font-semibold text-purple-700 mb-1 flex items-center gap-2">
+                                        <span class="material-symbols-outlined icon-sm">policy</span> 法令コードチェック
+                                        <span class="bg-purple-200 text-purple-700 text-xs px-2 py-0.5 rounded-full">NEW</span>
+                                    </div>
+                                    <div class="text-xs text-gray-500">記事構成の法令情報（講習時間・根拠法令・罰則等）を自動チェック</div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     </div><!-- /article-main-tab-design -->
@@ -1092,6 +1177,51 @@ https://example.com/page3
         <footer class="text-center text-sm text-gray-400 mt-8">
             <p>建設業安全教育サイトのSEO記事作成を支援するツールです</p>
         </footer>
+    </div>
+
+    <!-- 改善メモ（フローティング・左側） -->
+    <div id="improvement-memo-panel" class="fixed bottom-4 left-4 z-40">
+        <!-- トグルボタン -->
+        <button onclick="toggleImprovementMemo()" id="improvement-toggle-btn" class="bg-amber-500 hover:bg-amber-600 text-white rounded-full w-14 h-14 shadow-lg flex items-center justify-center relative">
+            <span class="material-symbols-outlined">edit_note</span>
+            <span id="improvement-count-badge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">0</span>
+        </button>
+        <!-- パネル本体 -->
+        <div id="improvement-panel-content" class="hidden absolute bottom-16 left-0 w-80 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden">
+            <div class="bg-amber-500 text-white px-4 py-3 flex justify-between items-center">
+                <h3 class="font-bold flex items-center gap-2">
+                    <span class="material-symbols-outlined">edit_note</span> 改善メモ
+                </h3>
+                <button onclick="toggleImprovementMemo()" class="text-white/70 hover:text-white">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-3">
+                <p class="text-xs text-gray-500 mb-2">使いながら気づいた改善点をメモ</p>
+                <!-- 新規追加フォーム -->
+                <div class="flex gap-2 mb-3">
+                    <input type="text" id="improvement-input" class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm" placeholder="改善点を入力...">
+                    <button onclick="addImprovementMemo()" class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-2 rounded-lg text-sm">
+                        <span class="material-symbols-outlined icon-sm">add</span>
+                    </button>
+                </div>
+                <!-- カテゴリ選択 -->
+                <div class="flex gap-1 mb-3 flex-wrap">
+                    <button onclick="setImprovementCategory('UI')" class="improvement-cat-btn px-2 py-1 text-xs rounded bg-gray-100 hover:bg-gray-200" data-cat="UI">UI</button>
+                    <button onclick="setImprovementCategory('機能')" class="improvement-cat-btn px-2 py-1 text-xs rounded bg-gray-100 hover:bg-gray-200" data-cat="機能">機能</button>
+                    <button onclick="setImprovementCategory('バグ')" class="improvement-cat-btn px-2 py-1 text-xs rounded bg-gray-100 hover:bg-gray-200" data-cat="バグ">バグ</button>
+                    <button onclick="setImprovementCategory('その他')" class="improvement-cat-btn px-2 py-1 text-xs rounded bg-gray-100 hover:bg-gray-200" data-cat="その他">その他</button>
+                </div>
+                <!-- メモリスト -->
+                <div id="improvement-list" class="max-h-60 overflow-y-auto space-y-2">
+                    <p class="text-center text-gray-400 text-sm py-4">メモがありません</p>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-3 py-2 border-t flex justify-between items-center">
+                <span class="text-xs text-gray-500">LocalStorageに保存</span>
+                <button onclick="exportImprovementMemos()" class="text-xs text-amber-600 hover:text-amber-700">エクスポート</button>
+            </div>
+        </div>
     </div>
 
     <!-- 記事アイデアメモ（フローティング） -->
@@ -1236,11 +1366,833 @@ https://example.com/page3
         </div>
     </div>
 
+    <!-- 保存した構成モーダル -->
+    <div id="saved-structures-modal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold flex items-center gap-2">
+                        <span class="material-symbols-outlined">history</span> 保存した記事構成
+                    </h2>
+                    <button type="button" onclick="closeSavedStructures()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">過去に保存した記事構成を復元・参照できます</p>
+            </div>
+            <div class="flex-1 overflow-y-auto p-6">
+                <div id="saved-structures-list" class="space-y-4">
+                    <p class="text-center text-gray-400 py-8">保存された構成がありません</p>
+                </div>
+            </div>
+            <div class="p-4 border-t bg-gray-50 flex justify-between">
+                <button onclick="clearAllSavedStructures()" class="text-red-500 hover:text-red-600 text-sm">全て削除</button>
+                <button onclick="closeSavedStructures()" class="px-6 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg">閉じる</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ========== グローバル変数 ==========
         let keywords = [];
         let clusters = [];
         let selectedClusterIndex = null;
+
+        // ========== 法令リファレンスデータ ==========
+        const LEGAL_REFERENCE = {
+            // 根拠法令
+            laws: {
+                '労働安全衛生法': {
+                    abbreviation: '安衛法',
+                    url: 'https://elaws.e-gov.go.jp/document?lawid=347AC0000000057',
+                    keyArticles: {
+                        '第59条': '雇入れ時教育・作業内容変更時教育',
+                        '第60条': '職長等教育（職長・安全衛生責任者教育）',
+                        '第60条の2': '危険有害業務従事者への安全衛生教育',
+                        '第61条': '就業制限（技能講習・免許が必要な業務）',
+                        '第119条': '罰則（6月以下の懲役または50万円以下の罰金）',
+                        '第120条': '罰則（50万円以下の罰金）'
+                    }
+                },
+                '労働安全衛生規則': {
+                    abbreviation: '安衛則',
+                    url: 'https://elaws.e-gov.go.jp/document?lawid=347M50002000032',
+                    keyArticles: {
+                        '第35条': '雇入れ時等の教育',
+                        '第36条': '特別教育を必要とする業務（全41業務）',
+                        '第37条': '特別教育の科目の省略',
+                        '第38条': '特別教育の記録',
+                        '第39条': '特別教育の細目',
+                        '第40条': '就業制限に係る業務'
+                    }
+                },
+                '酸素欠乏症等防止規則': {
+                    abbreviation: '酸欠則',
+                    url: 'https://elaws.e-gov.go.jp/document?lawid=347M50002000042',
+                    keyArticles: {
+                        '第11条': '特別教育（酸素欠乏危険作業）',
+                        '第12条': '特別教育の科目'
+                    }
+                },
+                '粉じん障害防止規則': {
+                    abbreviation: '粉じん則',
+                    url: 'https://elaws.e-gov.go.jp/document?lawid=354M50002000018',
+                    keyArticles: {
+                        '第22条': '特別教育（粉じん作業）'
+                    }
+                },
+                '石綿障害予防規則': {
+                    abbreviation: '石綿則',
+                    url: 'https://elaws.e-gov.go.jp/document?lawid=417M60000100021',
+                    keyArticles: {
+                        '第27条': '特別教育（石綿使用建築物等解体等）'
+                    }
+                }
+            },
+
+            // 特別教育一覧（安衛則第36条）
+            specialEducations: {
+                'フルハーネス': {
+                    officialName: '高さが2メートル以上の箇所であって作業床を設けることが困難なところにおいて、墜落制止用器具のうちフルハーネス型のものを用いて行う作業に係る業務',
+                    shortName: 'フルハーネス型墜落制止用器具特別教育',
+                    law: '安衛則第36条第41号',
+                    totalHours: 6,
+                    curriculum: [
+                        { subject: '作業に関する知識', hours: 1 },
+                        { subject: '墜落制止用器具に関する知識', hours: 2 },
+                        { subject: '労働災害の防止に関する知識', hours: 1 },
+                        { subject: '関係法令', hours: 0.5 },
+                        { subject: '墜落制止用器具の使用方法等（実技）', hours: 1.5 }
+                    ],
+                    effectiveDate: '2019年2月1日',
+                    targetPerson: '高さ2m以上でフルハーネス型を使用する作業者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし（ただし概ね5年ごとの再教育を推奨）',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技1.5時間は対面必須（器具の装着・点検）',
+                    commonMistakes: [
+                        '高さ2m未満でも墜落の危険がある場所では受講推奨',
+                        '胴ベルト型のみ使用する場合は不要（ただし経過措置あり）',
+                        '2022年1月2日以降、高さ6.75m超は原則フルハーネス型'
+                    ]
+                },
+                '足場': {
+                    officialName: '足場の組立て、解体又は変更の作業に係る業務',
+                    shortName: '足場の組立て等特別教育',
+                    law: '安衛則第36条第39号',
+                    totalHours: 6,
+                    curriculum: [
+                        { subject: '足場及び作業の方法に関する知識', hours: 3 },
+                        { subject: '工事用設備、機械、器具、作業環境等に関する知識', hours: 0.5 },
+                        { subject: '労働災害の防止に関する知識', hours: 1.5 },
+                        { subject: '関係法令', hours: 1 }
+                    ],
+                    effectiveDate: '2015年7月1日',
+                    targetPerson: '足場の組立て・解体・変更作業に従事する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: false,
+                    commonMistakes: [
+                        '「足場作業主任者技能講習」とは別の資格',
+                        '足場の上で作業するだけなら不要（組立て等に従事する者が対象）',
+                        '2015年7月1日以前から従事している者も受講必要'
+                    ]
+                },
+                '酸欠': {
+                    officialName: '酸素欠乏危険作業に係る業務',
+                    shortName: '酸素欠乏・硫化水素危険作業特別教育',
+                    law: '酸欠則第12条',
+                    totalHours: 5.5,
+                    curriculum: [
+                        { subject: '酸素欠乏等の発生の原因', hours: 1 },
+                        { subject: '酸素欠乏症等の症状', hours: 1 },
+                        { subject: '空気呼吸器等の使用の方法', hours: 1 },
+                        { subject: '事故の場合の退避及び救急そ生の方法', hours: 1 },
+                        { subject: 'その他酸素欠乏症等の防止に関し必要な事項', hours: 1.5 }
+                    ],
+                    targetPerson: '酸素欠乏危険場所で作業する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: false,
+                    commonMistakes: [
+                        '「酸素欠乏危険作業主任者技能講習」とは別',
+                        '第1種（酸欠のみ）と第2種（酸欠+硫化水素）がある',
+                        '特別教育は作業者向け、技能講習は作業主任者向け'
+                    ]
+                },
+                '低圧電気': {
+                    officialName: '低圧の充電電路の敷設若しくは修理の業務又は配電盤室、変電室等区画された場所に設置する低圧の電路のうち充電部分が露出している開閉器の操作の業務',
+                    shortName: '低圧電気取扱特別教育',
+                    law: '安衛則第36条第4号',
+                    totalHours: 14,
+                    curriculum: [
+                        { subject: '低圧の電気に関する基礎知識', hours: 1 },
+                        { subject: '低圧の電気設備に関する基礎知識', hours: 2 },
+                        { subject: '低圧用の安全作業用具に関する基礎知識', hours: 1 },
+                        { subject: '低圧の活線作業及び活線近接作業の方法', hours: 2 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: '低圧の活線作業及び活線近接作業（実技）', hours: 7 }
+                    ],
+                    targetPerson: '低圧（直流750V以下、交流600V以下）電気取扱者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技7時間（開閉器操作のみなら1時間に短縮可）',
+                    commonMistakes: [
+                        '電気工事士免許とは別の資格（両方必要な場合あり）',
+                        '充電部分に触れない作業は対象外',
+                        '開閉器操作のみなら学科7h+実技1hの短縮版あり'
+                    ]
+                },
+                '粉じん': {
+                    officialName: '粉じん作業に係る業務',
+                    shortName: '粉じん作業特別教育',
+                    law: '粉じん則第22条',
+                    totalHours: 4.5,
+                    curriculum: [
+                        { subject: '粉じんの発散防止及び作業場の換気の方法', hours: 1 },
+                        { subject: '作業場の管理', hours: 1 },
+                        { subject: '呼吸用保護具の使用の方法', hours: 0.5 },
+                        { subject: 'その他粉じんによる疾病の防止に関し必要な事項', hours: 1 },
+                        { subject: '関係法令', hours: 1 }
+                    ],
+                    targetPerson: '粉じん作業（じん肺法施行規則別表に定める作業）従事者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: false,
+                    commonMistakes: [
+                        '特定粉じん作業と粉じん作業は異なる',
+                        'じん肺健康診断も別途必要'
+                    ]
+                },
+                '石綿': {
+                    officialName: '石綿使用建築物等解体等の作業に係る業務',
+                    shortName: '石綿取扱い作業特別教育',
+                    law: '石綿則第27条',
+                    totalHours: 4.5,
+                    curriculum: [
+                        { subject: '石綿の有害性', hours: 0.5 },
+                        { subject: '石綿等の使用状況', hours: 1 },
+                        { subject: '石綿等の粉じんの発散を抑制するための措置', hours: 1 },
+                        { subject: '保護具の使用方法', hours: 1 },
+                        { subject: 'その他石綿等のばく露防止に関し必要な事項', hours: 1 }
+                    ],
+                    targetPerson: '石綿含有建材の除去・解体作業従事者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: false,
+                    commonMistakes: [
+                        '石綿作業主任者技能講習とは別',
+                        '2006年以前の建築物は石綿含有の可能性あり',
+                        '事前調査も義務化されている'
+                    ]
+                },
+                '丸のこ': {
+                    officialName: '携帯用丸のこ盤を使用する作業に係る業務',
+                    shortName: '丸のこ等取扱い作業特別教育',
+                    law: '安衛則第36条第16号の2',
+                    totalHours: 4,
+                    curriculum: [
+                        { subject: '携帯用丸のこ盤に関する知識', hours: 1 },
+                        { subject: '携帯用丸のこ盤を使用する作業に関する知識', hours: 1 },
+                        { subject: '携帯用丸のこ盤の点検及び整備に関する知識', hours: 0.5 },
+                        { subject: '関係法令', hours: 0.5 },
+                        { subject: '携帯用丸のこ盤の取扱い（実技）', hours: 1 }
+                    ],
+                    targetPerson: '携帯用丸のこ盤を使用する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技1時間',
+                    commonMistakes: [
+                        '据置型の丸のこは対象外',
+                        'DIY用でも業務で使用するなら必要'
+                    ]
+                },
+                '有機溶剤': {
+                    officialName: '有機溶剤等を製造し、又は取り扱う業務',
+                    shortName: '有機溶剤取扱業務特別教育',
+                    law: '安衛則第36条第29号',
+                    totalHours: 4.5,
+                    curriculum: [
+                        { subject: '有機溶剤による疾病及び健康管理', hours: 1 },
+                        { subject: '作業環境管理', hours: 1 },
+                        { subject: '保護具', hours: 0.5 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: 'その他有機溶剤中毒の予防に必要な事項', hours: 1 }
+                    ],
+                    targetPerson: '有機溶剤を取り扱う業務に従事する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: false,
+                    commonMistakes: [
+                        '有機溶剤作業主任者技能講習とは別',
+                        '第1種・第2種・第3種で規制が異なる',
+                        '換気設備の設置義務も確認が必要'
+                    ]
+                },
+                '高所作業車': {
+                    officialName: '高所作業車の運転の業務（作業床の高さが10m未満）',
+                    shortName: '高所作業車運転特別教育',
+                    law: '安衛則第36条第10号の5',
+                    totalHours: 9,
+                    curriculum: [
+                        { subject: '高所作業車の作業に関する装置の構造及び取扱いの方法に関する知識', hours: 3 },
+                        { subject: '原動機に関する知識', hours: 1 },
+                        { subject: '高所作業車の運転に必要な一般的事項に関する知識', hours: 1 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: '高所作業車の作業のための装置の操作（実技）', hours: 3 }
+                    ],
+                    targetPerson: '作業床の高さ10m未満の高所作業車を運転する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技3時間',
+                    commonMistakes: [
+                        '10m以上は技能講習が必要',
+                        '公道走行には別途自動車免許が必要',
+                        'トラック式・自走式で操作が異なる'
+                    ]
+                },
+                'クレーン': {
+                    officialName: 'つり上げ荷重5t未満のクレーンの運転の業務',
+                    shortName: 'クレーン運転特別教育',
+                    law: '安衛則第36条第15号',
+                    totalHours: 13,
+                    curriculum: [
+                        { subject: 'クレーンに関する知識', hours: 3 },
+                        { subject: '原動機及び電気に関する知識', hours: 3 },
+                        { subject: 'クレーンの運転のために必要な力学に関する知識', hours: 2 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: 'クレーンの運転（実技）', hours: 4 }
+                    ],
+                    targetPerson: 'つり上げ荷重5t未満のクレーンを運転する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技4時間',
+                    commonMistakes: [
+                        '5t以上は免許が必要',
+                        '玉掛け作業は別の資格が必要',
+                        '床上操作式・床上運転式で区分が異なる'
+                    ]
+                },
+                '移動式クレーン': {
+                    officialName: 'つり上げ荷重1t未満の移動式クレーンの運転の業務',
+                    shortName: '移動式クレーン運転特別教育',
+                    law: '安衛則第36条第16号',
+                    totalHours: 13,
+                    curriculum: [
+                        { subject: '移動式クレーンに関する知識', hours: 3 },
+                        { subject: '原動機及び電気に関する知識', hours: 3 },
+                        { subject: '移動式クレーンの運転のために必要な力学に関する知識', hours: 2 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: '移動式クレーンの運転（実技）', hours: 4 }
+                    ],
+                    targetPerson: 'つり上げ荷重1t未満の移動式クレーンを運転する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技4時間',
+                    commonMistakes: [
+                        '1t以上5t未満は技能講習、5t以上は免許が必要',
+                        'ユニック車も該当する場合あり',
+                        '公道走行には別途自動車免許が必要'
+                    ]
+                },
+                'アーク溶接': {
+                    officialName: 'アーク溶接機を用いて行う金属の溶接、溶断等の業務',
+                    shortName: 'アーク溶接等特別教育',
+                    law: '安衛則第36条第3号',
+                    totalHours: 21,
+                    curriculum: [
+                        { subject: 'アーク溶接等に関する知識', hours: 1 },
+                        { subject: 'アーク溶接装置に関する基礎知識', hours: 3 },
+                        { subject: 'アーク溶接等の作業の方法に関する知識', hours: 6 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: 'アーク溶接等の作業（実技）', hours: 10 }
+                    ],
+                    targetPerson: 'アーク溶接機を用いて金属の溶接・溶断等を行う者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技10時間',
+                    commonMistakes: [
+                        'ガス溶接は別の技能講習が必要',
+                        '溶接技能者資格（JIS）とは別',
+                        '作業環境の換気確保も必要'
+                    ]
+                },
+                '小型車両系': {
+                    officialName: '機体重量3t未満の車両系建設機械の運転の業務',
+                    shortName: '小型車両系建設機械運転特別教育',
+                    law: '安衛則第36条第9号',
+                    totalHours: 13,
+                    curriculum: [
+                        { subject: '小型車両系建設機械の走行に関する装置の構造及び取扱いの方法に関する知識', hours: 3 },
+                        { subject: '小型車両系建設機械の作業に関する装置の構造、取扱い及び作業方法に関する知識', hours: 2 },
+                        { subject: '小型車両系建設機械の運転に必要な一般的事項に関する知識', hours: 1 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: '小型車両系建設機械の走行の操作（実技）', hours: 4 },
+                        { subject: '小型車両系建設機械の作業のための装置の操作（実技）', hours: 2 }
+                    ],
+                    targetPerson: '機体重量3t未満の車両系建設機械（整地・運搬・積込み用、掘削用、解体用、基礎工事用）を運転する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技6時間',
+                    commonMistakes: [
+                        '3t以上は技能講習が必要',
+                        'ユンボ、バックホーなど通称が多い',
+                        '整地用・掘削用・解体用・基礎工事用で区分'
+                    ]
+                },
+                'ショベルローダー': {
+                    officialName: '最大荷重1t未満のショベルローダー又はフォークローダーの運転の業務',
+                    shortName: 'ショベルローダー等運転特別教育',
+                    law: '安衛則第36条第5号の3',
+                    totalHours: 12,
+                    curriculum: [
+                        { subject: 'ショベルローダー等の走行に関する装置の構造及び取扱いの方法に関する知識', hours: 2 },
+                        { subject: 'ショベルローダー等の荷役に関する装置の構造及び取扱いの方法に関する知識', hours: 2 },
+                        { subject: 'ショベルローダー等の運転に必要な力学に関する知識', hours: 1 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: 'ショベルローダー等の走行及び荷役の操作（実技）', hours: 6 }
+                    ],
+                    targetPerson: '最大荷重1t未満のショベルローダー・フォークローダーを運転する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技6時間',
+                    commonMistakes: [
+                        '1t以上は技能講習が必要',
+                        'フォークリフトとは別の資格',
+                        '公道走行には別途自動車免許が必要'
+                    ]
+                },
+                '玉掛け': {
+                    officialName: 'つり上げ荷重1t未満のクレーン等の玉掛けの業務',
+                    shortName: '玉掛け業務特別教育',
+                    law: '安衛則第36条第19号',
+                    totalHours: 9,
+                    curriculum: [
+                        { subject: 'クレーン等に関する知識', hours: 1 },
+                        { subject: '玉掛けに必要な力学に関する知識', hours: 1 },
+                        { subject: '玉掛けの方法', hours: 2 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: '玉掛け（実技）', hours: 4 }
+                    ],
+                    targetPerson: 'つり上げ荷重1t未満のクレーン等の玉掛けを行う者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技4時間',
+                    commonMistakes: [
+                        '1t以上は技能講習（19時間）が必要',
+                        'クレーン運転とは別の資格',
+                        '合図の方法も習得が必要'
+                    ]
+                },
+                '熱中症': {
+                    officialName: '熱中症予防のための安全衛生教育',
+                    shortName: '熱中症対策・予防教育',
+                    law: '基発0520第3号（通達）',
+                    totalHours: 2,
+                    curriculum: [
+                        { subject: '熱中症の症状と対応', hours: 0.5 },
+                        { subject: '熱中症の予防方法', hours: 0.5 },
+                        { subject: 'WBGT（暑さ指数）の活用', hours: 0.5 },
+                        { subject: '緊急時の対応', hours: 0.5 }
+                    ],
+                    targetPerson: '高温多湿な環境で作業する者',
+                    penalty: '法定の罰則なし（通達による教育）',
+                    validityPeriod: '法定の有効期限なし（毎年の実施を推奨）',
+                    onlineAvailable: true,
+                    practicalRequired: false,
+                    commonMistakes: [
+                        '法令による義務ではなく通達による指導',
+                        '建設業では7〜8月の実施が特に重要',
+                        '作業環境の測定も併せて行うことを推奨'
+                    ]
+                },
+                'ロープ高所': {
+                    officialName: 'ロープ高所作業に係る業務',
+                    shortName: 'ロープ高所作業特別教育',
+                    law: '安衛則第36条第40号',
+                    totalHours: 7,
+                    curriculum: [
+                        { subject: 'ロープ高所作業に関する知識', hours: 2 },
+                        { subject: 'メインロープ等に関する知識', hours: 2 },
+                        { subject: '労働災害の防止に関する知識', hours: 1 },
+                        { subject: '関係法令', hours: 0.5 },
+                        { subject: 'ロープ高所作業の方法（実技）', hours: 1.5 }
+                    ],
+                    targetPerson: 'ロープにより身体を保持しながら高所で行う作業（ブランコ作業等）に従事する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技1.5時間',
+                    commonMistakes: [
+                        '足場が設置できない場所での作業が対象',
+                        'ビルの外壁清掃等で必要',
+                        'フルハーネス特別教育も併せて必要な場合あり'
+                    ]
+                },
+                '巻上げ機': {
+                    officialName: '巻上げ機（電気ホイスト、エアーホイストを除く）の運転の業務',
+                    shortName: '巻上げ機運転特別教育',
+                    law: '安衛則第36条第11号',
+                    totalHours: 10,
+                    curriculum: [
+                        { subject: '巻上げ機に関する知識', hours: 3 },
+                        { subject: '巻上げ機の運転に必要な一般的事項に関する知識', hours: 2 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: '巻上げ機の運転（実技）', hours: 4 }
+                    ],
+                    targetPerson: 'ウインチ等の巻上げ機を運転する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技4時間',
+                    commonMistakes: [
+                        '電気ホイスト・エアーホイストは対象外',
+                        '建設現場での資材揚重で使用',
+                        'クレーン運転とは別の資格'
+                    ]
+                },
+                '研削砥石': {
+                    officialName: '自由研削用といしの取替え又は取替え時の試運転の業務',
+                    shortName: '研削といし取替え・試運転特別教育',
+                    law: '安衛則第36条第1号',
+                    totalHours: 6,
+                    curriculum: [
+                        { subject: '自由研削用といし、取付け具等に関する知識', hours: 2 },
+                        { subject: '自由研削用といしの取付け方法及び試運転の方法に関する知識', hours: 1 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: '自由研削用といしの取付け方法及び試運転の方法（実技）', hours: 2 }
+                    ],
+                    targetPerson: 'グラインダー等の砥石の取替え・試運転を行う者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技2時間',
+                    commonMistakes: [
+                        '砥石を使用するだけなら不要（取替え作業者が対象）',
+                        '研削盤（機械研削）は別の資格'
+                    ]
+                },
+                '刈払機': {
+                    officialName: '刈払機取扱い作業者に対する安全衛生教育',
+                    shortName: '刈払機取扱作業者安全衛生教育',
+                    law: '基発第66号（通達）',
+                    totalHours: 6,
+                    curriculum: [
+                        { subject: '刈払機に関する知識', hours: 1 },
+                        { subject: '刈払機を使用する作業に関する知識', hours: 1 },
+                        { subject: '刈払機の点検及び整備に関する知識', hours: 0.5 },
+                        { subject: '振動障害及びその予防に関する知識', hours: 2 },
+                        { subject: '関係法令', hours: 0.5 },
+                        { subject: '刈払機の作業等（実技）', hours: 1 }
+                    ],
+                    targetPerson: '刈払機を使用する作業に従事する者',
+                    penalty: '法定の罰則なし（通達による教育）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技1時間',
+                    commonMistakes: [
+                        '法令による義務ではなく通達による指導',
+                        '振動障害予防も含まれる'
+                    ]
+                },
+                '振動工具': {
+                    officialName: 'チェーンソー以外の振動工具取扱い作業に係る業務',
+                    shortName: '振動工具取扱作業者安全衛生教育',
+                    law: '基発第0710001号（通達）',
+                    totalHours: 4,
+                    curriculum: [
+                        { subject: '振動工具に関する知識', hours: 1.5 },
+                        { subject: '振動障害及びその予防に関する知識', hours: 1 },
+                        { subject: '関係法令', hours: 0.5 },
+                        { subject: '振動工具の取扱い方法（実技）', hours: 1 }
+                    ],
+                    targetPerson: 'ブレーカー、インパクトレンチ等の振動工具使用者',
+                    penalty: '法定の罰則なし（通達による教育）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技1時間（器具の正しい持ち方等）',
+                    commonMistakes: [
+                        '法令による義務ではなく通達による指導',
+                        'チェーンソーは別の特別教育が必要'
+                    ]
+                },
+                'テールゲート': {
+                    officialName: 'テールゲートリフターの操作の業務に係る特別教育',
+                    shortName: 'テールゲートリフター操作特別教育',
+                    law: '安衛則第36条第5号の2',
+                    totalHours: 6,
+                    curriculum: [
+                        { subject: 'テールゲートリフターに関する知識', hours: 1.5 },
+                        { subject: 'テールゲートリフターの操作方法', hours: 2 },
+                        { subject: '関係法令', hours: 0.5 },
+                        { subject: 'テールゲートリフターの操作（実技）', hours: 2 }
+                    ],
+                    effectiveDate: '2024年2月1日',
+                    targetPerson: 'テールゲートリフター（パワーゲート）を操作する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技2時間',
+                    commonMistakes: [
+                        '2024年2月1日から義務化',
+                        '経過措置あり（2024年1月31日以前からの従事者は猶予期間あり）',
+                        '荷役作業全般の安全確保が目的'
+                    ]
+                },
+                '不整地運搬車': {
+                    officialName: '最大積載量1t未満の不整地運搬車の運転の業務',
+                    shortName: '不整地運搬車運転特別教育',
+                    law: '安衛則第36条第5号の4',
+                    totalHours: 12,
+                    curriculum: [
+                        { subject: '不整地運搬車の走行に関する装置の構造及び取扱いの方法に関する知識', hours: 2 },
+                        { subject: '不整地運搬車の荷の運搬に関する知識', hours: 2 },
+                        { subject: '不整地運搬車の運転に必要な力学に関する知識', hours: 1 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: '不整地運搬車の走行及び荷役の操作（実技）', hours: 6 }
+                    ],
+                    targetPerson: '最大積載量1t未満の不整地運搬車を運転する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技6時間',
+                    commonMistakes: [
+                        '1t以上は技能講習が必要',
+                        'キャリアダンプ、クローラーダンプ等が該当',
+                        '公道走行には別途自動車免許が必要'
+                    ]
+                },
+                'ローラー': {
+                    officialName: 'ローラーの運転の業務',
+                    shortName: 'ローラー運転特別教育',
+                    law: '安衛則第36条第10号',
+                    totalHours: 10,
+                    curriculum: [
+                        { subject: 'ローラーに関する知識', hours: 4 },
+                        { subject: 'ローラーの運転に必要な一般的事項に関する知識', hours: 1 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: 'ローラーの運転（実技）', hours: 4 }
+                    ],
+                    targetPerson: 'ローラー（締固め機械）を運転する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金（安衛法第119条）',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技4時間',
+                    commonMistakes: [
+                        'ローラーには荷重制限がない（全て特別教育）',
+                        'タイヤローラー、振動ローラー等が該当',
+                        '公道走行には別途自動車免許が必要'
+                    ]
+                },
+                '除染': {
+                    officialName: '除染等業務に係る特別教育',
+                    shortName: '除染等業務特別教育',
+                    law: '除染電離則第19条',
+                    totalHours: 7,
+                    curriculum: [
+                        { subject: '電離放射線の生体に与える影響及び被ばく線量の管理の方法に関する知識', hours: 1.5 },
+                        { subject: '除染等作業の方法に関する知識', hours: 2.5 },
+                        { subject: '除染等作業に使用する機械等の構造及び取扱いの方法に関する知識', hours: 1.5 },
+                        { subject: '関係法令', hours: 1 },
+                        { subject: '除染等作業の方法（実技）', hours: 0.5 }
+                    ],
+                    targetPerson: '除染等業務（汚染土壌等の除去等）に従事する者',
+                    penalty: '6月以下の懲役または50万円以下の罰金',
+                    validityPeriod: '法定の有効期限なし',
+                    onlineAvailable: true,
+                    practicalRequired: true,
+                    practicalNote: '実技0.5時間',
+                    commonMistakes: [
+                        '福島第一原発事故に伴う除染作業が対象',
+                        '被ばく線量管理も教育内容に含まれる',
+                        '作業指揮者は別途教育が必要'
+                    ]
+                }
+            },
+
+            // 職長教育
+            foremanEducation: {
+                '職長教育': {
+                    officialName: '職長等教育',
+                    law: '安衛法第60条',
+                    totalHours: 12,
+                    curriculum: [
+                        { subject: '作業方法の決定及び労働者の配置に関すること', hours: 2 },
+                        { subject: '労働者に対する指導又は監督の方法に関すること', hours: 2.5 },
+                        { subject: '危険性又は有害性等の調査及びその結果に基づき講ずる措置に関すること', hours: 4 },
+                        { subject: '異常時等における措置に関すること', hours: 1.5 },
+                        { subject: 'その他現場監督者として行うべき労働災害防止活動に関すること', hours: 2 }
+                    ],
+                    targetPerson: '新たに職長（作業中の労働者を直接指導監督する者）になる者',
+                    targetIndustry: '建設業、製造業、電気業、ガス業、自動車整備業、機械修理業',
+                    penalty: '50万円以下の罰金（安衛法第120条）',
+                    validityPeriod: '法定の有効期限なし（概ね5年ごとの能力向上教育を推奨）',
+                    onlineAvailable: true,
+                    practicalRequired: false,
+                    commonMistakes: [
+                        '「職長」は役職名ではなく作業指揮者を指す',
+                        '建設業は職長・安責者教育（14時間）が必要',
+                        '製造業等は職長教育（12時間）でOK'
+                    ]
+                },
+                '職長・安全衛生責任者': {
+                    officialName: '職長・安全衛生責任者教育',
+                    law: '安衛法第60条、安衛則第40条',
+                    totalHours: 14,
+                    curriculum: [
+                        { subject: '職長教育', hours: 12 },
+                        { subject: '安全衛生責任者の職務等', hours: 1 },
+                        { subject: '統括安全衛生管理の進め方', hours: 1 }
+                    ],
+                    targetPerson: '建設業で職長になる者、または安全衛生責任者に選任される者',
+                    targetIndustry: '建設業',
+                    penalty: '50万円以下の罰金（安衛法第120条）',
+                    validityPeriod: '法定の有効期限なし（概ね5年ごとの能力向上教育を推奨）',
+                    onlineAvailable: true,
+                    practicalRequired: false,
+                    commonMistakes: [
+                        '建設業の元請・下請両方で必要',
+                        '安全衛生責任者は下請側の責任者',
+                        '統括安全衛生責任者は元請側の責任者（別の要件）'
+                    ]
+                },
+                '能力向上教育': {
+                    officialName: '職長等及び安全衛生責任者の能力向上教育',
+                    law: '安衛法第19条の2、基発第39号',
+                    totalHours: 5.5,
+                    curriculum: [
+                        { subject: '事業場における安全衛生活動', hours: 1 },
+                        { subject: '労働災害の動向と問題点', hours: 1.5 },
+                        { subject: '職長等及び安全衛生責任者として行うべき労働災害防止活動', hours: 2 },
+                        { subject: '危険性又は有害性等の調査等', hours: 0.5 },
+                        { subject: 'グループ演習', hours: 0.5 }
+                    ],
+                    targetPerson: '職長・安全衛生責任者教育修了後、概ね5年経過した者',
+                    targetIndustry: '建設業、製造業等',
+                    penalty: '法定の罰則なし（通達による推奨）',
+                    validityPeriod: '概ね5年ごとの再受講を推奨',
+                    onlineAvailable: true,
+                    practicalRequired: false,
+                    commonMistakes: [
+                        '法的義務ではないが、厚労省通達で推奨',
+                        '元請から受講を求められることが多い',
+                        '新規の職長教育（14時間）の代わりにはならない'
+                    ]
+                }
+            },
+
+            // 技能講習（参考）
+            skillTraining: {
+                '玉掛け': {
+                    officialName: '玉掛け技能講習',
+                    law: '安衛法第61条、クレーン則第221条',
+                    totalHours: 19,
+                    requirement: '1t以上のクレーン等の玉掛け作業',
+                    note: '1t未満は特別教育（9時間）でOK'
+                },
+                'フォークリフト': {
+                    officialName: 'フォークリフト運転技能講習',
+                    law: '安衛法第61条、安衛則第41条',
+                    totalHours: 35,
+                    requirement: '最大荷重1t以上のフォークリフト運転',
+                    note: '1t未満は特別教育（12時間）でOK'
+                },
+                '高所作業車': {
+                    officialName: '高所作業車運転技能講習',
+                    law: '安衛法第61条、安衛則第41条',
+                    totalHours: 17,
+                    requirement: '作業床高さ10m以上の高所作業車運転',
+                    note: '10m未満は特別教育（9時間）でOK'
+                },
+                '足場作業主任者': {
+                    officialName: '足場の組立て等作業主任者技能講習',
+                    law: '安衛法第14条、安衛則第565条',
+                    totalHours: 18,
+                    requirement: 'つり足場、張出し足場、高さ5m以上の足場の組立て等の作業主任者',
+                    note: '作業者は別途特別教育が必要'
+                },
+                '酸欠作業主任者': {
+                    officialName: '酸素欠乏・硫化水素危険作業主任者技能講習',
+                    law: '安衛法第14条、酸欠則第11条',
+                    totalHours: 21,
+                    requirement: '酸素欠乏危険場所での作業主任者',
+                    note: '作業者は別途特別教育が必要'
+                }
+            },
+
+            // よくある質問と正確な回答
+            faq: [
+                {
+                    question: '特別教育に有効期限はありますか？',
+                    answer: '法令上の有効期限はありません。ただし、厚生労働省は概ね5年ごとの再教育（能力向上教育）を推奨しています。',
+                    law: '安衛法第60条の2、能力向上教育指針'
+                },
+                {
+                    question: '特別教育はオンラインで受講できますか？',
+                    answer: '学科部分はオンライン（eラーニング、Web講習）で受講可能です。ただし、実技が必要な教育は、実技部分は対面で行う必要があります。',
+                    law: '令和3年1月25日基発0125第2号'
+                },
+                {
+                    question: '特別教育と技能講習の違いは？',
+                    answer: '特別教育は事業者が実施し修了証を発行。技能講習は都道府県労働局長登録機関が実施し、修了すると免許的な効力があります。技能講習は上位資格です。',
+                    law: '安衛法第59条（特別教育）、第61条（技能講習）'
+                },
+                {
+                    question: '修了証を紛失した場合は？',
+                    answer: '受講した教育機関に再発行を依頼できます。事業者には特別教育の記録を3年間保存する義務があります。',
+                    law: '安衛則第38条'
+                },
+                {
+                    question: '外国人労働者も特別教育が必要？',
+                    answer: 'はい、国籍に関係なく、該当業務に従事するすべての労働者に必要です。外国語対応の教育機関もあります。',
+                    law: '安衛法第59条'
+                }
+            ],
+
+            // 数値データ（記事チェック用）
+            numericalData: {
+                'フルハーネス講習時間': { value: 6, unit: '時間', allowRange: [4.5, 6] },
+                '足場講習時間': { value: 6, unit: '時間', allowRange: [6, 6] },
+                '職長教育時間': { value: 12, unit: '時間', allowRange: [12, 14] },
+                '職長安責者時間': { value: 14, unit: '時間', allowRange: [14, 14] },
+                '低圧電気講習時間': { value: 14, unit: '時間', allowRange: [7, 14] },
+                '酸欠講習時間': { value: 5.5, unit: '時間', allowRange: [5.5, 5.5] },
+                '粉じん講習時間': { value: 4.5, unit: '時間', allowRange: [4.5, 4.5] },
+                'フルハーネス義務化高さ': { value: 6.75, unit: 'm', note: '2022年1月2日以降' },
+                '墜落制止用器具義務化高さ': { value: 2, unit: 'm' },
+                '記録保存期間': { value: 3, unit: '年' }
+            }
+        };
 
         // ========== サイト情報設定機能 ==========
         function toggleSiteSettings() {
@@ -1332,7 +2284,7 @@ https://example.com/page3
             }
         };
 
-        // ========== ビッグキーワード候補データ ==========
+        // ========== ビッグキーワード候補データ（kensetsu-mikata.jp提供講座に対応） ==========
         const BIG_KEYWORD_VARIATIONS = {
             '職長': { name: '職長・安全衛生責任者教育', icon: 'engineering', estimatedVolume: 15000, priority: 'high', keywords: [
                 { keyword: '職長教育', volume: 8000, note: '最重要・検索ボリューム最大' },
@@ -1342,6 +2294,14 @@ https://example.com/page3
                 { keyword: '職長 講習', volume: 1000, note: '講習受講意図' },
                 { keyword: '職長教育 オンライン', volume: 1500, note: 'オンライン受講意図（CV高）' },
                 { keyword: '職長 再教育', volume: 800, note: '5年更新の検索' }
+            ]},
+            '能力向上': { name: '能力向上教育（職長・安責の再教育）', icon: 'trending_up', estimatedVolume: 5000, priority: 'high', keywords: [
+                { keyword: '職長 再教育', volume: 1500, note: '最重要・5年更新' },
+                { keyword: '職長教育 能力向上', volume: 1000, note: '正式名称系' },
+                { keyword: '安全衛生責任者 再教育', volume: 800, note: '責任者視点' },
+                { keyword: '職長 更新', volume: 600, note: '更新意図' },
+                { keyword: '職長教育 5年', volume: 500, note: '更新期間での検索' },
+                { keyword: '能力向上教育 オンライン', volume: 600, note: 'オンライン受講意図（CV高）' }
             ]},
             'フルハーネス': { name: 'フルハーネス型墜落制止用器具特別教育', icon: 'safety_check', estimatedVolume: 12000, priority: 'high', keywords: [
                 { keyword: 'フルハーネス 特別教育', volume: 5000, note: '最重要' },
@@ -1387,31 +2347,29 @@ https://example.com/page3
                 { keyword: 'アスベスト 講習', volume: 500, note: '講習受講意図' },
                 { keyword: '石綿 資格', volume: 400, note: '資格取得意図' }
             ]},
+            '有機溶剤': { name: '有機溶剤取扱業務特別教育', icon: 'science', estimatedVolume: 3000, priority: 'mid', keywords: [
+                { keyword: '有機溶剤 特別教育', volume: 1200, note: '最重要' },
+                { keyword: '有機溶剤取扱業務', volume: 800, note: '正式名称系' },
+                { keyword: '有機溶剤 講習', volume: 500, note: '講習受講意図' },
+                { keyword: '有機溶剤 資格', volume: 300, note: '資格取得意図' },
+                { keyword: '有機溶剤 特別教育 オンライン', volume: 200, note: 'オンライン受講意図（CV高）' }
+            ]},
             '高所作業車': { name: '高所作業車運転特別教育', icon: 'local_shipping', estimatedVolume: 5000, priority: 'mid', keywords: [
                 { keyword: '高所作業車 特別教育', volume: 1800, note: '最重要' },
                 { keyword: '高所作業車 技能講習', volume: 1500, note: '技能講習との混同' },
                 { keyword: '高所作業車 資格', volume: 1200, note: '資格取得意図' },
                 { keyword: '高所作業車 免許', volume: 500, note: '免許系検索' }
             ]},
-            '玉掛け': { name: '玉掛け技能講習', icon: 'fitness_center', estimatedVolume: 8000, priority: 'high', keywords: [
-                { keyword: '玉掛け 技能講習', volume: 4000, note: '最重要' },
-                { keyword: '玉掛け 資格', volume: 2500, note: '資格取得意図' },
-                { keyword: '玉掛け 講習', volume: 2000, note: '講習受講意図' },
-                { keyword: '玉掛け 免許', volume: 800, note: '免許系検索' },
-                { keyword: '玉掛け 料金', volume: 500, note: '料金検索（CV高）' }
-            ]},
-            'フォークリフト': { name: 'フォークリフト運転技能講習', icon: 'forklift', estimatedVolume: 12000, priority: 'high', keywords: [
-                { keyword: 'フォークリフト 免許', volume: 6000, note: '最重要' },
-                { keyword: 'フォークリフト 講習', volume: 3500, note: '講習受講意図' },
-                { keyword: 'フォークリフト 技能講習', volume: 2500, note: '正式名称系' },
-                { keyword: 'フォークリフト 資格', volume: 2000, note: '資格取得意図' },
-                { keyword: 'フォークリフト 料金', volume: 800, note: '料金検索（CV高）' }
-            ]},
             'クレーン': { name: 'クレーン運転特別教育', icon: 'precision_manufacturing', estimatedVolume: 6000, priority: 'mid', keywords: [
                 { keyword: 'クレーン 免許', volume: 3000, note: '最重要' },
                 { keyword: 'クレーン 特別教育', volume: 1500, note: '特別教育系' },
-                { keyword: '小型移動式クレーン', volume: 2000, note: '種類別検索' },
                 { keyword: 'クレーン 資格', volume: 1500, note: '資格取得意図' }
+            ]},
+            '移動式クレーン': { name: '移動式クレーン運転特別教育（1トン未満）', icon: 'precision_manufacturing', estimatedVolume: 3000, priority: 'mid', keywords: [
+                { keyword: '移動式クレーン 特別教育', volume: 1200, note: '最重要' },
+                { keyword: '小型移動式クレーン', volume: 800, note: '種類別検索' },
+                { keyword: '移動式クレーン 資格', volume: 600, note: '資格取得意図' },
+                { keyword: '移動式クレーン 1トン未満', volume: 400, note: '対象範囲での検索' }
             ]},
             'アーク溶接': { name: 'アーク溶接等作業特別教育', icon: 'local_fire_department', estimatedVolume: 4000, priority: 'mid', keywords: [
                 { keyword: 'アーク溶接 特別教育', volume: 1500, note: '最重要' },
@@ -1425,12 +2383,41 @@ https://example.com/page3
                 { keyword: 'バックホー 資格', volume: 800, note: '機種名検索' },
                 { keyword: '重機 免許', volume: 1000, note: '一般名称' }
             ]},
+            'ショベルローダー': { name: 'ショベルローダー運転特別教育', icon: 'agriculture', estimatedVolume: 1500, priority: 'mid', keywords: [
+                { keyword: 'ショベルローダー 特別教育', volume: 600, note: '最重要' },
+                { keyword: 'ショベルローダー 資格', volume: 400, note: '資格取得意図' },
+                { keyword: 'ショベルローダー 講習', volume: 300, note: '講習受講意図' },
+                { keyword: 'ショベルローダー 1トン未満', volume: 200, note: '対象範囲での検索' }
+            ]},
             '丸のこ': { name: '丸のこ等取扱作業従事者教育', icon: 'carpenter', estimatedVolume: 2000, priority: 'low', keywords: [
                 { keyword: '丸のこ 特別教育', volume: 800, note: '最重要' },
                 { keyword: '丸のこ 講習', volume: 600, note: '講習受講意図' },
                 { keyword: '丸鋸 資格', volume: 400, note: '漢字表記' }
             ]},
-            '研削砥石': { name: '研削砥石取替試運転業務特別教育', icon: 'settings', estimatedVolume: 1500, priority: 'low', keywords: [
+            '玉掛け': { name: '玉掛け業務特別教育', icon: 'fitness_center', estimatedVolume: 3000, priority: 'low', keywords: [
+                { keyword: '玉掛け 特別教育', volume: 1200, note: '最重要' },
+                { keyword: '玉掛け 資格', volume: 800, note: '資格取得意図' },
+                { keyword: '玉掛け 講習', volume: 600, note: '講習受講意図' },
+                { keyword: '玉掛け 特別教育 オンライン', volume: 400, note: 'オンライン受講意図（CV高）' }
+            ]},
+            '熱中症': { name: '熱中症対策・予防教育', icon: 'thermostat', estimatedVolume: 4000, priority: 'low', keywords: [
+                { keyword: '熱中症 講習', volume: 1500, note: '最重要' },
+                { keyword: '熱中症対策 教育', volume: 1000, note: '対策視点' },
+                { keyword: '熱中症予防 研修', volume: 800, note: '研修視点' },
+                { keyword: '熱中症 建設業', volume: 500, note: '業種特化' },
+                { keyword: '熱中症対策 オンライン', volume: 200, note: 'オンライン受講意図（CV高）' }
+            ]},
+            'ロープ高所': { name: 'ロープ高所作業特別教育', icon: 'hiking', estimatedVolume: 1500, priority: 'low', keywords: [
+                { keyword: 'ロープ高所作業 特別教育', volume: 600, note: '最重要' },
+                { keyword: 'ロープアクセス 資格', volume: 500, note: '通称での検索' },
+                { keyword: 'ブランコ作業 資格', volume: 400, note: '別名での検索' }
+            ]},
+            '巻上げ機': { name: '巻上げ機運転特別教育', icon: 'sync', estimatedVolume: 1000, priority: 'low', keywords: [
+                { keyword: '巻上げ機 特別教育', volume: 400, note: '最重要' },
+                { keyword: 'ウインチ 資格', volume: 400, note: '通称での検索' },
+                { keyword: '巻上げ機 講習', volume: 200, note: '講習受講意図' }
+            ]},
+            '研削砥石': { name: '研削といし取替え・試運転特別教育', icon: 'settings', estimatedVolume: 1500, priority: 'low', keywords: [
                 { keyword: '研削砥石 特別教育', volume: 600, note: '最重要' },
                 { keyword: 'グラインダー 資格', volume: 500, note: '通称での検索' },
                 { keyword: '砥石 交換 資格', volume: 400, note: '作業内容での検索' }
@@ -1443,22 +2430,28 @@ https://example.com/page3
             '振動工具': { name: '振動工具取扱作業者安全衛生教育', icon: 'vibration', estimatedVolume: 1000, priority: 'low', keywords: [
                 { keyword: '振動工具 特別教育', volume: 400, note: '最重要' },
                 { keyword: '振動工具 講習', volume: 300, note: '講習受講意図' },
-                { keyword: 'チェーンソー 資格', volume: 300, note: '具体的工具名' }
+                { keyword: '振動障害 予防', volume: 300, note: '予防視点' }
             ]},
-            'ロープ高所': { name: 'ロープ高所作業特別教育', icon: 'hiking', estimatedVolume: 1500, priority: 'low', keywords: [
-                { keyword: 'ロープ高所作業 特別教育', volume: 600, note: '最重要' },
-                { keyword: 'ロープアクセス 資格', volume: 500, note: '通称での検索' },
-                { keyword: 'ブランコ作業 資格', volume: 400, note: '別名での検索' }
+            'テールゲート': { name: 'テールゲートリフター操作特別教育', icon: 'local_shipping', estimatedVolume: 2000, priority: 'low', keywords: [
+                { keyword: 'テールゲートリフター 特別教育', volume: 800, note: '最重要' },
+                { keyword: 'テールゲート 講習', volume: 500, note: '講習受講意図' },
+                { keyword: 'パワーゲート 資格', volume: 400, note: '通称での検索' },
+                { keyword: 'テールゲートリフター 義務化', volume: 300, note: '法改正関連' }
             ]},
-            'ゴンドラ': { name: 'ゴンドラ取扱特別教育', icon: 'window', estimatedVolume: 1000, priority: 'low', keywords: [
-                { keyword: 'ゴンドラ 特別教育', volume: 500, note: '最重要' },
-                { keyword: 'ゴンドラ 資格', volume: 300, note: '資格取得意図' },
-                { keyword: 'ゴンドラ 講習', volume: 200, note: '講習受講意図' }
+            '不整地運搬車': { name: '不整地運搬車運転特別教育（1トン未満）', icon: 'agriculture', estimatedVolume: 1500, priority: 'low', keywords: [
+                { keyword: '不整地運搬車 特別教育', volume: 600, note: '最重要' },
+                { keyword: '不整地運搬車 資格', volume: 500, note: '資格取得意図' },
+                { keyword: 'キャリアダンプ 免許', volume: 400, note: '通称での検索' }
             ]},
-            '巻上げ機': { name: '巻上げ機運転特別教育', icon: 'sync', estimatedVolume: 1000, priority: 'low', keywords: [
-                { keyword: '巻上げ機 特別教育', volume: 400, note: '最重要' },
-                { keyword: 'ウインチ 資格', volume: 400, note: '通称での検索' },
-                { keyword: '巻上げ機 講習', volume: 200, note: '講習受講意図' }
+            'ローラー': { name: 'ローラー運転特別教育', icon: 'compress', estimatedVolume: 1500, priority: 'low', keywords: [
+                { keyword: 'ローラー 特別教育', volume: 600, note: '最重要' },
+                { keyword: 'ローラー 資格', volume: 500, note: '資格取得意図' },
+                { keyword: '締固め機械 免許', volume: 400, note: '作業内容での検索' }
+            ]},
+            '除染': { name: '除染等業務特別教育', icon: 'cleaning_services', estimatedVolume: 1000, priority: 'low', keywords: [
+                { keyword: '除染 特別教育', volume: 400, note: '最重要' },
+                { keyword: '除染作業 資格', volume: 300, note: '資格取得意図' },
+                { keyword: '除染等業務 講習', volume: 300, note: '講習受講意図' }
             ]}
         };
 
@@ -2206,43 +3199,123 @@ ${regionList}
                 return;
             }
 
-            Papa.parse(file, {
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    console.log('CSV解析結果:', results);
-                    loadedCSVData = parseCSVData(results.data);
+            // まずArrayBufferとして読み込み、エンコーディングを判定
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const arrayBuffer = e.target.result;
+                const uint8Array = new Uint8Array(arrayBuffer);
 
-                    // ファイル情報表示
-                    document.getElementById('csv-dropzone').classList.add('hidden');
-                    document.getElementById('csv-file-info').classList.remove('hidden');
-                    document.getElementById('csv-filename').textContent = file.name;
-                    document.getElementById('csv-rowcount').textContent = `${loadedCSVData.length}件のキーワード`;
-                },
-                error: function(error) {
-                    alert('CSVファイルの読み込みに失敗しました: ' + error.message);
+                let csvText;
+
+                // BOMを確認してエンコーディングを判定
+                if (uint8Array[0] === 0xFF && uint8Array[1] === 0xFE) {
+                    // UTF-16 LE (Google Keyword Plannerのデフォルト)
+                    console.log('UTF-16 LE encoding detected');
+                    // TextDecoderを使用（より安全）
+                    csvText = new TextDecoder('utf-16le').decode(arrayBuffer);
+                } else if (uint8Array[0] === 0xFE && uint8Array[1] === 0xFF) {
+                    // UTF-16 BE
+                    console.log('UTF-16 BE encoding detected');
+                    csvText = new TextDecoder('utf-16be').decode(arrayBuffer);
+                } else if (uint8Array[0] === 0xEF && uint8Array[1] === 0xBB && uint8Array[2] === 0xBF) {
+                    // UTF-8 with BOM
+                    console.log('UTF-8 with BOM detected');
+                    csvText = new TextDecoder('utf-8').decode(arrayBuffer);
+                } else {
+                    // UTF-8 without BOM (default)
+                    console.log('UTF-8 encoding assumed');
+                    csvText = new TextDecoder('utf-8').decode(arrayBuffer);
                 }
-            });
+
+                console.log('Decoded CSV length:', csvText.length);
+                console.log('First 200 chars:', csvText.substring(0, 200));
+
+                // Google Keyword Plannerの形式を検出
+                // 最初の2行がメタデータ（タイトル、日付範囲）の場合はスキップ
+                let lines = csvText.split('\n');
+                console.log('Total lines:', lines.length);
+                console.log('First 3 lines:', lines.slice(0, 3));
+
+                // Keyword Planner形式の検出（3行目がヘッダー）
+                let headerRowIndex = 0;
+                if (lines.length > 2) {
+                    // 3行目に「Keyword」が含まれているか確認
+                    if (lines[2] && lines[2].includes('Keyword') && lines[2].includes('Currency')) {
+                        console.log('Google Keyword Planner format detected - skipping first 2 rows');
+                        headerRowIndex = 2;
+                        // 最初の2行を削除
+                        lines = lines.slice(2);
+                        csvText = lines.join('\n');
+                    }
+                }
+
+                console.log('CSV text after processing (first 500 chars):', csvText.substring(0, 500));
+
+                // PapaParseで解析（タブ区切りを自動検出）
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    delimiter: '\t', // タブ区切りを明示
+                    complete: function(results) {
+                        console.log('CSV解析結果:', results);
+                        console.log('Parsed rows count:', results.data.length);
+                        if (results.data.length > 0) {
+                            console.log('First row:', results.data[0]);
+                        }
+                        loadedCSVData = parseCSVData(results.data);
+
+                        // ファイル情報表示
+                        document.getElementById('csv-dropzone').classList.add('hidden');
+                        document.getElementById('csv-file-info').classList.remove('hidden');
+                        document.getElementById('csv-filename').textContent = file.name;
+                        document.getElementById('csv-rowcount').textContent = `${loadedCSVData.length}件のキーワード`;
+                    },
+                    error: function(error) {
+                        alert('CSVファイルの読み込みに失敗しました: ' + error.message);
+                    }
+                });
+            };
+
+            reader.onerror = function() {
+                alert('ファイルの読み込みに失敗しました');
+            };
+
+            reader.readAsArrayBuffer(file);
         }
 
         function parseCSVData(data) {
             const results = [];
+            console.log('parseCSVData called with', data.length, 'rows');
 
-            for (const row of data) {
+            for (let i = 0; i < data.length; i++) {
+                const row = data[i];
+
                 // キーワード列を探す
                 let keyword = row['Keyword'] || row['キーワード'] || row['keyword'] || '';
+
+                // トリムして空かチェック
+                keyword = keyword.toString().trim();
+
+                // 空のキーワードやサマリー行をスキップ
+                if (!keyword || keyword === '' || keyword === 'すべて' || keyword === '日本') {
+                    continue;
+                }
 
                 // ボリューム列を探す
                 let volumeStr = row['Avg. monthly searches'] || row['月間平均検索ボリューム'] ||
                                 row['Search Volume'] || row['検索ボリューム'] || '';
 
-                if (!keyword) continue;
+                // デバッグ用（最初の10行のみ）
+                if (i < 10) {
+                    console.log(`Row ${i}: keyword="${keyword}", volume="${volumeStr}"`);
+                }
 
                 // ボリュームを数値に変換
-                let volume = 100; // デフォルト
+                let volume = 10; // デフォルト（ボリュームなしの場合）
                 if (volumeStr) {
+                    const volStr = volumeStr.toString().trim();
                     // 「1万〜10万」「10〜100」形式
-                    const rangeMatch = volumeStr.toString().match(/(\d+(?:,\d+)?)(万)?[～~\-−](\d+(?:,\d+)?)(万)?/);
+                    const rangeMatch = volStr.match(/(\d+(?:,\d+)?)(万)?[～~\-−](\d+(?:,\d+)?)(万)?/);
                     if (rangeMatch) {
                         let min = parseInt(rangeMatch[1].replace(/,/g, ''));
                         let max = parseInt(rangeMatch[3].replace(/,/g, ''));
@@ -2250,15 +3323,20 @@ ${regionList}
                         if (rangeMatch[4] === '万') max *= 10000;
                         volume = Math.round((min + max) / 2);
                     } else {
-                        // 単純な数値
-                        const numMatch = volumeStr.toString().replace(/,/g, '').match(/(\d+)/);
+                        // 単純な数値（50.0のような小数も対応）
+                        const numMatch = volStr.replace(/,/g, '').match(/(\d+(?:\.\d+)?)/);
                         if (numMatch) {
-                            volume = parseInt(numMatch[1]);
+                            volume = Math.round(parseFloat(numMatch[1]));
                         }
                     }
                 }
 
-                results.push({ keyword: keyword.trim(), volume });
+                results.push({ keyword: keyword, volume });
+            }
+
+            console.log('parseCSVData result:', results.length, 'keywords');
+            if (results.length > 0) {
+                console.log('First 5 keywords:', results.slice(0, 5));
             }
 
             return results;
@@ -2592,6 +3670,81 @@ ${regionList}
         }
 
         // ========== クラスター選択 ==========
+        // クラスター名から推奨記事タイプを判定
+        function getRecommendedArticleType(clusterName) {
+            const name = clusterName.toLowerCase();
+
+            // テスト対策系 → チェックリスト（優先度高）
+            if (/テスト|答え|例文|記入例|ワークシート|グループ討議/.test(name)) {
+                return { type: 'checklist', reason: 'テスト対策・記入例の検索意図' };
+            }
+            // オンライン・Web受講系 → ハウツー
+            if (/オンライン|web|ウェブ|eラーニング|通信/.test(name)) {
+                return { type: 'howto', reason: 'オンライン受講方法の検索意図' };
+            }
+            // 更新・期限系 → FAQ
+            if (/更新|期限|期限切れ|有効期限|5年|しないとどうなる/.test(name)) {
+                return { type: 'faq', reason: '更新・期限に関する疑問' };
+            }
+            // 能力向上・再教育系 → ハウツー
+            if (/能力向上|再教育|スキルアップ/.test(name)) {
+                return { type: 'howto', reason: '再教育・能力向上の受講方法' };
+            }
+            // 地域系 → 選び方ガイド
+            if (/東京|大阪|名古屋|神奈川|福岡|愛知|埼玉|千葉|札幌|横浜|京都|地域|エリア/.test(name)) {
+                return { type: 'comparison', reason: '地域別講座の選び方' };
+            }
+            // 費用・手当・料金系 → 選び方ガイド
+            if (/費用|料金|価格|相場|いくら|安い|手当|助成金/.test(name)) {
+                return { type: 'comparison', reason: '費用比較・手当情報の検索意図' };
+            }
+            // 関連資格・責任者系 → 用語解説
+            if (/資格|免許|責任者|推進者|統括|違い/.test(name)) {
+                return { type: 'glossary', reason: '資格・役職の基礎知識' };
+            }
+            // 「とは」・基礎知識系 → 用語解説
+            if (/とは|基礎|概要|意味|定義|内容|役割|職務/.test(name)) {
+                return { type: 'glossary', reason: '基礎知識の検索意図' };
+            }
+            // 手順・方法系 → ハウツー
+            if (/方法|手順|流れ|やり方|受け方|申し込み|取り方|受講/.test(name)) {
+                return { type: 'howto', reason: '手順解説の検索意図' };
+            }
+            // 比較・違い系 → 選び方ガイド
+            if (/比較|種類|選び方|おすすめ|ランキング/.test(name)) {
+                return { type: 'comparison', reason: '比較検討の検索意図' };
+            }
+            // 法改正・義務化系 → ニュース
+            if (/法改正|義務化|改正|新制度|いつから/.test(name)) {
+                return { type: 'news', reason: '法改正情報の検索意図' };
+            }
+            // 持ち物・準備系 → チェックリスト
+            if (/持ち物|準備|必要なもの|チェック/.test(name)) {
+                return { type: 'checklist', reason: '準備確認の検索意図' };
+            }
+            // デフォルト → ピラー記事
+            return { type: 'pillar', reason: '総合的な情報ニーズ' };
+        }
+
+        // おすすめラベルを更新
+        function updateRecommendedLabel(recommendedType) {
+            // 既存のおすすめラベルを削除
+            document.querySelectorAll('.recommend-badge').forEach(el => el.remove());
+
+            // 推奨タイプにラベルを追加
+            const radio = document.querySelector(`input[name="article-type"][value="${recommendedType}"]`);
+            if (radio) {
+                const labelDiv = radio.nextElementSibling;
+                const titleDiv = labelDiv.querySelector('.flex.items-center.justify-between');
+                if (titleDiv && !titleDiv.querySelector('.recommend-badge')) {
+                    const badge = document.createElement('span');
+                    badge.className = 'recommend-badge text-[10px] px-1.5 py-0.5 bg-yellow-100 text-yellow-700 rounded font-medium ml-1';
+                    badge.textContent = 'おすすめ';
+                    titleDiv.querySelector('.font-semibold').appendChild(badge);
+                }
+            }
+        }
+
         function selectCluster(idx) {
             selectedClusterIndex = idx;
             const cluster = clusters[idx];
@@ -2600,6 +3753,14 @@ ${regionList}
             goToStep(3);
             // 構成作成タブをデフォルトで表示
             showArticleMainTab('design');
+
+            // 記事タイプを自動推奨
+            const recommendation = getRecommendedArticleType(cluster.name);
+            const radio = document.querySelector(`input[name="article-type"][value="${recommendation.type}"]`);
+            if (radio) {
+                radio.checked = true;
+            }
+            updateRecommendedLabel(recommendation.type);
         }
 
         // ========== 記事設計生成（プロ仕様・実データ活用版） ==========
@@ -4139,11 +5300,25 @@ ${mainKw}に関する記事です。
 
         // ========== AIプロンプト生成（マルチAI対応） ==========
         function copyForAI() {
+            // 事前チェック
+            if (selectedClusterIndex === null || !clusters[selectedClusterIndex]) {
+                alert('クラスターを選択してください');
+                return;
+            }
             const outline = document.getElementById('article-outline').textContent;
+            if (!outline || outline.trim() === '' || outline.includes('クラスターを選択')) {
+                alert('先に「記事構成を生成」ボタンをクリックして記事構成を生成してください');
+                return;
+            }
             const cluster = clusters[selectedClusterIndex];
             const mainKw = cluster.keywords[0]?.keyword || cluster.name;
             const sources = getPrimarySources(mainKw);
-            const articleType = document.querySelector('input[name="article-type"]:checked').value;
+            const articleTypeEl = document.querySelector('input[name="article-type"]:checked');
+            if (!articleTypeEl) {
+                alert('記事タイプを選択してください');
+                return;
+            }
+            const articleType = articleTypeEl.value;
             const selectedAI = getSelectedAI();
             const aiConfig = AI_CONFIG[selectedAI];
 
@@ -4347,6 +5522,125 @@ ${competitorHeadingsData.kciUnique?.slice(0, 3).map(h => `- ${h.text}`).join('\n
                 }
             }
 
+            // 地域キーワードの場合の追加情報
+            let regionalInfo = '';
+            const prefectures = ['北海道', '青森', '岩手', '宮城', '秋田', '山形', '福島', '茨城', '栃木', '群馬', '埼玉', '千葉', '東京', '神奈川', '新潟', '富山', '石川', '福井', '山梨', '長野', '岐阜', '静岡', '愛知', '三重', '滋賀', '京都', '大阪', '兵庫', '奈良', '和歌山', '鳥取', '島根', '岡山', '広島', '山口', '徳島', '香川', '愛媛', '高知', '福岡', '佐賀', '長崎', '熊本', '大分', '宮崎', '鹿児島', '沖縄'];
+            const majorCities = ['札幌', '仙台', '横浜', '川崎', '名古屋', '京都市', '神戸', '福岡市', '北九州', '堺', '新潟市', '浜松', '熊本市', '相模原', '岡山市', '静岡市', '船橋', '鹿児島市', '川口', '八王子'];
+            let detectedRegion = null;
+            for (const pref of prefectures) {
+                if (mainKw.includes(pref)) {
+                    detectedRegion = pref;
+                    break;
+                }
+            }
+            if (!detectedRegion) {
+                for (const city of majorCities) {
+                    if (mainKw.includes(city)) {
+                        detectedRegion = city;
+                        break;
+                    }
+                }
+            }
+            if (detectedRegion) {
+                regionalInfo = `
+【地域キーワード検出】
+この記事は「${detectedRegion}」をターゲットとした地域特化記事です。
+
+★重複コンテンツ回避のため、以下の独自情報を必ず含めてください★
+- ${detectedRegion}での受講場所・アクセス情報
+- ${detectedRegion}周辺の教習所比較（3〜5箇所）
+- ${detectedRegion}特有の需要（地域の主要産業に関連付け）
+- ${detectedRegion}からの受講者の声・体験談
+- ${detectedRegion}での出張講習の有無
+
+【SEOポイント】
+- タイトルに「${detectedRegion}」を含める
+- H2見出しに最低1回「${detectedRegion}」を含める
+- 地域名+サービス名の組み合わせをメタディスクリプションに含める
+`;
+            }
+
+            // A/B/C層分析と差別化戦略
+            let layerStrategy = '';
+            const clusterLayers = { A: 0, B: 0, C: 0 };
+            cluster.keywords.forEach(kw => {
+                if (kw.contentType) clusterLayers[kw.contentType]++;
+            });
+            const dominantLayer = Object.entries(clusterLayers).sort((a, b) => b[1] - a[1])[0]?.[0] || 'A';
+
+            if (dominantLayer === 'A') {
+                layerStrategy = `
+═══════════════════════════════════════
+【コンテンツ差別化戦略：A層（制度解説系）】
+═══════════════════════════════════════
+このキーワードは競合（SAT等）も多くカバーしている基礎情報領域です。
+同じ情報を書いても埋もれるため、以下の差別化が必須：
+
+■ 必須の差別化要素（全て含める）
+□ 法令条文の正確な引用
+  例：「労働安全衛生法第60条に基づき〜」「安衛則第36条により〜」
+□ 具体的な数字の明記
+  × 「費用は様々」→ ○ 「8,000円〜15,000円」
+  × 「数時間」→ ○ 「6時間（学科4h+実技2h）」
+□ 現場視点の補足
+  「現場では○○が問題になりがち」「実務上は△△に注意」
+□ よくある失敗例・注意点
+  「○○を忘れて再受講になるケースが多い」
+
+■ 競合との差を生む一言
+- 「ただし、○○の場合は例外で〜」（例外ケースの言及）
+- 「現場監督によると〜」（一次情報風の表現）
+- 「よくある誤解ですが〜」（読者の思い込みを正す）
+`;
+            } else if (dominantLayer === 'B') {
+                layerStrategy = `
+═══════════════════════════════════════
+【コンテンツ差別化戦略：B層（業種特化系）】
+═══════════════════════════════════════
+このキーワードは業種特化の切り口です。
+競合（SAT等）にない差別化ポイントになります。
+
+■ 必須の差別化要素（全て含める）
+□ 業種特有の用語・状況を使用
+  「建設現場では〜」「製造ラインでは〜」「倉庫作業では〜」
+□ 業種別の具体的シーン描写
+  「足場の組立作業中に〜」「フォークリフト荷役作業で〜」
+□ 業種ならではの事例・ケーススタディ
+  「A建設会社では○○の方法で〜」
+□ 業界団体・専門機関への言及
+  「建設業労働災害防止協会によると〜」
+
+■ 業種別カスタマイズ例
+- 建設業：「現場入場前の新規入場者教育として〜」
+- 製造業：「ISO45001の観点から〜」「5S活動と連携して〜」
+- 運送業：「点呼時の確認事項として〜」「運行管理者と連携し〜」
+`;
+            } else {
+                layerStrategy = `
+═══════════════════════════════════════
+【コンテンツ差別化戦略：C層（体験・事例系）】
+═══════════════════════════════════════
+このキーワードは一次情報で最大の差別化が可能な領域です。
+AIでは絶対に書けない「リアルな体験」が武器になります。
+
+■ 必須の差別化要素（全て含める）
+□ 一人称の体験談
+  「私が受講したときは〜」「実際に受けてみて分かったのは〜」
+□ 受講者の生の声・感想
+  「他の受講者からは○○という声が多かった」
+□ 具体的な講習の様子
+  「教室は○○人程度」「講師は○○について詳しく説明」
+□ 予想外だったこと・意外な発見
+  「思っていたより○○だった」「事前に知っておきたかったのは〜」
+
+■ リアリティを出す表現
+- 「正直なところ〜」「ぶっちゃけ〜」（本音感）
+- 「○○時○○分に終わった」（具体的な時間）
+- 「隣の席の人は○○業界の方で〜」（エピソード）
+- [画像：○○の写真] の指示を多めに入れる
+`;
+            }
+
             // 記事タイプ別の文字数目安
             const wordCountGuide = {
                 pillar: { total: '5000〜8000', h2: '800〜1200', h3: '300〜500' },
@@ -4388,6 +5682,7 @@ ${sources.map(s => `- ${s.title}: ${s.url}`).join('\n')}
 ${dataInfo}
 ${competitorInfo}
 ${regionalInfo}
+${layerStrategy}
 
 ═══════════════════════════════════════
 【高品質コンテンツ要件】★重要★
@@ -6487,6 +7782,656 @@ ${regionalInfo}
             return [...new Set(suggestions)];
         }
 
+        // ========== 改善メモ機能 ==========
+        let improvementMemos = [];
+        let currentImprovementCategory = 'その他';
+
+        function toggleImprovementMemo() {
+            const panel = document.getElementById('improvement-panel-content');
+            panel.classList.toggle('hidden');
+        }
+
+        function setImprovementCategory(cat) {
+            currentImprovementCategory = cat;
+            document.querySelectorAll('.improvement-cat-btn').forEach(btn => {
+                btn.classList.remove('bg-amber-500', 'text-white');
+                btn.classList.add('bg-gray-100');
+                if (btn.dataset.cat === cat) {
+                    btn.classList.remove('bg-gray-100');
+                    btn.classList.add('bg-amber-500', 'text-white');
+                }
+            });
+        }
+
+        function addImprovementMemo() {
+            const input = document.getElementById('improvement-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const memo = {
+                id: Date.now(),
+                text: text,
+                category: currentImprovementCategory,
+                date: new Date().toLocaleString('ja-JP'),
+                resolved: false
+            };
+            improvementMemos.unshift(memo);
+            input.value = '';
+            saveImprovementMemos();
+            renderImprovementMemos();
+        }
+
+        function removeImprovementMemo(id) {
+            improvementMemos = improvementMemos.filter(m => m.id !== id);
+            saveImprovementMemos();
+            renderImprovementMemos();
+        }
+
+        function toggleMemoResolved(id) {
+            const memo = improvementMemos.find(m => m.id === id);
+            if (memo) {
+                memo.resolved = !memo.resolved;
+                saveImprovementMemos();
+                renderImprovementMemos();
+            }
+        }
+
+        function saveImprovementMemos() {
+            localStorage.setItem('seo-tool-improvement-memos', JSON.stringify(improvementMemos));
+        }
+
+        function loadImprovementMemos() {
+            try {
+                const saved = localStorage.getItem('seo-tool-improvement-memos');
+                if (saved) {
+                    improvementMemos = JSON.parse(saved);
+                    renderImprovementMemos();
+                }
+            } catch (e) {}
+        }
+
+        function renderImprovementMemos() {
+            const list = document.getElementById('improvement-list');
+            const badge = document.getElementById('improvement-count-badge');
+            const unresolvedCount = improvementMemos.filter(m => !m.resolved).length;
+
+            if (unresolvedCount > 0) {
+                badge.textContent = unresolvedCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            if (improvementMemos.length === 0) {
+                list.innerHTML = '<p class="text-center text-gray-400 text-sm py-4">メモがありません</p>';
+                return;
+            }
+
+            const catColors = { 'UI': 'blue', '機能': 'green', 'バグ': 'red', 'その他': 'gray' };
+            list.innerHTML = improvementMemos.map(memo => {
+                const color = catColors[memo.category] || 'gray';
+                return `
+                    <div class="p-2 rounded-lg border ${memo.resolved ? 'bg-gray-50 opacity-60' : 'bg-white'} text-sm">
+                        <div class="flex justify-between items-start gap-2">
+                            <div class="flex-1">
+                                <span class="inline-block px-1.5 py-0.5 text-xs rounded bg-${color}-100 text-${color}-700 mb-1">${memo.category}</span>
+                                <p class="${memo.resolved ? 'line-through text-gray-400' : 'text-gray-700'}">${memo.text}</p>
+                                <p class="text-xs text-gray-400 mt-1">${memo.date}</p>
+                            </div>
+                            <div class="flex gap-1">
+                                <button onclick="toggleMemoResolved(${memo.id})" class="text-${memo.resolved ? 'gray' : 'green'}-500 hover:text-${memo.resolved ? 'gray' : 'green'}-700" title="${memo.resolved ? '未解決に戻す' : '解決済みにする'}">
+                                    <span class="material-symbols-outlined icon-sm">${memo.resolved ? 'undo' : 'check_circle'}</span>
+                                </button>
+                                <button onclick="removeImprovementMemo(${memo.id})" class="text-red-400 hover:text-red-600" title="削除">
+                                    <span class="material-symbols-outlined icon-sm">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function exportImprovementMemos() {
+            if (improvementMemos.length === 0) {
+                alert('エクスポートするメモがありません');
+                return;
+            }
+            const text = improvementMemos.map(m =>
+                `[${m.category}] ${m.resolved ? '(解決済)' : ''} ${m.text}\n  日時: ${m.date}`
+            ).join('\n\n');
+            copyToClipboard(text, '改善メモをコピーしました');
+        }
+
+        // ========== 法令コードチェック機能 ==========
+        function runLegalCodeCheck() {
+            const outline = document.getElementById('article-outline').textContent;
+            if (!outline || outline.trim() === '' || outline.includes('クラスターを選択')) {
+                alert('チェックする記事構成がありません。先に記事構成を生成してください。');
+                return;
+            }
+
+            const cluster = clusters[selectedClusterIndex];
+            const mainKw = cluster?.keywords[0]?.keyword || '';
+            const results = {
+                errors: [],      // 重大な誤り（修正必須）
+                warnings: [],    // 注意（確認推奨）
+                suggestions: [], // 提案（あると良い）
+                passed: [],      // チェックOK
+                legalRefs: []    // 引用すべき法令情報
+            };
+
+            // 教育種別を特定
+            const eduKeyPatterns = [
+                { patterns: ['フルハーネス'], key: 'フルハーネス' },
+                { patterns: ['足場'], key: '足場' },
+                { patterns: ['職長', '安全衛生責任者', '安責'], key: '職長・安全衛生責任者' },
+                { patterns: ['職長教育'], key: '職長教育' },
+                { patterns: ['酸欠', '酸素欠乏'], key: '酸欠' },
+                { patterns: ['粉じん', '粉塵'], key: '粉じん' },
+                { patterns: ['低圧電気', '低圧'], key: '低圧電気' },
+                { patterns: ['石綿', 'アスベスト'], key: '石綿' },
+                { patterns: ['丸のこ', '丸鋸'], key: '丸のこ' },
+                { patterns: ['グラインダー', '研削'], key: 'グラインダー' },
+                { patterns: ['振動工具'], key: '振動工具' },
+                { patterns: ['玉掛け'], key: '玉掛け' },
+                { patterns: ['フォークリフト'], key: 'フォークリフト' },
+                { patterns: ['高所作業車'], key: '高所作業車' }
+            ];
+
+            let detectedEduKey = null;
+            for (const ep of eduKeyPatterns) {
+                if (ep.patterns.some(p => mainKw.includes(p))) {
+                    detectedEduKey = ep.key;
+                    break;
+                }
+            }
+
+            // 特別教育のチェック
+            if (detectedEduKey && LEGAL_REFERENCE.specialEducations[detectedEduKey]) {
+                const edu = LEGAL_REFERENCE.specialEducations[detectedEduKey];
+
+                // 講習時間のチェック
+                const hoursMatch = outline.match(/(\d+(?:\.\d+)?)\s*時間/g);
+                if (hoursMatch) {
+                    hoursMatch.forEach(match => {
+                        const hours = parseFloat(match);
+                        if (hours > 0 && hours < 20) {
+                            if (hours !== edu.totalHours && Math.abs(hours - edu.totalHours) > 0.5) {
+                                if (hours < edu.totalHours) {
+                                    results.warnings.push({
+                                        type: '講習時間',
+                                        message: `「${match}」→ ${edu.shortName}の法定時間は${edu.totalHours}時間です`,
+                                        correct: `${edu.totalHours}時間`,
+                                        law: edu.law
+                                    });
+                                }
+                            } else {
+                                results.passed.push(`講習時間 ${edu.totalHours}時間 が正しく記載されています`);
+                            }
+                        }
+                    });
+                }
+
+                // 法令の引用チェック
+                if (!outline.includes(edu.law) && !outline.includes('安衛則') && !outline.includes('安衛法')) {
+                    results.suggestions.push({
+                        type: '法令引用',
+                        message: `根拠法令「${edu.law}」の引用を追加すると信頼性が向上します`,
+                        law: edu.law
+                    });
+                } else {
+                    results.passed.push('法令の引用が含まれています');
+                }
+
+                // 罰則の記載チェック
+                if (outline.includes('罰則') || outline.includes('罰金') || outline.includes('懲役')) {
+                    results.passed.push('罰則に関する記載があります');
+                } else {
+                    results.suggestions.push({
+                        type: '罰則情報',
+                        message: `罰則情報を追加すると説得力が増します：「${edu.penalty}」`,
+                        law: '安衛法第119条'
+                    });
+                }
+
+                // よくある誤解のチェック
+                if (edu.commonMistakes) {
+                    results.legalRefs.push({
+                        title: 'よくある誤解（記事で言及推奨）',
+                        items: edu.commonMistakes
+                    });
+                }
+
+                // 実技の記載チェック
+                if (edu.practicalRequired) {
+                    if (!outline.includes('実技') && !outline.includes('対面')) {
+                        results.warnings.push({
+                            type: '実技情報',
+                            message: `${edu.shortName}は実技が必須です。実技に関する記載を追加してください`,
+                            correct: edu.practicalNote,
+                            law: edu.law
+                        });
+                    } else {
+                        results.passed.push('実技に関する記載があります');
+                    }
+                }
+
+                // 対象者の記載チェック
+                if (edu.targetPerson && !outline.includes('対象')) {
+                    results.suggestions.push({
+                        type: '対象者',
+                        message: `対象者を明記すると読者に親切です：「${edu.targetPerson}」`
+                    });
+                }
+
+                // 法令リファレンス情報を追加
+                results.legalRefs.push({
+                    title: `${edu.shortName} - 正確な法令情報`,
+                    items: [
+                        `正式名称：${edu.officialName}`,
+                        `根拠法令：${edu.law}`,
+                        `講習時間：${edu.totalHours}時間`,
+                        `対象者：${edu.targetPerson}`,
+                        `有効期限：${edu.validityPeriod}`,
+                        `オンライン受講：${edu.onlineAvailable ? '学科は可能' : '不可'}`,
+                        `実技：${edu.practicalRequired ? edu.practicalNote : '不要'}`
+                    ]
+                });
+            }
+
+            // 職長教育のチェック
+            if (detectedEduKey && LEGAL_REFERENCE.foremanEducation[detectedEduKey]) {
+                const edu = LEGAL_REFERENCE.foremanEducation[detectedEduKey];
+
+                const hoursMatch = outline.match(/(\d+)\s*時間/g);
+                if (hoursMatch) {
+                    hoursMatch.forEach(match => {
+                        const hours = parseInt(match);
+                        if (hours === 12 || hours === 14) {
+                            if (detectedEduKey === '職長・安全衛生責任者' && hours === 12) {
+                                results.warnings.push({
+                                    type: '講習時間',
+                                    message: '建設業の職長・安全衛生責任者教育は14時間です（12時間は製造業等）',
+                                    correct: '14時間',
+                                    law: edu.law
+                                });
+                            } else {
+                                results.passed.push('講習時間が正しく記載されています');
+                            }
+                        }
+                    });
+                }
+
+                results.legalRefs.push({
+                    title: `${edu.officialName} - 法令情報`,
+                    items: [
+                        `根拠法令：${edu.law}`,
+                        `講習時間：${edu.totalHours}時間`,
+                        `対象者：${edu.targetPerson}`,
+                        `対象業種：${edu.targetIndustry || '全業種'}`,
+                        `罰則：${edu.penalty}`
+                    ]
+                });
+            }
+
+            // 一般的なチェック
+            // 有効期限に関する誤情報チェック
+            if (outline.includes('有効期限') && (outline.includes('3年') || outline.includes('5年') || outline.includes('更新'))) {
+                if (!outline.includes('有効期限なし') && !outline.includes('有効期限はありません')) {
+                    results.warnings.push({
+                        type: '有効期限',
+                        message: '特別教育・職長教育に法定の有効期限はありません。「概ね5年ごとの再教育を推奨」が正確です',
+                        correct: '法令上の有効期限なし（厚労省は概ね5年ごとの能力向上教育を推奨）',
+                        law: '安衛法第60条の2'
+                    });
+                }
+            }
+
+            // 結果を表示
+            showCodeCheckResults(results, detectedEduKey);
+        }
+
+        function showCodeCheckResults(results, eduKey) {
+            const totalChecks = results.errors.length + results.warnings.length + results.suggestions.length + results.passed.length;
+            const passRate = totalChecks > 0 ? Math.round((results.passed.length / totalChecks) * 100) : 0;
+
+            let html = `
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-lg">法令コードチェック結果</h3>
+                        <span class="text-sm ${passRate >= 80 ? 'text-green-600' : passRate >= 50 ? 'text-yellow-600' : 'text-red-600'}">
+                            適合率: ${passRate}%
+                        </span>
+                    </div>
+                    ${eduKey ? `<p class="text-sm text-gray-600 mb-4">検出した教育種別: <strong>${eduKey}</strong></p>` : ''}
+            `;
+
+            // エラー（重大）
+            if (results.errors.length > 0) {
+                html += `
+                    <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                        <h4 class="font-bold text-red-700 flex items-center gap-1 mb-2">
+                            <span class="material-symbols-outlined icon-sm">error</span> 修正必須 (${results.errors.length}件)
+                        </h4>
+                        <ul class="text-sm text-red-800 space-y-2">
+                            ${results.errors.map(e => `
+                                <li>
+                                    <strong>[${e.type}]</strong> ${e.message}
+                                    ${e.correct ? `<br><span class="text-green-700">→ 正: ${e.correct}</span>` : ''}
+                                    ${e.law ? `<br><span class="text-gray-500 text-xs">根拠: ${e.law}</span>` : ''}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // 警告
+            if (results.warnings.length > 0) {
+                html += `
+                    <div class="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <h4 class="font-bold text-yellow-700 flex items-center gap-1 mb-2">
+                            <span class="material-symbols-outlined icon-sm">warning</span> 確認推奨 (${results.warnings.length}件)
+                        </h4>
+                        <ul class="text-sm text-yellow-800 space-y-2">
+                            ${results.warnings.map(w => `
+                                <li>
+                                    <strong>[${w.type}]</strong> ${w.message}
+                                    ${w.correct ? `<br><span class="text-green-700">→ 正: ${w.correct}</span>` : ''}
+                                    ${w.law ? `<br><span class="text-gray-500 text-xs">根拠: ${w.law}</span>` : ''}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // 提案
+            if (results.suggestions.length > 0) {
+                html += `
+                    <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                        <h4 class="font-bold text-blue-700 flex items-center gap-1 mb-2">
+                            <span class="material-symbols-outlined icon-sm">lightbulb</span> 改善提案 (${results.suggestions.length}件)
+                        </h4>
+                        <ul class="text-sm text-blue-800 space-y-2">
+                            ${results.suggestions.map(s => `
+                                <li>
+                                    <strong>[${s.type}]</strong> ${s.message}
+                                    ${s.law ? `<br><span class="text-gray-500 text-xs">根拠: ${s.law}</span>` : ''}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // OK項目
+            if (results.passed.length > 0) {
+                html += `
+                    <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                        <h4 class="font-bold text-green-700 flex items-center gap-1 mb-2">
+                            <span class="material-symbols-outlined icon-sm">check_circle</span> チェックOK (${results.passed.length}件)
+                        </h4>
+                        <ul class="text-sm text-green-700 space-y-1">
+                            ${results.passed.map(p => `<li>✓ ${p}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // 法令リファレンス
+            if (results.legalRefs.length > 0) {
+                html += `
+                    <div class="mt-6 border-t pt-4">
+                        <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-1">
+                            <span class="material-symbols-outlined icon-sm">gavel</span> 法令リファレンス
+                        </h4>
+                        ${results.legalRefs.map(ref => `
+                            <details class="mb-3 bg-slate-50 rounded-lg">
+                                <summary class="p-3 cursor-pointer font-medium text-slate-700 hover:bg-slate-100">${ref.title}</summary>
+                                <ul class="p-3 pt-0 text-sm text-slate-600 space-y-1">
+                                    ${ref.items.map(item => `<li>• ${item}</li>`).join('')}
+                                </ul>
+                            </details>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // e-Gov法令検索リンク
+            html += `
+                <div class="mt-4 p-3 bg-gray-50 rounded-lg text-sm">
+                    <p class="font-medium text-gray-700 mb-2">参照リンク</p>
+                    <ul class="space-y-1">
+                        <li><a href="https://elaws.e-gov.go.jp/document?lawid=347AC0000000057" target="_blank" class="text-indigo-600 hover:underline">→ 労働安全衛生法（e-Gov）</a></li>
+                        <li><a href="https://elaws.e-gov.go.jp/document?lawid=347M50002000032" target="_blank" class="text-indigo-600 hover:underline">→ 労働安全衛生規則（e-Gov）</a></li>
+                        <li><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/anzen/index.html" target="_blank" class="text-indigo-600 hover:underline">→ 厚生労働省 安全衛生関係</a></li>
+                    </ul>
+                </div>
+            `;
+
+            html += '</div>';
+
+            // モーダルで表示
+            const modal = document.createElement('div');
+            modal.id = 'code-check-modal';
+            modal.className = 'fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+                    <div class="p-4 border-b flex justify-between items-center bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                        <h2 class="font-bold flex items-center gap-2">
+                            <span class="material-symbols-outlined">policy</span> 法令コードチェック
+                        </h2>
+                        <button onclick="closeCodeCheckModal()" class="text-white/80 hover:text-white text-2xl">&times;</button>
+                    </div>
+                    <div class="flex-1 overflow-y-auto">
+                        ${html}
+                    </div>
+                    <div class="p-4 border-t bg-gray-50">
+                        <button onclick="closeCodeCheckModal()" class="w-full bg-gray-200 hover:bg-gray-300 py-2 rounded-lg">閉じる</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function closeCodeCheckModal() {
+            const modal = document.getElementById('code-check-modal');
+            if (modal) modal.remove();
+        }
+
+        // ========== 記事構成の保存・履歴機能 ==========
+        let savedStructures = [];
+
+        function saveArticleStructure() {
+            const outline = document.getElementById('article-outline').textContent;
+            if (!outline || outline.trim() === '' || outline.includes('クラスターを選択')) {
+                alert('保存する記事構成がありません。先に記事構成を生成してください。');
+                return;
+            }
+
+            const cluster = clusters[selectedClusterIndex];
+            const mainKw = cluster?.keywords[0]?.keyword || cluster?.name || '不明';
+            const articleTypeEl = document.querySelector('input[name="article-type"]:checked');
+            const articleType = articleTypeEl ? articleTypeEl.value : 'unknown';
+            const articleTypeNames = {
+                pillar: '網羅記事', howto: 'ハウツー', comparison: '比較', faq: 'FAQ',
+                case: '事例', glossary: '用語解説', checklist: 'チェックリスト', news: 'ニュース'
+            };
+
+            const structure = {
+                id: Date.now(),
+                keyword: mainKw,
+                articleType: articleType,
+                articleTypeName: articleTypeNames[articleType] || articleType,
+                outline: outline,
+                integratedOutline: document.getElementById('article-outline-integrated')?.innerHTML || '',
+                titles: Array.from(document.querySelectorAll('#title-suggestions .font-medium')).map(el => el.textContent),
+                date: new Date().toLocaleString('ja-JP'),
+                clusterKeywords: cluster?.keywords?.slice(0, 10).map(k => k.keyword) || []
+            };
+
+            savedStructures.unshift(structure);
+            // 最大20件まで保存
+            if (savedStructures.length > 20) {
+                savedStructures = savedStructures.slice(0, 20);
+            }
+            saveSavedStructures();
+            updateSavedStructuresCount();
+            alert(`「${mainKw}」の記事構成を保存しました`);
+        }
+
+        function saveSavedStructures() {
+            localStorage.setItem('seo-tool-saved-structures', JSON.stringify(savedStructures));
+        }
+
+        function loadSavedStructures() {
+            try {
+                const saved = localStorage.getItem('seo-tool-saved-structures');
+                if (saved) {
+                    savedStructures = JSON.parse(saved);
+                    updateSavedStructuresCount();
+                }
+            } catch (e) {}
+        }
+
+        function updateSavedStructuresCount() {
+            const countEl = document.getElementById('saved-structures-count');
+            if (countEl) {
+                countEl.textContent = savedStructures.length;
+            }
+        }
+
+        function openSavedStructures() {
+            renderSavedStructuresList();
+            document.getElementById('saved-structures-modal').classList.remove('hidden');
+        }
+
+        function closeSavedStructures() {
+            document.getElementById('saved-structures-modal').classList.add('hidden');
+        }
+
+        function renderSavedStructuresList() {
+            const list = document.getElementById('saved-structures-list');
+            if (savedStructures.length === 0) {
+                list.innerHTML = '<p class="text-center text-gray-400 py-8">保存された構成がありません</p>';
+                return;
+            }
+
+            list.innerHTML = savedStructures.map(s => `
+                <div class="border rounded-xl p-4 hover:border-indigo-300 transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="font-bold text-gray-800">${s.keyword}</h3>
+                            <div class="flex gap-2 mt-1">
+                                <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded">${s.articleTypeName}</span>
+                                <span class="text-xs text-gray-400">${s.date}</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="viewSavedStructure(${s.id})" class="text-indigo-500 hover:text-indigo-700 text-sm flex items-center gap-1">
+                                <span class="material-symbols-outlined icon-sm">visibility</span> 表示
+                            </button>
+                            <button onclick="restoreSavedStructure(${s.id})" class="text-emerald-500 hover:text-emerald-700 text-sm flex items-center gap-1">
+                                <span class="material-symbols-outlined icon-sm">restore</span> 復元
+                            </button>
+                            <button onclick="deleteSavedStructure(${s.id})" class="text-red-400 hover:text-red-600 text-sm flex items-center gap-1">
+                                <span class="material-symbols-outlined icon-sm">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                    ${s.titles && s.titles.length > 0 ? `
+                        <div class="text-sm text-gray-600 mt-2">
+                            <span class="font-medium">タイトル案:</span> ${s.titles[0]}
+                        </div>
+                    ` : ''}
+                    ${s.clusterKeywords && s.clusterKeywords.length > 0 ? `
+                        <div class="flex flex-wrap gap-1 mt-2">
+                            ${s.clusterKeywords.slice(0, 5).map(kw => `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">${kw}</span>`).join('')}
+                            ${s.clusterKeywords.length > 5 ? `<span class="text-xs text-gray-400">+${s.clusterKeywords.length - 5}</span>` : ''}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function viewSavedStructure(id) {
+            const structure = savedStructures.find(s => s.id === id);
+            if (!structure) return;
+
+            // 新しいウィンドウで構成を表示
+            const newWindow = window.open('', '_blank', 'width=800,height=600');
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>${structure.keyword} - 記事構成</title>
+                    <style>
+                        body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+                        h1 { font-size: 1.5em; border-bottom: 2px solid #4f46e5; padding-bottom: 10px; }
+                        .meta { color: #666; font-size: 0.9em; margin-bottom: 20px; }
+                        .titles { background: #f0f9ff; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+                        .titles h2 { margin-top: 0; font-size: 1em; color: #0369a1; }
+                        .outline { background: #f8fafc; padding: 15px; border-radius: 8px; white-space: pre-wrap; font-family: monospace; font-size: 0.85em; }
+                    </style>
+                </head>
+                <body>
+                    <h1>${structure.keyword}</h1>
+                    <div class="meta">
+                        <span>記事タイプ: ${structure.articleTypeName}</span> |
+                        <span>保存日時: ${structure.date}</span>
+                    </div>
+                    ${structure.titles && structure.titles.length > 0 ? `
+                        <div class="titles">
+                            <h2>タイトル案</h2>
+                            <ul>${structure.titles.map(t => `<li>${t}</li>`).join('')}</ul>
+                        </div>
+                    ` : ''}
+                    <h2>記事構成</h2>
+                    <div class="outline">${structure.outline}</div>
+                </body>
+                </html>
+            `);
+            newWindow.document.close();
+        }
+
+        function restoreSavedStructure(id) {
+            const structure = savedStructures.find(s => s.id === id);
+            if (!structure) return;
+
+            if (confirm(`「${structure.keyword}」の構成を復元しますか？\n現在の構成は上書きされます。`)) {
+                document.getElementById('article-outline').textContent = structure.outline;
+                if (structure.integratedOutline) {
+                    document.getElementById('article-outline-integrated').innerHTML = structure.integratedOutline;
+                }
+                closeSavedStructures();
+                alert('構成を復元しました');
+            }
+        }
+
+        function deleteSavedStructure(id) {
+            if (confirm('この構成を削除しますか？')) {
+                savedStructures = savedStructures.filter(s => s.id !== id);
+                saveSavedStructures();
+                updateSavedStructuresCount();
+                renderSavedStructuresList();
+            }
+        }
+
+        function clearAllSavedStructures() {
+            if (savedStructures.length === 0) {
+                alert('削除する構成がありません');
+                return;
+            }
+            if (confirm(`保存された${savedStructures.length}件の構成を全て削除しますか？\nこの操作は取り消せません。`)) {
+                savedStructures = [];
+                saveSavedStructures();
+                updateSavedStructuresCount();
+                renderSavedStructuresList();
+            }
+        }
+
         // ========== 初期化 ==========
         window.onload = function() {
             // 記事構成生成ボタンのイベントリスナー
@@ -6500,6 +8445,23 @@ ${regionalInfo}
 
             // 記事アイデアメモの初期化
             loadArticleIdeas();
+
+            // 改善メモの初期化
+            loadImprovementMemos();
+
+            // 保存した記事構成の初期化
+            loadSavedStructures();
+
+            // 改善メモ入力欄のEnterキー対応
+            const improvementInput = document.getElementById('improvement-input');
+            if (improvementInput) {
+                improvementInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addImprovementMemo();
+                    }
+                });
+            }
 
             // アイデア入力欄のEnterキー対応
             const ideaInput = document.getElementById('new-idea-input');
