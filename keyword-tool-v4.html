@@ -5300,16 +5300,22 @@ ${mainKw}に関する記事です。
 
         // ========== AIプロンプト生成（マルチAI対応） ==========
         function copyForAI() {
-            // 事前チェック
-            if (selectedClusterIndex === null || !clusters[selectedClusterIndex]) {
-                alert('クラスターを選択してください');
-                return;
-            }
-            const outline = document.getElementById('article-outline').textContent;
-            if (!outline || outline.trim() === '' || outline.includes('クラスターを選択')) {
-                alert('先に「記事構成を生成」ボタンをクリックして記事構成を生成してください');
-                return;
-            }
+            try {
+                // 事前チェック
+                if (selectedClusterIndex === null || !clusters || !clusters[selectedClusterIndex]) {
+                    alert('クラスターを選択してください');
+                    return;
+                }
+                const outlineEl = document.getElementById('article-outline');
+                if (!outlineEl) {
+                    alert('記事構成の要素が見つかりません。ページを再読み込みしてください。');
+                    return;
+                }
+                const outline = outlineEl.textContent;
+                if (!outline || outline.trim() === '' || outline.includes('クラスターを選択')) {
+                    alert('先に「記事構成を生成」ボタンをクリックして記事構成を生成してください');
+                    return;
+                }
             const cluster = clusters[selectedClusterIndex];
             const mainKw = cluster.keywords[0]?.keyword || cluster.name;
             const sources = getPrimarySources(mainKw);
@@ -6003,6 +6009,10 @@ ${layerStrategy}
             document.getElementById('ai-link').href = aiConfig.url;
             document.getElementById('ai-link').textContent = `${aiConfig.name}を開く`;
             document.getElementById('ai-modal').classList.remove('hidden');
+            } catch (error) {
+                console.error('copyForAI error:', error);
+                alert('エラーが発生しました: ' + error.message);
+            }
         }
 
         function closeAIModal() {
