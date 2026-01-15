@@ -2928,14 +2928,14 @@ https://example.com/page3
             // キーワードリスト生成
             const listContainer = document.getElementById('big-keyword-list');
             listContainer.innerHTML = data.keywords.map((kw, idx) => `
-                <div class="flex items-center gap-3 p-2 ${idx === 0 ? 'bg-slate-100 rounded-lg' : 'border-b border-gray-100'}">
+                <div onclick="copySingleKeyword('${kw.keyword}')" class="flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-all duration-150 ${idx === 0 ? 'bg-slate-100 hover:bg-indigo-100' : 'border-b border-gray-100 hover:bg-indigo-50'}">
                     <span class="w-6 h-6 rounded-full ${idx === 0 ? 'bg-indigo-500' : 'bg-gray-300'} text-white text-xs flex items-center justify-center font-bold">${idx + 1}</span>
                     <div class="flex-1">
                         <span class="font-medium text-gray-800">${kw.keyword}</span>
                         <span class="text-xs text-gray-500 ml-2">${kw.note}</span>
                     </div>
                     <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">${kw.volume.toLocaleString()}/月</span>
-                    <button type="button" onclick="copySingleKeyword('${kw.keyword}')" class="text-indigo-500 hover:text-indigo-700 text-xs underline">コピー</button>
+                    <span class="text-indigo-500 text-xs">コピー</span>
                 </div>
             `).join('');
 
