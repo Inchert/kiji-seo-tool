@@ -755,6 +755,15 @@
                                     <div class="text-xs text-gray-500">見出し・タイトル・一次情報をまとめてコピー</div>
                                 </button>
                             </div>
+                            <!-- 記事評価プロンプト -->
+                            <div class="mt-4">
+                                <button type="button" onclick="copyEvaluationPrompt()" class="w-full bg-gradient-to-r from-orange-50 to-amber-50 border-2 border-orange-300 px-6 py-4 rounded-xl hover:from-orange-100 hover:to-amber-100 text-left">
+                                    <div class="font-semibold text-orange-700 mb-1 flex items-center gap-2">
+                                        <span class="material-symbols-outlined icon-sm">fact_check</span> 記事評価プロンプトをコピー
+                                    </div>
+                                    <div class="text-xs text-gray-500">作成した記事をAIで採点するためのプロンプトをコピー（100点満点で評価）</div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     </div><!-- /article-main-tab-design -->
@@ -1008,6 +1017,54 @@
         }
         function hideHelp() {
             document.getElementById('help-modal').classList.remove('show');
+        }
+
+        // ========== 記事評価プロンプト生成 ==========
+        function copyEvaluationPrompt() {
+            if (typeof selectedClusterIndex === 'undefined' || selectedClusterIndex === null) {
+                alert('グループを選択してください');
+                return;
+            }
+            const cluster = clusters[selectedClusterIndex];
+            const mainKw = cluster.keywords[0]?.keyword || cluster.name;
+            const subKeywords = cluster.keywords.slice(0, 10).map(k => k.keyword).join('、');
+
+            const prompt = `サービスサイトのお役立ち記事に掲載する文章を評価してください。
+
+【評価対象キーワード】
+メインキーワード：${mainKw}
+関連キーワード：${subKeywords}
+
+【評価観点】
+以下の観点で100点満点で採点してください。
+
+1. **SEO適合性（25点）** - 「${mainKw}」で上位表示される可能性、キーワード配置、検索意図との合致
+2. **キーワード最適化（20点）** - メインKW・関連KWの適切な使用、スパムでないか
+3. **E-E-A-T（25点）** - 経験・専門性・権威性・信頼性の要素
+4. **競合との差別化（15点）** - 独自の価値、一次情報の有無
+5. **コンテンツ品質（15点）** - 文字量（3000文字以上推奨）、見出し構造、読みやすさ
+
+【出力形式】
+■ 総合評価：○○点/100点
+■ 項目別評価（各項目の点数と評価コメント）
+■ 改善提案（優先度順）
+■ 良い点
+
+---
+以下に評価対象の記事を貼り付けてください：
+`;
+
+            navigator.clipboard.writeText(prompt).then(() => {
+                alert('評価プロンプトをコピーしました！\\n\\nAIに貼り付けて、その後に評価したい記事を貼り付けてください。');
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = prompt;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('評価プロンプトをコピーしました！');
+            });
         }
 
         // ========== SEO採点機能 ==========
