@@ -1211,24 +1211,16 @@ https://example.com/page3
 
                         <!-- ===== アクションボタン（最上部に配置）===== -->
                         <div class="mt-6 bg-white rounded-xl border-2 border-indigo-200 p-4">
-                            <div class="flex items-center justify-between mb-3">
+                            <div class="mb-3">
                                 <h3 class="font-bold text-gray-800 flex items-center gap-2">
                                     <span class="material-symbols-outlined text-indigo-600">rocket_launch</span>
                                     次のステップ
                                 </h3>
-                                <div class="flex items-center gap-1 text-xs text-gray-500">
-                                    <span>AI:</span>
-                                    <select id="ai-select-compact" class="border rounded px-2 py-1 text-xs" onchange="syncAISelect(this.value)">
-                                        <option value="claude" selected>Claude</option>
-                                        <option value="chatgpt">ChatGPT</option>
-                                        <option value="gemini">Gemini</option>
-                                    </select>
-                                </div>
                             </div>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
                                 <button type="button" id="copy-for-ai-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-1 cursor-pointer">
                                     <span class="material-symbols-outlined icon-sm">edit_note</span>
-                                    AIで本文作成
+                                    生成AIに貼り付け
                                 </button>
                                 <button type="button" onclick="copyOutline()" class="bg-white border-2 border-indigo-300 hover:bg-indigo-50 text-indigo-700 px-3 py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-1">
                                     <span class="material-symbols-outlined icon-sm">content_copy</span>
