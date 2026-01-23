@@ -608,163 +608,158 @@
                             </div>
                         </div>
 
-                        <!-- プロ向けSEO戦略セクション -->
-                        <div class="mt-8 border-t pt-8">
-                            <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                                プロ向けSEO戦略
-                            </h3>
-
-                            <!-- タブナビゲーション -->
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <button type="button" onclick="showProTab('eeat')" class="pro-tab-btn px-4 py-2 rounded-lg text-sm font-medium bg-indigo-100 text-indigo-700" data-tab="eeat">E-E-A-T</button>
-                                <button type="button" onclick="showProTab('cta')" class="pro-tab-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-600" data-tab="cta">CTA設計</button>
-                                <button type="button" onclick="showProTab('links')" class="pro-tab-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-600" data-tab="links">内部リンク</button>
-                                <button type="button" onclick="showProTab('schema')" class="pro-tab-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-600" data-tab="schema">構造化データ</button>
-                                <button type="button" onclick="showProTab('diff')" class="pro-tab-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-600" data-tab="diff">AI差別化</button>
-                            </div>
-
-                            <!-- タブコンテンツ -->
-                            <div id="pro-tab-eeat" class="pro-tab-content bg-indigo-50 rounded-xl p-4">
-                                <pre id="pro-tips-eeat" class="text-sm whitespace-pre-wrap font-mono text-indigo-900"></pre>
-                            </div>
-                            <div id="pro-tab-cta" class="pro-tab-content hidden bg-indigo-50 rounded-xl p-4">
-                                <pre id="pro-tips-cta" class="text-sm whitespace-pre-wrap font-mono text-slate-900"></pre>
-                            </div>
-                            <div id="pro-tab-links" class="pro-tab-content hidden bg-indigo-50 rounded-xl p-4">
-                                <pre id="pro-tips-links" class="text-sm whitespace-pre-wrap font-mono text-blue-900"></pre>
-                            </div>
-                            <div id="pro-tab-schema" class="pro-tab-content hidden bg-slate-50 rounded-xl p-4">
-                                <pre id="pro-tips-schema" class="text-sm whitespace-pre-wrap font-mono text-slate-800"></pre>
-                            </div>
-                            <div id="pro-tab-diff" class="pro-tab-content hidden bg-slate-50 rounded-xl p-4">
-                                <pre id="pro-tips-diff" class="text-sm whitespace-pre-wrap font-mono text-slate-800"></pre>
-                            </div>
-                        </div>
-
-                        <!-- SEO採点セクション -->
-                        <div class="mt-8 border-t pt-8">
-                            <h3 class="font-bold text-gray-800 flex items-center gap-2 mb-4">
-                                <span class="material-symbols-outlined text-emerald-600">speed</span>
-                                SEO採点
-                            </h3>
-
-                            <div id="seo-score-result">
-                                <div class="grid md:grid-cols-2 gap-4 mb-4">
-                                    <!-- 記事品質スコア -->
-                                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-200">
-                                        <h4 class="font-semibold text-blue-700 mb-3 text-center flex items-center justify-center gap-2">
-                                            <span class="material-symbols-outlined icon-sm">article</span>記事品質スコア
-                                        </h4>
-                                        <div class="flex items-center justify-center gap-4">
-                                            <div class="seo-score-ring" style="width: 90px; height: 90px;">
-                                                <svg width="90" height="90">
-                                                    <circle class="bg" cx="45" cy="45" r="38" stroke-width="8"/>
-                                                    <circle class="progress" id="article-score-ring" cx="45" cy="45" r="38" stroke="#3b82f6" stroke-width="8" stroke-dasharray="239" stroke-dashoffset="239"/>
-                                                </svg>
-                                                <div class="seo-score-value" id="article-score-value" style="font-size: 22px;">--</div>
-                                            </div>
-                                            <div class="text-left">
-                                                <div id="article-score-grade" class="text-xl font-bold text-blue-700">--</div>
-                                                <p class="text-xs text-blue-600">タイトル・メタ・見出し</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- 総合SEOスコア -->
-                                    <div class="bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl p-5 border border-emerald-200">
-                                        <h4 class="font-semibold text-emerald-700 mb-3 text-center flex items-center justify-center gap-2">
-                                            <span class="material-symbols-outlined icon-sm">monitoring</span>総合SEOスコア
-                                        </h4>
-                                        <div class="flex items-center justify-center gap-4">
-                                            <div class="seo-score-ring" style="width: 90px; height: 90px;">
-                                                <svg width="90" height="90">
-                                                    <circle class="bg" cx="45" cy="45" r="38" stroke-width="8"/>
-                                                    <circle class="progress" id="score-ring-progress" cx="45" cy="45" r="38" stroke="#22c55e" stroke-width="8" stroke-dasharray="239" stroke-dashoffset="239"/>
-                                                </svg>
-                                                <div class="seo-score-value" id="total-score-value" style="font-size: 22px;">--</div>
-                                            </div>
-                                            <div class="text-left">
-                                                <div id="score-grade" class="text-xl font-bold text-emerald-700">--</div>
-                                                <p class="text-xs text-emerald-600">E-E-A-T・CTA含む</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 項目別スコア -->
-                                <div class="bg-white rounded-xl p-4 shadow-sm border">
-                                    <h4 class="font-semibold text-gray-600 mb-3 text-sm">項目別スコア</h4>
-                                    <div id="score-items" class="grid md:grid-cols-2 gap-x-4">
-                                        <div class="score-item"><span class="text-sm text-gray-600">タイトル最適化</span><div class="flex items-center gap-2"><div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div><span class="text-sm font-medium w-8">--</span></div></div>
-                                        <div class="score-item"><span class="text-sm text-gray-600">メタディスクリプション</span><div class="flex items-center gap-2"><div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div><span class="text-sm font-medium w-8">--</span></div></div>
-                                        <div class="score-item"><span class="text-sm text-gray-600">見出し構造</span><div class="flex items-center gap-2"><div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div><span class="text-sm font-medium w-8">--</span></div></div>
-                                        <div class="score-item"><span class="text-sm text-gray-600">E-E-A-T要素</span><div class="flex items-center gap-2"><div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div><span class="text-sm font-medium w-8">--</span></div></div>
-                                        <div class="score-item"><span class="text-sm text-gray-600">CTA設計</span><div class="flex items-center gap-2"><div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div><span class="text-sm font-medium w-8">--</span></div></div>
-                                        <div class="score-item"><span class="text-sm text-gray-600">一次情報・差別化</span><div class="flex items-center gap-2"><div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div><span class="text-sm font-medium w-8">--</span></div></div>
-                                    </div>
-                                </div>
-                                <div class="mt-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-200">
-                                    <h4 class="font-semibold text-amber-800 mb-3 flex items-center gap-2"><span class="material-symbols-outlined icon-sm">lightbulb</span>改善提案</h4>
-                                    <ul id="score-suggestions" class="text-sm text-amber-700 space-y-2"><li>採点を実行すると改善提案が表示されます</li></ul>
-                                </div>
-                                <details class="mt-4">
-                                    <summary class="cursor-pointer text-sm text-gray-500 hover:text-gray-700 flex items-center gap-2"><span class="material-symbols-outlined icon-sm">expand_more</span>詳細レポートを表示</summary>
-                                    <div id="score-detail-report" class="mt-3 bg-gray-50 rounded-lg p-4 text-sm"><pre class="whitespace-pre-wrap font-mono text-gray-700"></pre></div>
-                                </details>
-                            </div>
-                        </div>
-
-                        <!-- アクションボタン -->
-                        <div class="mt-8 p-6 bg-gradient-to-r from-indigo-50 to-slate-50 rounded-xl">
-                            <h3 class="font-bold text-gray-800 mb-4 text-center">次のアクション</h3>
-
-                            <!-- AI選択 -->
-                            <div class="mb-4">
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">使用するAIを選択</label>
-                                <div class="grid grid-cols-3 gap-2">
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="ai-select" value="claude" class="hidden peer" checked>
-                                        <div class="p-3 border-2 rounded-xl peer-checked:border-indigo-500 peer-checked:bg-indigo-50 hover:bg-gray-50 text-center transition-all">
-                                            <div class="text-2xl mb-1"><span class="material-symbols-outlined icon-xl text-indigo-600">smart_toy</span></div>
-                                            <div class="font-semibold text-sm text-indigo-700">Claude</div>
-                                        </div>
-                                    </label>
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="ai-select" value="chatgpt" class="hidden peer">
-                                        <div class="p-3 border-2 rounded-xl peer-checked:border-indigo-500 peer-checked:bg-indigo-50 hover:bg-gray-50 text-center transition-all">
-                                            <div class="text-2xl mb-1"><span class="material-symbols-outlined icon-xl text-indigo-500">psychology</span></div>
-                                            <div class="font-semibold text-sm text-indigo-700">ChatGPT</div>
-                                        </div>
-                                    </label>
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="ai-select" value="gemini" class="hidden peer">
-                                        <div class="p-3 border-2 rounded-xl peer-checked:border-indigo-500 peer-checked:bg-indigo-50 hover:bg-gray-50 text-center transition-all">
-                                            <div class="text-2xl mb-1"><span class="material-symbols-outlined icon-xl text-indigo-400">auto_awesome</span></div>
-                                            <div class="font-semibold text-sm text-indigo-700">Gemini</div>
-                                        </div>
-                                    </label>
+                        <!-- ===== アクションボタン（最上部に配置）===== -->
+                        <div class="mt-6 bg-white rounded-xl border-2 border-indigo-200 p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-bold text-gray-800 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-indigo-600">rocket_launch</span>
+                                    次のステップ
+                                </h3>
+                                <div class="flex items-center gap-1 text-xs text-gray-500">
+                                    <span>AI:</span>
+                                    <select id="ai-select-compact" class="border rounded px-2 py-1 text-xs" onchange="syncAISelect(this.value)">
+                                        <option value="claude" selected>Claude</option>
+                                        <option value="chatgpt">ChatGPT</option>
+                                        <option value="gemini">Gemini</option>
+                                    </select>
                                 </div>
                             </div>
-
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <button type="button" onclick="copyForAI()" class="bg-white border-2 border-indigo-300 px-6 py-4 rounded-xl hover:bg-indigo-50 text-left">
-                                    <div class="font-semibold text-indigo-700 mb-1">AIで本文を作成</div>
-                                    <div class="text-xs text-gray-500">構成案を選択したAIに渡すプロンプトをコピー</div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button type="button" onclick="copyForAI()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-3 rounded-lg font-medium text-sm flex items-center justify-center gap-1">
+                                    <span class="material-symbols-outlined icon-sm">edit_note</span>
+                                    AIで本文作成
                                 </button>
-                                <button type="button" onclick="copyOutline()" class="bg-white border-2 border-indigo-300 px-6 py-4 rounded-xl hover:bg-indigo-50 text-left">
-                                    <div class="font-semibold text-indigo-700 mb-1">構成案をコピー</div>
-                                    <div class="text-xs text-gray-500">見出し・タイトル・一次情報をまとめてコピー</div>
+                                <button type="button" onclick="copyOutline()" class="bg-white border-2 border-indigo-300 hover:bg-indigo-50 text-indigo-700 px-4 py-3 rounded-lg font-medium text-sm flex items-center justify-center gap-1">
+                                    <span class="material-symbols-outlined icon-sm">content_copy</span>
+                                    構成をコピー
                                 </button>
-                            </div>
-                            <!-- 記事評価プロンプト -->
-                            <div class="mt-4">
-                                <button type="button" onclick="copyEvaluationPrompt()" class="w-full bg-gradient-to-r from-orange-50 to-amber-50 border-2 border-orange-300 px-6 py-4 rounded-xl hover:from-orange-100 hover:to-amber-100 text-left">
-                                    <div class="font-semibold text-orange-700 mb-1 flex items-center gap-2">
-                                        <span class="material-symbols-outlined icon-sm">fact_check</span> 記事評価プロンプトをコピー
-                                    </div>
-                                    <div class="text-xs text-gray-500">作成した記事をAIで採点するためのプロンプトをコピー（100点満点で評価）</div>
+                                <button type="button" onclick="copyEvaluationPrompt()" class="bg-white border-2 border-orange-300 hover:bg-orange-50 text-orange-700 px-4 py-3 rounded-lg font-medium text-sm flex items-center justify-center gap-1">
+                                    <span class="material-symbols-outlined icon-sm">fact_check</span>
+                                    記事を採点
                                 </button>
                             </div>
                         </div>
+
+                        <!-- ===== SEO採点（コンパクト表示）===== -->
+                        <div class="mt-4 bg-gradient-to-r from-slate-50 to-gray-50 rounded-xl border p-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <h3 class="font-semibold text-gray-700 flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-emerald-600">speed</span>
+                                        SEOスコア
+                                    </h3>
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex items-center gap-1.5 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-200">
+                                            <span class="text-xs text-blue-600">記事</span>
+                                            <span id="article-score-compact" class="font-bold text-blue-700">--</span>
+                                            <span class="text-xs text-blue-500">/55</span>
+                                        </div>
+                                        <div class="flex items-center gap-1.5 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-200">
+                                            <span class="text-xs text-emerald-600">総合</span>
+                                            <span id="total-score-compact" class="font-bold text-emerald-700">--</span>
+                                            <span class="text-xs text-emerald-500">/100</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="toggleScoreDetail()" class="text-gray-500 hover:text-gray-700 text-sm flex items-center gap-1">
+                                    <span id="score-toggle-text">詳細</span>
+                                    <span class="material-symbols-outlined icon-sm" id="score-toggle-icon">expand_more</span>
+                                </button>
+                            </div>
+
+                            <!-- 詳細スコア（折りたたみ） -->
+                            <div id="score-detail-section" class="hidden mt-4 pt-4 border-t">
+                                <div id="seo-score-result">
+                                    <div class="grid md:grid-cols-2 gap-3 mb-3">
+                                        <!-- 記事品質スコア -->
+                                        <div class="bg-white rounded-lg p-3 border">
+                                            <div class="flex items-center gap-3">
+                                                <div class="seo-score-ring" style="width: 60px; height: 60px;">
+                                                    <svg width="60" height="60">
+                                                        <circle class="bg" cx="30" cy="30" r="24" stroke-width="6"/>
+                                                        <circle class="progress" id="article-score-ring" cx="30" cy="30" r="24" stroke="#3b82f6" stroke-width="6" stroke-dasharray="151" stroke-dashoffset="151"/>
+                                                    </svg>
+                                                    <div class="seo-score-value" id="article-score-value" style="font-size: 14px;">--</div>
+                                                </div>
+                                                <div>
+                                                    <div class="text-xs text-gray-500">記事品質</div>
+                                                    <div id="article-score-grade" class="font-bold text-blue-700">--</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- 総合SEOスコア -->
+                                        <div class="bg-white rounded-lg p-3 border">
+                                            <div class="flex items-center gap-3">
+                                                <div class="seo-score-ring" style="width: 60px; height: 60px;">
+                                                    <svg width="60" height="60">
+                                                        <circle class="bg" cx="30" cy="30" r="24" stroke-width="6"/>
+                                                        <circle class="progress" id="score-ring-progress" cx="30" cy="30" r="24" stroke="#22c55e" stroke-width="6" stroke-dasharray="151" stroke-dashoffset="151"/>
+                                                    </svg>
+                                                    <div class="seo-score-value" id="total-score-value" style="font-size: 14px;">--</div>
+                                                </div>
+                                                <div>
+                                                    <div class="text-xs text-gray-500">総合SEO</div>
+                                                    <div id="score-grade" class="font-bold text-emerald-700">--</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 項目別（2行で表示） -->
+                                    <div id="score-items" class="grid grid-cols-3 md:grid-cols-6 gap-2 text-center text-xs">
+                                        <div class="score-item-mini bg-white rounded p-2 border"><div class="text-gray-500">タイトル</div><div class="font-bold">--</div></div>
+                                        <div class="score-item-mini bg-white rounded p-2 border"><div class="text-gray-500">メタ</div><div class="font-bold">--</div></div>
+                                        <div class="score-item-mini bg-white rounded p-2 border"><div class="text-gray-500">見出し</div><div class="font-bold">--</div></div>
+                                        <div class="score-item-mini bg-white rounded p-2 border"><div class="text-gray-500">E-E-A-T</div><div class="font-bold">--</div></div>
+                                        <div class="score-item-mini bg-white rounded p-2 border"><div class="text-gray-500">CTA</div><div class="font-bold">--</div></div>
+                                        <div class="score-item-mini bg-white rounded p-2 border"><div class="text-gray-500">差別化</div><div class="font-bold">--</div></div>
+                                    </div>
+                                    <!-- 改善提案 -->
+                                    <div class="mt-3 bg-amber-50 rounded-lg p-3 border border-amber-200">
+                                        <div class="font-semibold text-amber-800 text-sm mb-2 flex items-center gap-1">
+                                            <span class="material-symbols-outlined icon-sm">lightbulb</span>改善提案
+                                        </div>
+                                        <ul id="score-suggestions" class="text-xs text-amber-700 space-y-1"><li>構成を生成すると採点されます</li></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== プロ向けSEO戦略（折りたたみ）===== -->
+                        <details class="mt-4">
+                            <summary class="cursor-pointer bg-slate-100 hover:bg-slate-200 rounded-xl p-3 flex items-center justify-between transition-colors">
+                                <span class="font-semibold text-gray-700 flex items-center gap-2">
+                                    <span class="material-symbols-outlined icon-sm text-indigo-600">psychology</span>
+                                    プロ向けSEO戦略
+                                </span>
+                                <span class="text-xs text-gray-500">E-E-A-T / CTA / 内部リンク / 構造化データ / AI差別化</span>
+                            </summary>
+                            <div class="mt-2 bg-white rounded-xl border p-4">
+                                <!-- タブナビゲーション -->
+                                <div class="flex flex-wrap gap-1 mb-3">
+                                    <button type="button" onclick="showProTab('eeat')" class="pro-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-100 text-indigo-700" data-tab="eeat">E-E-A-T</button>
+                                    <button type="button" onclick="showProTab('cta')" class="pro-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-100 text-gray-600" data-tab="cta">CTA</button>
+                                    <button type="button" onclick="showProTab('links')" class="pro-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-100 text-gray-600" data-tab="links">内部リンク</button>
+                                    <button type="button" onclick="showProTab('schema')" class="pro-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-100 text-gray-600" data-tab="schema">構造化</button>
+                                    <button type="button" onclick="showProTab('diff')" class="pro-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-100 text-gray-600" data-tab="diff">差別化</button>
+                                </div>
+                                <!-- タブコンテンツ -->
+                                <div id="pro-tab-eeat" class="pro-tab-content bg-indigo-50 rounded-lg p-3">
+                                    <pre id="pro-tips-eeat" class="text-xs whitespace-pre-wrap font-mono text-indigo-900"></pre>
+                                </div>
+                                <div id="pro-tab-cta" class="pro-tab-content hidden bg-slate-50 rounded-lg p-3">
+                                    <pre id="pro-tips-cta" class="text-xs whitespace-pre-wrap font-mono text-slate-900"></pre>
+                                </div>
+                                <div id="pro-tab-links" class="pro-tab-content hidden bg-blue-50 rounded-lg p-3">
+                                    <pre id="pro-tips-links" class="text-xs whitespace-pre-wrap font-mono text-blue-900"></pre>
+                                </div>
+                                <div id="pro-tab-schema" class="pro-tab-content hidden bg-slate-50 rounded-lg p-3">
+                                    <pre id="pro-tips-schema" class="text-xs whitespace-pre-wrap font-mono text-slate-800"></pre>
+                                </div>
+                                <div id="pro-tab-diff" class="pro-tab-content hidden bg-slate-50 rounded-lg p-3">
+                                    <pre id="pro-tips-diff" class="text-xs whitespace-pre-wrap font-mono text-slate-800"></pre>
+                                </div>
+                            </div>
+                        </details>
                     </div>
                     </div><!-- /article-main-tab-design -->
 
@@ -1067,6 +1062,28 @@
             });
         }
 
+        // ========== スコア詳細の折りたたみ ==========
+        function toggleScoreDetail() {
+            const section = document.getElementById('score-detail-section');
+            const toggleText = document.getElementById('score-toggle-text');
+            const toggleIcon = document.getElementById('score-toggle-icon');
+            if (section.classList.contains('hidden')) {
+                section.classList.remove('hidden');
+                toggleText.textContent = '閉じる';
+                toggleIcon.textContent = 'expand_less';
+            } else {
+                section.classList.add('hidden');
+                toggleText.textContent = '詳細';
+                toggleIcon.textContent = 'expand_more';
+            }
+        }
+
+        // ========== AI選択同期 ==========
+        function syncAISelect(value) {
+            const radios = document.querySelectorAll('input[name="ai-select"]');
+            radios.forEach(r => r.checked = (r.value === value));
+        }
+
         // ========== SEO採点機能 ==========
         function runSEOScoring() {
             const outline = document.getElementById('article-outline')?.textContent || '';
@@ -1168,10 +1185,16 @@
             else if (percentage >= 60) { grade = 'C'; gradeColor = '#f59e0b'; }
             else { grade = 'D'; gradeColor = '#ef4444'; }
 
-            // 記事品質スコア表示
+            // コンパクトスコア表示（常に表示）
+            const articleCompact = document.getElementById('article-score-compact');
+            const totalCompact = document.getElementById('total-score-compact');
+            if (articleCompact) articleCompact.textContent = articleScore;
+            if (totalCompact) totalCompact.textContent = totalScore;
+
+            // 記事品質スコア表示（詳細内）
             const articleRing = document.getElementById('article-score-ring');
             if (articleRing) {
-                const articleOffset = 239 - (articlePercentage / 100) * 239;
+                const articleOffset = 151 - (articlePercentage / 100) * 151;
                 articleRing.style.stroke = articleGradeColor;
                 articleRing.style.strokeDashoffset = articleOffset;
             }
@@ -1180,32 +1203,42 @@
             const articleGradeEl = document.getElementById('article-score-grade');
             if (articleGradeEl) { articleGradeEl.textContent = articleGrade; articleGradeEl.style.color = articleGradeColor; }
 
-            // 総合スコアリング表示
+            // 総合スコアリング表示（詳細内）
             const ringProgress = document.getElementById('score-ring-progress');
-            const offset = 239 - (percentage / 100) * 239;
-            ringProgress.style.stroke = gradeColor;
-            ringProgress.style.strokeDashoffset = offset;
-            document.getElementById('total-score-value').textContent = totalScore;
-            document.getElementById('score-grade').textContent = grade;
-            document.getElementById('score-grade').style.color = gradeColor;
+            if (ringProgress) {
+                const offset = 151 - (percentage / 100) * 151;
+                ringProgress.style.stroke = gradeColor;
+                ringProgress.style.strokeDashoffset = offset;
+            }
+            const totalValueEl = document.getElementById('total-score-value');
+            if (totalValueEl) totalValueEl.textContent = totalScore;
+            const gradeEl = document.getElementById('score-grade');
+            if (gradeEl) { gradeEl.textContent = grade; gradeEl.style.color = gradeColor; }
 
-            const scoreItems = document.querySelectorAll('#score-items .score-item');
-            const scoreData = [{ score: scores.title, max: 20 }, { score: scores.meta, max: 15 }, { score: scores.headings, max: 20 }, { score: scores.eeat, max: 20 }, { score: scores.cta, max: 10 }, { score: scores.differentiation, max: 15 }];
-            scoreItems.forEach((item, i) => {
+            // 項目別スコア（ミニ表示）
+            const scoreData = [
+                { score: scores.title, max: 20 },
+                { score: scores.meta, max: 15 },
+                { score: scores.headings, max: 20 },
+                { score: scores.eeat, max: 20 },
+                { score: scores.cta, max: 10 },
+                { score: scores.differentiation, max: 15 }
+            ];
+            const scoreItemsMini = document.querySelectorAll('#score-items .score-item-mini');
+            scoreItemsMini.forEach((item, i) => {
                 const data = scoreData[i];
                 const pct = Math.round((data.score / data.max) * 100);
-                const bar = item.querySelector('.score-bar-fill');
-                const label = item.querySelector('.score-item > div > span:last-child');
-                bar.style.width = pct + '%';
-                bar.className = 'score-bar-fill ' + (pct >= 80 ? 'good' : pct >= 50 ? 'warning' : 'bad');
-                label.textContent = data.score + '/' + data.max;
-                item.className = 'score-item ' + (pct >= 80 ? 'good' : pct >= 50 ? 'warning' : 'bad');
+                const valueDiv = item.querySelector('div:last-child');
+                if (valueDiv) {
+                    valueDiv.textContent = data.score + '/' + data.max;
+                    valueDiv.className = 'font-bold ' + (pct >= 80 ? 'text-emerald-600' : pct >= 50 ? 'text-amber-600' : 'text-red-600');
+                }
             });
 
             const suggestionsEl = document.getElementById('score-suggestions');
-            suggestionsEl.innerHTML = suggestions.length > 0 ? suggestions.map(s => '<li>• ' + s + '</li>').join('') : '<li>🎉 改善点はありません！</li>';
-            document.querySelector('#score-detail-report pre').textContent = detailReport;
-            document.getElementById('seo-score-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (suggestionsEl) {
+                suggestionsEl.innerHTML = suggestions.length > 0 ? suggestions.map(s => '<li>• ' + s + '</li>').join('') : '<li>改善点はありません</li>';
+            }
         }
     </script>
 
