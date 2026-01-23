@@ -427,7 +427,20 @@ function startAnalysis() {
             else if (/オンライン|web|eラーニング/.test(kw)) { intent = '購入意向'; cvExpect = 80; }
             else if (/とは|意味|必要|義務/.test(kw)) { intent = '情報収集'; cvExpect = 25; }
 
-            return { keyword: kw, intent, cvExpect, volume: item.volume, cluster: null };
+            // 競合対策分析を追加
+            const strategy = analyzeCompetitorStrategy(kw);
+            return {
+                keyword: kw, intent, cvExpect, volume: item.volume, cluster: null,
+                contentType: strategy.contentType,
+                contentTypeName: strategy.contentTypeName,
+                competitorCoverage: strategy.competitorCoverage,
+                diffPotential: strategy.diffPotential,
+                strategyPriority: strategy.strategyPriority,
+                recommendation: strategy.recommendation,
+                targetIndustry: strategy.targetIndustry,
+                primaryInfoType: strategy.primaryInfoType,
+                kciStrength: strategy.kciStrength
+            };
         });
     } else {
         // テキストエリアから取り込み（推定ボリューム使用）
@@ -448,7 +461,20 @@ function startAnalysis() {
             // 推定検索ボリュームを取得
             const volume = estimateVolume(kw);
 
-            return { keyword: kw, intent, cvExpect, volume, cluster: null };
+            // 競合対策分析を追加
+            const strategy = analyzeCompetitorStrategy(kw);
+            return {
+                keyword: kw, intent, cvExpect, volume, cluster: null,
+                contentType: strategy.contentType,
+                contentTypeName: strategy.contentTypeName,
+                competitorCoverage: strategy.competitorCoverage,
+                diffPotential: strategy.diffPotential,
+                strategyPriority: strategy.strategyPriority,
+                recommendation: strategy.recommendation,
+                targetIndustry: strategy.targetIndustry,
+                primaryInfoType: strategy.primaryInfoType,
+                kciStrength: strategy.kciStrength
+            };
         });
     }
 
@@ -502,6 +528,55 @@ function renderAnalysisResult() {
     document.getElementById('summary-articles').textContent = clusters.filter(c => c.priority >= 3).length;
     document.getElementById('summary-priority').textContent = clusters.filter(c => c.priority >= 4).length;
 
+    // 競合対策サマリー
+    const strategyCounts = { S: 0, A: 0, B: 0, C: 0 };
+    const layerCounts = { A: 0, B: 0, C: 0 };
+    keywords.forEach(kw => {
+        if (kw.strategyPriority) strategyCounts[kw.strategyPriority]++;
+        if (kw.contentType) layerCounts[kw.contentType]++;
+    });
+
+    // 競合対策サマリーが存在すれば更新
+    const strategyEl = document.getElementById('strategy-summary');
+    if (strategyEl) {
+        strategyEl.innerHTML = `
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                <div class="bg-white rounded-xl p-3 border-2 ${strategyCounts.S > 0 ? 'border-red-300 bg-red-50' : 'border-gray-200'} text-center shadow-sm">
+                    <div class="text-2xl font-bold ${strategyCounts.S > 0 ? 'text-red-600' : 'text-gray-400'}">${strategyCounts.S}</div>
+                    <div class="text-[10px] text-gray-500 font-medium">S優先</div>
+                    <div class="text-[9px] text-gray-400">ブルーオーシャン</div>
+                </div>
+                <div class="bg-white rounded-xl p-3 border-2 ${strategyCounts.A > 0 ? 'border-orange-300 bg-orange-50' : 'border-gray-200'} text-center shadow-sm">
+                    <div class="text-2xl font-bold ${strategyCounts.A > 0 ? 'text-orange-600' : 'text-gray-400'}">${strategyCounts.A}</div>
+                    <div class="text-[10px] text-gray-500 font-medium">A優先</div>
+                    <div class="text-[9px] text-gray-400">差別化推奨</div>
+                </div>
+                <div class="bg-white rounded-xl p-3 border-2 ${layerCounts.B > 0 ? 'border-blue-300 bg-blue-50' : 'border-gray-200'} text-center shadow-sm">
+                    <div class="text-2xl font-bold ${layerCounts.B > 0 ? 'text-blue-600' : 'text-gray-400'}">${layerCounts.B}</div>
+                    <div class="text-[10px] text-gray-500 font-medium">B層</div>
+                    <div class="text-[9px] text-gray-400">業種特化</div>
+                </div>
+                <div class="bg-white rounded-xl p-3 border-2 ${layerCounts.C > 0 ? 'border-green-300 bg-green-50' : 'border-gray-200'} text-center shadow-sm">
+                    <div class="text-2xl font-bold ${layerCounts.C > 0 ? 'text-green-600' : 'text-gray-400'}">${layerCounts.C}</div>
+                    <div class="text-[10px] text-gray-500 font-medium">C層</div>
+                    <div class="text-[9px] text-gray-400">体験・事例</div>
+                </div>
+            </div>
+            ${strategyCounts.S > 0 || strategyCounts.A > 0 || layerCounts.B > 0 || layerCounts.C > 0 ? `
+            <div class="bg-white rounded-lg p-3 border border-indigo-100">
+                <div class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-indigo-500" style="font-size:18px;">lightbulb</span>
+                    <div class="text-xs text-gray-600">
+                        ${strategyCounts.S > 0 ? `<span class="text-red-600 font-bold">S優先が${strategyCounts.S}件</span> → 競合が弱い領域。早急に記事作成を。` : ''}
+                        ${strategyCounts.S > 0 && (layerCounts.B + layerCounts.C > 0) ? '<br>' : ''}
+                        ${layerCounts.B + layerCounts.C > 0 ? `<span class="text-blue-600 font-medium">B層${layerCounts.B}件・C層${layerCounts.C}件</span>を優先的に作成すると差別化できます。` : ''}
+                        ${strategyCounts.S === 0 && layerCounts.B + layerCounts.C === 0 ? 'A層（制度解説系）が中心です。一次情報を追加して差別化しましょう。' : ''}
+                    </div>
+                </div>
+            </div>` : ''}
+        `;
+    }
+
     // クラスター一覧
     const clusterList = document.getElementById('cluster-list');
     clusterList.innerHTML = clusters.map((c, idx) => {
@@ -531,11 +606,23 @@ function renderAnalysisResult() {
             : '-';
         const intentColor = kw.intent === '購入意向' ? 'text-indigo-700 font-semibold' : kw.intent === '比較検討' ? 'text-indigo-500' : 'text-slate-500';
         const volumeDisplay = kw.volume >= 1000 ? (kw.volume / 1000).toFixed(1) + 'K' : kw.volume;
+
+        // 競合対策表示
+        const layerClass = kw.contentType === 'A' ? 'bg-gray-200 text-gray-700' :
+                          kw.contentType === 'B' ? 'bg-blue-100 text-blue-700' :
+                          'bg-green-100 text-green-700';
+        const strategyClass = kw.strategyPriority === 'S' ? 'bg-red-500 text-white' :
+                             kw.strategyPriority === 'A' ? 'bg-orange-500 text-white' :
+                             kw.strategyPriority === 'B' ? 'bg-yellow-400 text-gray-800' :
+                             'bg-gray-300 text-gray-600';
+
         return `
             <tr class="border-b hover:bg-gray-50">
                 <td class="p-3 font-bold text-indigo-600">${i + 1}</td>
                 <td class="p-3">${kw.keyword}</td>
                 <td class="p-3 text-center text-gray-500 text-sm">${volumeDisplay}</td>
+                <td class="p-3 text-center"><span class="${layerClass} text-xs px-2 py-0.5 rounded">${kw.contentType}層</span></td>
+                <td class="p-3 text-center"><span class="${strategyClass} text-xs px-2 py-0.5 rounded font-bold">${kw.strategyPriority}</span></td>
                 <td class="p-3 text-center"><span class="${intentColor} text-xs font-medium">${kw.intent}</span></td>
                 <td class="p-3 text-center"><span class="font-semibold">${kw.cvExpect}%</span></td>
                 <td class="p-3 text-center">${sourceLink}</td>
@@ -566,6 +653,17 @@ function generateArticleDesign() {
     const type = document.querySelector('input[name="article-type"]:checked').value;
     const mainKw = cluster.keywords[0]?.keyword || cluster.name;
     const year = new Date().getFullYear();
+
+    // 競合対策分析（クラスター内のキーワードを分析）
+    const clusterStrategyStats = { layers: { A: 0, B: 0, C: 0 }, priorities: { S: 0, A: 0, B: 0, C: 0 } };
+    cluster.keywords.forEach(kw => {
+        if (kw.contentType) clusterStrategyStats.layers[kw.contentType]++;
+        if (kw.strategyPriority) clusterStrategyStats.priorities[kw.strategyPriority]++;
+    });
+    const dominantLayer = Object.entries(clusterStrategyStats.layers).sort((a, b) => b[1] - a[1])[0]?.[0] || 'A';
+    const hasSPriority = clusterStrategyStats.priorities.S > 0;
+    const hasAPriority = clusterStrategyStats.priorities.A > 0;
+    const mainKwStrategy = cluster.keywords[0] || {};
 
     // キーワードから教育種別を判定し、マスターデータを取得
     let eduKey = null;
@@ -622,6 +720,99 @@ function generateArticleDesign() {
             }
         });
         curriculumText = curriculum.map(c => `- ${c.subject}（${c.hours}時間）`).join('\n');
+    }
+
+    // ========== A/B/C層別セクション生成 ==========
+    let layerSection = '';
+    const layerBadge = dominantLayer === 'A' ? '【A層：制度解説】' :
+                       dominantLayer === 'B' ? '【B層：業種特化】' : '【C層：体験・事例】';
+
+    if (dominantLayer === 'A') {
+        // A層：制度解説系 - 法令根拠・数字を強調
+        layerSection = `
+## 【差別化セクション】法令根拠と実務のポイント
+
+### 関連法令の条文
+- ${lawRef}
+- 労働安全衛生規則 第○条（該当条文を追記）
+- 参照：[e-Gov法令検索](${lawUrl})
+
+### 実務で押さえるべき数字
+| 項目 | 内容 |
+|------|------|
+| 講習時間 | ${totalHours}時間 |
+| 料金相場 | ${priceOnlineMin}円〜${priceOfflineMax}円 |
+| 有効期限 | ${validityPeriod} |
+| 罰則 | ${penalty} |
+
+### 現場担当者からのアドバイス
+※E-E-A-T強化※
+「現場では○○という点が見落とされがちです」
+「実務上、○○の場合は△△に注意が必要です」
+→ 実際の経験に基づくアドバイスを追記`;
+    } else if (dominantLayer === 'B') {
+        // B層：業種特化系 - 業種別の具体例
+        const targetIndustry = mainKwStrategy.targetIndustry || '建設業';
+        layerSection = `
+## 【差別化セクション】${targetIndustry}における${eduName}
+
+### ${targetIndustry}特有の受講シーン
+- ${targetIndustry}の現場では○○の作業で必要になります
+- 特に△△の工程で重要です
+- □□業界との違いは～
+
+### ${targetIndustry}の事例
+**事例1：○○会社の場合**
+- 導入の背景：
+- 受講した結果：
+- 担当者のコメント：
+
+**事例2：△△現場での活用**
+- 状況：
+- 効果：
+
+### ${targetIndustry}向けの受講アドバイス
+- ${targetIndustry}で働く方は○○を意識すると良い
+- 繁忙期を避けて△△の時期に受講がおすすめ
+- 複数名まとめて出張講習も検討を
+
+[画像：${targetIndustry}の現場での講習風景]`;
+    } else if (dominantLayer === 'C') {
+        // C層：体験・事例系 - 一次情報を強調
+        layerSection = `
+## 【差別化セクション】実際に受講した人の体験談
+
+### 受講者インタビュー
+**Aさん（${industries}勤務・30代）**
+> 「実際に受講してみて、○○が一番勉強になりました。講師の方が現場経験豊富で、教科書には載っていない△△の話が聞けたのが良かったです。」
+
+**Bさん（現場監督・40代）**
+> 「部下に受講させる前に自分で受けてみました。□□の部分は普段の作業でも見落としがちだったので、チーム全体で共有しました。」
+
+### 受講レポート：私が体験した${eduName}
+
+#### 申し込みから受講まで
+1. Webで申し込み（所要時間：約5分）
+2. テキストが届く（申込から3日後）
+3. 受講当日の流れ
+
+#### 講習の様子
+- 会場/オンラインの雰囲気
+- 他の受講者の様子（年齢層、業種など）
+- 講師の教え方
+
+[画像：実際の講習風景]
+[画像：使用したテキスト]
+[画像：取得した修了証]
+
+#### 正直な感想
+- 良かった点：
+- 改善してほしい点：
+- これから受講する人へのアドバイス：
+
+### よくある失敗談と対策
+- 「○○を忘れて焦った」→ 事前に△△を確認
+- 「□□で躓いた」→ 予習しておくとスムーズ`;
     }
 
     // 構成案・タイトル・メタを記事タイプ別に生成
@@ -725,6 +916,7 @@ ${recommendedRefresh}
 
 ### 修了証の再発行
 受講した機関に連絡すれば可能（手数料が発生する場合あり）
+${layerSection}
 
 ## よくある質問
 ### Q. ${eduName}を受講しないとどうなる？
@@ -921,6 +1113,7 @@ ${curriculum.length > 0 ? curriculum.map(c => `- ${c.subject}：${c.hours}時間
 ${practicalRequired ? `- 実技講習を忘れずに：${practicalNote}` : ''}
 - 身分証明書を忘れると受講できない場合あり
 - オンラインは途中離席するとやり直しになることも
+${layerSection}
 
 ## まとめ：${eduName}受講の流れ
 1. 講座を選ぶ
@@ -1085,6 +1278,7 @@ eラーニング・ZOOMなら全国どこからでも受講可能。
 
 【内部リンク】
 →「${eduName}とは？基礎知識を確認する」
+${layerSection}
 
 ## まとめ
 
@@ -1230,6 +1424,7 @@ A. ${eduKey === '職長' ? '職長教育は現場監督者向け、特別教育�
 
 ### Q12. 試験に落ちることはありますか？
 A. 修了試験は理解度確認が目的のため、講習内容を理解していれば問題ありません。万が一不合格でも、再テストを受けられる講座がほとんどです。
+${layerSection}
 
 ## まとめ
 ${eduName}についてよくある質問に回答しました。
@@ -1408,6 +1603,7 @@ ${curriculum.length > 0 ? curriculum.slice(0, 3).map(c => `- ${c.subject}：「�
 
 【CTA挿入ポイント②】最終CTA
 「${eduName}を受講する」ボタン
+${layerSection}
 
 ## まとめ：${eduName}を受講した感想
 ${eduName}を受講して、○○が一番の収穫でした。
@@ -1531,6 +1727,7 @@ ${onlineAvailable ? `- オンライン講座：${priceOnlineMin}円〜${priceOnl
 
 【CTA挿入ポイント②】
 「${eduName}を申し込む」ボタン
+${layerSection}
 
 ## まとめ：${eduName}の基本ポイント
 - **定義**：${lawRef}に基づく法定教育
@@ -1667,6 +1864,7 @@ ${practicalRequired ? '- [ ] 作業着・安全靴（実技用）\n- [ ] ヘル�
 
 ### 紛失した場合
 - 受講機関に再発行を依頼（手数料：1,000〜3,000円程度）
+${layerSection}
 
 【CTA挿入ポイント②】
 「${eduName}を受講する」ボタン`;
@@ -1774,6 +1972,7 @@ A. ○○（据え置き/○円程度の変更）
 【参照リンク】
 - e-Gov法令検索：${lawUrl}
 - 厚生労働省HP
+${layerSection}
 
 ## まとめ
 ${year}年の${eduName}に関する主な変更点をまとめました。
@@ -1835,6 +2034,45 @@ ${mainKw}に関する記事です。
         aiDiffTips = '記事タイプを選択してください';
     }
 
+    // 競合対策ガイドを追加（SAT対策）
+    let competitorStrategyGuide = '';
+    if (mainKwStrategy.contentType) {
+        competitorStrategyGuide = `
+
+【競合対策ガイド（SAT対策）】
+━━━━━━━━━━━━━━━━━━━━━━━
+■ このクラスターの分析結果
+  - 主要層：${dominantLayer === 'A' ? 'A層（制度解説系）' : dominantLayer === 'B' ? 'B層（業種特化系）' : 'C層（体験・事例系）'}
+  - S優先キーワード：${clusterStrategyStats.priorities.S}件 ${hasSPriority ? '← ブルーオーシャン！' : ''}
+  - A優先キーワード：${clusterStrategyStats.priorities.A}件
+
+■ コンテンツ差別化戦略
+${dominantLayer === 'A' ? `  【A層対策】競合と同等の基礎情報だが、以下で差別化：
+  □ 具体的な数字・料金を明記
+  □ 法令の条文番号を正確に引用
+  □ 「現場では〜」「実務上は〜」の表現を追加
+  □ よくある失敗例・注意点を含める` : ''}
+${dominantLayer === 'B' ? `  【B層対策】SATにない業種特化の切り口で差別化：
+  □ 業種特有の用語・状況を積極的に使用
+  □ 「建設業では〜」「製造現場では〜」など具体化
+  □ 業種別の事例・ケーススタディを追加
+  □ 業界団体・専門機関へのリンクを含める` : ''}
+${dominantLayer === 'C' ? `  【C層対策】一次情報で最大の差別化を実現：
+  □ 実際の受講体験談を詳細に記述
+  □ 「私が受講したときは〜」など一人称を使用
+  □ 受講者インタビュー・生の声を掲載
+  □ 講習の写真・修了証の画像を追加` : ''}
+
+■ KCIの強み訴求ポイント
+  □ オンライン対応（eラーニング・ZOOM）
+  □ 最短1日で修了証発行
+  □ 顔認証システムでコンプライアンス対応
+  □ 土日開催・全国対応`;
+    }
+
+    // aiDiffTipsに競合対策ガイドを追加
+    aiDiffTips = aiDiffTips + competitorStrategyGuide;
+
     // 競合データがあれば、不足トピックを追加
     const competitorHeadings = getCompetitorHeadingsForOutline();
     if (competitorHeadings.length > 0) {
@@ -1889,6 +2127,13 @@ ${mainKw}に関する記事です。
     document.getElementById('pro-tips-diff').textContent = aiDiffTips;
 
     document.getElementById('article-design-result').classList.remove('hidden');
+
+    // SEO採点を自動実行
+    setTimeout(() => {
+        if (typeof runSEOScoring === 'function') {
+            runSEOScoring();
+        }
+    }, 100);
 }
 
 // SEO統合版の記事構成を生成する関数
@@ -2048,6 +2293,44 @@ function copyForAI() {
         }
     }
 
+    // 競合対策分析（クラスターの主要キーワードから）
+    const clusterStrategyStats = { layers: { A: 0, B: 0, C: 0 }, priorities: { S: 0, A: 0, B: 0, C: 0 } };
+    cluster.keywords.forEach(kw => {
+        if (kw.contentType) clusterStrategyStats.layers[kw.contentType]++;
+        if (kw.strategyPriority) clusterStrategyStats.priorities[kw.strategyPriority]++;
+    });
+    const dominantLayer = Object.entries(clusterStrategyStats.layers).sort((a, b) => b[1] - a[1])[0]?.[0] || 'A';
+    const mainKwStrategy = cluster.keywords[0] || {};
+
+    // A/B/C層に応じた差別化指示
+    let layerInstruction = '';
+    if (dominantLayer === 'A') {
+        layerInstruction = `【コンテンツ層：A層（制度解説系）】
+このキーワードは競合（SAT等）も多くカバーしている基礎情報領域です。
+差別化のために以下を必ず含めてください：
+- 法令の条文番号を正確に引用（例：労働安全衛生法第○条）
+- 「現場では〜」「実務上は〜」という現場経験に基づく補足
+- よくある失敗例や注意点
+- 具体的な数字（料金、時間など）`;
+    } else if (dominantLayer === 'B') {
+        layerInstruction = `【コンテンツ層：B層（業種特化系）】
+このキーワードは業種特化の切り口です。競合（SAT等）にない差別化ポイントになります。
+以下を必ず含めてください：
+- 業種特有の用語・状況を積極的に使用
+- 「建設業では〜」「製造現場では〜」など具体的なシーン
+- その業種ならではの事例やケーススタディ
+- 業界団体や専門機関への参照`;
+    } else if (dominantLayer === 'C') {
+        layerInstruction = `【コンテンツ層：C層（体験・事例系）】
+このキーワードは一次情報で最大の差別化が可能な領域です。AIでは書けない価値を出してください。
+以下を必ず含めてください：
+- 「私が受講したときは〜」など一人称の体験談
+- 受講者の生の声・インタビュー形式のコンテンツ
+- 「実際に○○してみて分かったこと」
+- 講習の具体的な様子（雰囲気、他の受講者の反応など）
+- [画像：○○の写真] の指示を多めに入れる`;
+    }
+
     // 記事タイプ別の指示
     let typeInstruction = '';
     if (articleType === 'pillar') {
@@ -2085,6 +2368,8 @@ ${eduData.practicalRequired ? `- 実技講習：${eduData.practicalNote}` : ''}
 
 【ターゲットキーワード】
 ${mainKw}
+
+${layerInstruction}
 
 【記事タイプ】
 ${typeInstruction}
@@ -2187,6 +2472,10 @@ function exportCSV() {
             推定ボリューム: kw.volume,
             検索意図: kw.intent,
             CV期待度: kw.cvExpect,
+            層: kw.contentType ? kw.contentType + '層' : '',
+            対策優先度: kw.strategyPriority || '',
+            差別化余地: kw.diffPotential === 'high' ? '高' : kw.diffPotential === 'mid' ? '中' : '低',
+            業種特化: kw.targetIndustry || '',
             一次情報URL: sources[0]?.url || ''
         };
     });
@@ -2637,41 +2926,80 @@ function closeExportModal() {
 function exportExcel() {
     if (keywords.length === 0) { alert('データがありません'); return; }
 
-    // キーワードシート
+    // キーワードシート（競合対策データ含む）
     const kwData = keywords.map(kw => ({
         キーワード: kw.keyword,
         グループ: kw.cluster,
         検索ボリューム: kw.volume,
         検索意図: kw.intent,
-        CV期待度: kw.cvExpect + '%'
+        CV期待度: kw.cvExpect + '%',
+        層: kw.contentType ? kw.contentType + '層' : '',
+        対策優先度: kw.strategyPriority || '',
+        差別化余地: kw.diffPotential === 'high' ? '高' : kw.diffPotential === 'mid' ? '中' : '低',
+        競合カバー: kw.competitorCoverage === 'high' ? '高' : kw.competitorCoverage === 'mid' ? '中' : '低',
+        業種特化: kw.targetIndustry || '',
+        推奨: kw.recommendation || ''
     }));
 
     // クラスターシート
-    const clData = clusters.map(c => ({
-        グループ名: c.name,
-        優先度: c.priority,
-        キーワード数: c.keywords.length,
-        CV期待度: c.cvExpect + '%',
-        主要KW: c.keywords.slice(0, 3).map(k => k.keyword).join(', ')
-    }));
+    const clData = clusters.map(c => {
+        // クラスター内の競合対策統計
+        const stats = { S: 0, A: 0, B: 0, C: 0, layers: { A: 0, B: 0, C: 0 } };
+        c.keywords.forEach(kw => {
+            if (kw.strategyPriority) stats[kw.strategyPriority]++;
+            if (kw.contentType) stats.layers[kw.contentType]++;
+        });
+        const dominantLayer = Object.entries(stats.layers).sort((a, b) => b[1] - a[1])[0]?.[0] || 'A';
+        return {
+            グループ名: c.name,
+            優先度: c.priority,
+            キーワード数: c.keywords.length,
+            CV期待度: c.cvExpect + '%',
+            主要層: dominantLayer + '層',
+            S優先数: stats.S,
+            A優先数: stats.A,
+            主要KW: c.keywords.slice(0, 3).map(k => k.keyword).join(', ')
+        };
+    });
 
-    // 優先度TOP20シート
+    // 優先度TOP20シート（競合対策データ含む）
     const top20 = keywords.slice(0, 20).map((kw, i) => ({
         順位: i + 1,
         キーワード: kw.keyword,
         グループ: kw.cluster,
         ボリューム: kw.volume,
+        層: kw.contentType ? kw.contentType + '層' : '',
+        対策優先度: kw.strategyPriority || '',
         CV期待度: kw.cvExpect + '%'
     }));
 
+    // 競合対策サマリーシート
+    const strategyCounts = { S: 0, A: 0, B: 0, C: 0 };
+    const layerCounts = { A: 0, B: 0, C: 0 };
+    keywords.forEach(kw => {
+        if (kw.strategyPriority) strategyCounts[kw.strategyPriority]++;
+        if (kw.contentType) layerCounts[kw.contentType]++;
+    });
+    const strategySummary = [
+        { 項目: '総キーワード数', 値: keywords.length },
+        { 項目: 'S優先（ブルーオーシャン）', 値: strategyCounts.S },
+        { 項目: 'A優先（差別化推奨）', 値: strategyCounts.A },
+        { 項目: 'B優先（中優先）', 値: strategyCounts.B },
+        { 項目: 'C優先（低優先）', 値: strategyCounts.C },
+        { 項目: 'A層（制度解説系）', 値: layerCounts.A },
+        { 項目: 'B層（業種特化系）', 値: layerCounts.B },
+        { 項目: 'C層（体験・事例系）', 値: layerCounts.C }
+    ];
+
     const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(strategySummary), '競合対策サマリー');
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(kwData), 'キーワード一覧');
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(clData), 'クラスター');
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(top20), '優先度TOP20');
 
     XLSX.writeFile(wb, 'keyword-analysis.xlsx');
     closeExportModal();
-    alert('Excelファイルをダウンロードしました');
+    alert('Excelファイルをダウンロードしました（競合対策データ含む）');
 }
 
 // JSON出力
