@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>競合対策分析ツール - SAT対策</title>
+    <script>
+        // 認証チェック
+        (function() {
+            const isAuthenticated = sessionStorage.getItem('authenticated') === 'true';
+            const authTime = parseInt(sessionStorage.getItem('authTime') || '0');
+            const now = Date.now();
+            const isValid = isAuthenticated && (now - authTime < 24 * 60 * 60 * 1000);
+            if (!isValid) {
+                sessionStorage.removeItem('authenticated');
+                sessionStorage.removeItem('authTime');
+                window.location.href = 'index.html';
+            }
+        })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        * { font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif; }
+        .material-symbols-outlined { font-size: 20px; vertical-align: middle; }
+        .priority-s { background: linear-gradient(135deg, #dc2626, #b91c1c); }
+        .priority-a { background: linear-gradient(135deg, #f97316, #ea580c); }
+        .priority-b { background: linear-gradient(135deg, #eab308, #ca8a04); }
+        .priority-c { background: linear-gradient(135deg, #9ca3af, #6b7280); }
+        .layer-a { background: #e5e7eb; color: #374151; }
+        .layer-b { background: #dbeafe; color: #1d4ed8; }
+        .layer-c { background: #dcfce7; color: #15803d; }
+
+        /* ヘルプボタン・モーダル */
+        .help-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: none;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            z-index: 40;
+        }
+        .help-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+        }
+        .help-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .help-modal.show { display: flex; }
+        .help-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 30px;
+        }
+        .help-content h2 {
+            color: #d97706;
+            font-size: 22px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .help-content h3 {
+            color: #1e293b;
+            font-size: 16px;
+            margin: 24px 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #fde68a;
+        }
+        .help-content h4 {
+            color: #475569;
+            font-size: 14px;
+            margin: 16px 0 8px;
+        }
+        .help-content p, .help-content li {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .help-content ul { padding-left: 20px; margin: 8px 0; }
+        .help-content .step-box {
+            background: #fffbeb;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 12px 0;
+        }
+        .help-content .step-box strong { color: #b45309; }
+        .help-content .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 16px 0;
+        }
+        .help-content .warning-box strong { color: #b45309; }
+        .help-close {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #94a3b8;
+            line-height: 1;
+        }
+        .help-close:hover { color: #64748b; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-amber-50 to-orange-50 min-h-screen">
+    <div class="container mx-auto px-4 py-6 max-w-5xl">
+
+        <!-- ヘッダー -->
+        <header class="text-center mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <a href="index.html" class="flex items-center gap-1 text-sm text-gray-500 hover:text-amber-600 transition-colors">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">logout</span>
+                    ログアウト
+                </a>
+                <a href="keyword-tool-v4.html" class="flex items-center gap-1 text-sm text-amber-600 hover:text-amber-800 bg-amber-50 hover:bg-amber-100 px-3 py-1 rounded-full transition-colors">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">arrow_back</span>
+                    SEOキーワード分析ツール
+                </a>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800 mb-2">
+                <span class="material-symbols-outlined text-amber-600" style="font-size:28px;">strategy</span>
+                競合対策分析ツール
+                <span class="text-sm bg-amber-500 text-white px-2 py-1 rounded-full ml-2">SAT対策</span>
+            </h1>
+            <p class="text-gray-600 text-sm">キーワードを分析し、競合（SAT）との差別化戦略を提案します</p>
+        </header>
+
+        <!-- 戦略説明 -->
+        <div class="bg-white rounded-xl shadow-md p-4 mb-6">
+            <h2 class="font-bold text-gray-700 mb-3 flex items-center gap-2">
+                <span class="material-symbols-outlined text-amber-500">info</span>
+                コンテンツ3層戦略
+            </h2>
+            <div class="grid md:grid-cols-3 gap-3 text-sm">
+                <div class="bg-gray-100 rounded-lg p-3 border-l-4 border-gray-400">
+                    <div class="font-bold text-gray-700 mb-1">A層：制度解説系</div>
+                    <p class="text-gray-600 text-xs">「〜とは」「義務」「法令」など基礎情報。SATと競合する領域。土台として最低限カバー。</p>
+                </div>
+                <div class="bg-blue-50 rounded-lg p-3 border-l-4 border-blue-500">
+                    <div class="font-bold text-blue-700 mb-1">B層：業種特化系</div>
+                    <p class="text-blue-600 text-xs">「建設業の〜」「製造ラインでの〜」など業種別切り口。SATにない領域。差別化ポイント。</p>
+                </div>
+                <div class="bg-green-50 rounded-lg p-3 border-l-4 border-green-500">
+                    <div class="font-bold text-green-700 mb-1">C層：体験・事例系</div>
+                    <p class="text-green-600 text-xs">受講者の声、失敗談、現場のコツなど一次情報。最大の差別化。競合が真似できない。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 入力エリア -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="font-bold text-gray-700 mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-amber-500">edit_note</span>
+                キーワード入力
+            </h2>
+
+            <!-- CSV読み込み -->
+            <div id="csv-dropzone" class="border-2 border-dashed border-amber-300 rounded-lg p-4 text-center cursor-pointer hover:border-amber-500 hover:bg-amber-50 transition mb-4">
+                <span class="material-symbols-outlined text-amber-400" style="font-size:32px;">upload_file</span>
+                <p class="text-gray-600 text-sm mt-2">ラッコキーワードのCSVをドロップ or クリック</p>
+                <input type="file" id="csv-file-input" accept=".csv" class="hidden">
+            </div>
+            <div id="csv-file-info" class="hidden bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="material-symbols-outlined text-amber-500">description</span>
+                        <span id="csv-filename" class="font-medium text-gray-700 ml-2">file.csv</span>
+                        <span id="csv-rowcount" class="text-gray-500 text-sm ml-2">0件</span>
+                    </div>
+                    <button onclick="clearCSV()" class="text-red-500 hover:text-red-700 text-sm">クリア</button>
+                </div>
+            </div>
+
+            <!-- テキスト入力 -->
+            <div class="mb-4">
+                <label class="text-sm text-gray-600 mb-1 block">または直接入力（1行1キーワード）</label>
+                <textarea id="keyword-input" rows="6" class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500" placeholder="職長教育 オンライン&#10;職長教育 建設業&#10;職長教育 体験談&#10;..."></textarea>
+            </div>
+
+            <button onclick="analyzeKeywords()" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined">analytics</span>
+                競合対策を分析
+            </button>
+        </div>
+
+        <!-- 結果エリア -->
+        <div id="result-area" class="hidden">
+            <!-- サマリー -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                <h2 class="font-bold text-gray-700 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-amber-500">summarize</span>
+                    分析サマリー
+                </h2>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                    <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-4 text-white text-center">
+                        <div class="text-3xl font-bold" id="count-s">0</div>
+                        <div class="text-xs opacity-90">S優先（最優先）</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-4 text-white text-center">
+                        <div class="text-3xl font-bold" id="count-a">0</div>
+                        <div class="text-xs opacity-90">A優先</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 text-white text-center">
+                        <div class="text-3xl font-bold" id="count-b-layer">0</div>
+                        <div class="text-xs opacity-90">B層（業種特化）</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 text-white text-center">
+                        <div class="text-3xl font-bold" id="count-c-layer">0</div>
+                        <div class="text-xs opacity-90">C層（体験・事例）</div>
+                    </div>
+                </div>
+
+                <!-- 対策方針 -->
+                <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+                    <h3 class="font-bold text-amber-800 mb-2">推奨対策方針</h3>
+                    <div id="strategy-recommendation" class="text-sm text-amber-700"></div>
+                </div>
+
+                <!-- エクスポート -->
+                <div class="flex gap-3">
+                    <button onclick="exportExcel()" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg text-sm flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined">table_view</span>
+                        Excel出力
+                    </button>
+                    <button onclick="exportCSV()" class="flex-1 bg-slate-600 hover:bg-slate-700 text-white py-2 rounded-lg text-sm flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined">download</span>
+                        CSV出力
+                    </button>
+                </div>
+            </div>
+
+            <!-- 優先対策キーワード -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                <h2 class="font-bold text-gray-700 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-red-500">priority_high</span>
+                    優先対策キーワード（S・A優先度）
+                </h2>
+                <div id="priority-keywords" class="space-y-2"></div>
+            </div>
+
+            <!-- 全キーワード一覧 -->
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="font-bold text-gray-700 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-amber-500">list</span>
+                    全キーワード一覧
+                    <span id="total-count" class="text-sm font-normal text-gray-500">(0件)</span>
+                </h2>
+
+                <!-- フィルター -->
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <button onclick="filterByLayer('all')" class="filter-btn active px-3 py-1 rounded-full text-xs bg-gray-200 text-gray-700">すべて</button>
+                    <button onclick="filterByLayer('A')" class="filter-btn px-3 py-1 rounded-full text-xs bg-gray-100 text-gray-600">A層</button>
+                    <button onclick="filterByLayer('B')" class="filter-btn px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-600">B層</button>
+                    <button onclick="filterByLayer('C')" class="filter-btn px-3 py-1 rounded-full text-xs bg-green-100 text-green-600">C層</button>
+                    <span class="border-l border-gray-300 mx-2"></span>
+                    <button onclick="filterByPriority('S')" class="filter-btn px-3 py-1 rounded-full text-xs bg-red-100 text-red-600">S優先</button>
+                    <button onclick="filterByPriority('A')" class="filter-btn px-3 py-1 rounded-full text-xs bg-orange-100 text-orange-600">A優先</button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="p-2 text-center w-10">選択</th>
+                                <th class="p-2 text-left">キーワード</th>
+                                <th class="p-2 text-center w-16">層</th>
+                                <th class="p-2 text-center w-20">優先度</th>
+                                <th class="p-2 text-center w-20">競合</th>
+                                <th class="p-2 text-center w-20">差別化</th>
+                                <th class="p-2 text-left">推奨対策</th>
+                            </tr>
+                        </thead>
+                        <tbody id="keyword-table"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 記事生成セクション -->
+            <div id="article-section" class="bg-white rounded-xl shadow-md p-6 mb-6 hidden">
+                <h2 class="font-bold text-gray-700 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-purple-500">edit_document</span>
+                    記事を生成
+                </h2>
+
+                <!-- 選択中のキーワード -->
+                <div class="mb-4">
+                    <label class="text-sm text-gray-600 mb-2 block">選択中のキーワード</label>
+                    <div id="selected-keyword-display" class="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                        <span class="font-bold text-purple-700" id="selected-kw-text">-</span>
+                        <span class="text-xs text-purple-500 ml-2" id="selected-kw-info"></span>
+                    </div>
+                </div>
+
+                <!-- 記事タイプ選択 -->
+                <div class="mb-4">
+                    <label class="text-sm text-gray-600 mb-2 block">記事タイプ（層に応じて最適化）</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="article-type" value="pillar" checked class="hidden peer">
+                            <div class="peer-checked:bg-purple-100 peer-checked:border-purple-500 border-2 border-gray-200 rounded-lg p-3 text-center hover:bg-gray-50 transition">
+                                <span class="material-symbols-outlined text-purple-500">menu_book</span>
+                                <div class="text-xs font-medium mt-1">ピラー記事</div>
+                                <div class="text-[10px] text-gray-500">網羅的ガイド</div>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="article-type" value="howto" class="hidden peer">
+                            <div class="peer-checked:bg-purple-100 peer-checked:border-purple-500 border-2 border-gray-200 rounded-lg p-3 text-center hover:bg-gray-50 transition">
+                                <span class="material-symbols-outlined text-blue-500">checklist</span>
+                                <div class="text-xs font-medium mt-1">ハウツー記事</div>
+                                <div class="text-[10px] text-gray-500">手順解説</div>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="article-type" value="experience" class="hidden peer">
+                            <div class="peer-checked:bg-purple-100 peer-checked:border-purple-500 border-2 border-gray-200 rounded-lg p-3 text-center hover:bg-gray-50 transition">
+                                <span class="material-symbols-outlined text-green-500">record_voice_over</span>
+                                <div class="text-xs font-medium mt-1">体験記事</div>
+                                <div class="text-[10px] text-gray-500">C層向け</div>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="article-type" value="industry" class="hidden peer">
+                            <div class="peer-checked:bg-purple-100 peer-checked:border-purple-500 border-2 border-gray-200 rounded-lg p-3 text-center hover:bg-gray-50 transition">
+                                <span class="material-symbols-outlined text-amber-500">factory</span>
+                                <div class="text-xs font-medium mt-1">業種特化</div>
+                                <div class="text-[10px] text-gray-500">B層向け</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- AI選択 -->
+                <div class="mb-4">
+                    <label class="text-sm text-gray-600 mb-2 block">AIを選択</label>
+                    <div class="flex gap-3">
+                        <label class="cursor-pointer flex-1">
+                            <input type="radio" name="ai-select" value="claude" checked class="hidden peer">
+                            <div class="peer-checked:bg-orange-100 peer-checked:border-orange-500 border-2 border-gray-200 rounded-lg p-2 text-center hover:bg-gray-50 transition">
+                                <div class="text-sm font-medium">Claude</div>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer flex-1">
+                            <input type="radio" name="ai-select" value="chatgpt" class="hidden peer">
+                            <div class="peer-checked:bg-green-100 peer-checked:border-green-500 border-2 border-gray-200 rounded-lg p-2 text-center hover:bg-gray-50 transition">
+                                <div class="text-sm font-medium">ChatGPT</div>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer flex-1">
+                            <input type="radio" name="ai-select" value="gemini" class="hidden peer">
+                            <div class="peer-checked:bg-blue-100 peer-checked:border-blue-500 border-2 border-gray-200 rounded-lg p-2 text-center hover:bg-gray-50 transition">
+                                <div class="text-sm font-medium">Gemini</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 生成ボタン -->
+                <button onclick="generateArticle()" class="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">auto_awesome</span>
+                    AIプロンプトを生成
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AIプロンプトモーダル -->
+    <div id="ai-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-3xl w-full mx-4 max-h-[90vh] overflow-hidden">
+            <div class="bg-gradient-to-r from-purple-500 to-indigo-500 text-white p-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold flex items-center gap-2" id="ai-modal-title">
+                        <span class="material-symbols-outlined">auto_awesome</span>
+                        AIプロンプト
+                    </h3>
+                    <button onclick="closeAIModal()" class="text-white hover:text-gray-200">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <p class="text-sm opacity-90 mt-1" id="ai-modal-description">以下のプロンプトをコピーしてAIに貼り付けてください</p>
+            </div>
+            <div class="p-4">
+                <textarea id="ai-prompt" rows="15" class="w-full border border-gray-300 rounded-lg p-3 text-sm font-mono" readonly></textarea>
+                <div class="flex gap-3 mt-4">
+                    <button onclick="copyAIPrompt()" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined">content_copy</span>
+                        コピー
+                    </button>
+                    <a id="ai-link" href="https://claude.ai" target="_blank" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg flex items-center justify-center gap-2 text-center">
+                        <span class="material-symbols-outlined">open_in_new</span>
+                        <span id="ai-link-text">AIを開く</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="keyword-tool-v4-data.js"></script>
+    <script>
+        let analyzedKeywords = [];
+        let loadedCSVData = null;
+        let currentFilter = { layer: 'all', priority: null };
+
+        // CSV読み込み
+        document.getElementById('csv-dropzone').addEventListener('click', () => {
+            document.getElementById('csv-file-input').click();
+        });
+        document.getElementById('csv-file-input').addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleCSVFile(e.target.files[0]);
+        });
+        document.getElementById('csv-dropzone').addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.currentTarget.classList.add('border-amber-500', 'bg-amber-50');
+        });
+        document.getElementById('csv-dropzone').addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.currentTarget.classList.remove('border-amber-500', 'bg-amber-50');
+        });
+        document.getElementById('csv-dropzone').addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.currentTarget.classList.remove('border-amber-500', 'bg-amber-50');
+            if (e.dataTransfer.files.length > 0) handleCSVFile(e.dataTransfer.files[0]);
+        });
+
+        function handleCSVFile(file) {
+            if (!file.name.endsWith('.csv')) {
+                alert('CSVファイルを選択してください');
+                return;
+            }
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    loadedCSVData = results.data.map(row => {
+                        const keyword = row['キーワード'] || row['keyword'] || Object.values(row)[0];
+                        const volume = parseInt(row['検索ボリューム'] || row['月間検索数'] || row['volume'] || '100');
+                        return { keyword, volume };
+                    }).filter(item => item.keyword);
+
+                    document.getElementById('csv-dropzone').classList.add('hidden');
+                    document.getElementById('csv-file-info').classList.remove('hidden');
+                    document.getElementById('csv-filename').textContent = file.name;
+                    document.getElementById('csv-rowcount').textContent = `${loadedCSVData.length}件`;
+                }
+            });
+        }
+
+        function clearCSV() {
+            loadedCSVData = null;
+            document.getElementById('csv-dropzone').classList.remove('hidden');
+            document.getElementById('csv-file-info').classList.add('hidden');
+            document.getElementById('csv-file-input').value = '';
+        }
+
+        // 分析実行
+        function analyzeKeywords() {
+            let keywords = [];
+
+            if (loadedCSVData && loadedCSVData.length > 0) {
+                keywords = loadedCSVData.map(item => ({
+                    keyword: item.keyword,
+                    volume: item.volume
+                }));
+            } else {
+                const input = document.getElementById('keyword-input').value;
+                const lines = input.split('\n').map(l => l.trim()).filter(l => l);
+                if (lines.length === 0) {
+                    alert('キーワードを入力してください');
+                    return;
+                }
+                keywords = lines.map(kw => ({
+                    keyword: kw,
+                    volume: estimateVolume ? estimateVolume(kw) : 100
+                }));
+            }
+
+            // 競合対策分析
+            analyzedKeywords = keywords.map(item => {
+                const strategy = analyzeCompetitorStrategy(item.keyword);
+                return {
+                    ...item,
+                    ...strategy
+                };
+            });
+
+            // 優先度でソート（S > A > B > C）
+            const priorityOrder = { S: 0, A: 1, B: 2, C: 3 };
+            analyzedKeywords.sort((a, b) => {
+                const pDiff = priorityOrder[a.strategyPriority] - priorityOrder[b.strategyPriority];
+                if (pDiff !== 0) return pDiff;
+                return b.volume - a.volume;
+            });
+
+            renderResults();
+            document.getElementById('result-area').classList.remove('hidden');
+        }
+
+        // 結果表示
+        function renderResults() {
+            // カウント
+            const counts = { S: 0, A: 0, B: 0, C: 0 };
+            const layers = { A: 0, B: 0, C: 0 };
+            analyzedKeywords.forEach(kw => {
+                counts[kw.strategyPriority]++;
+                layers[kw.contentType]++;
+            });
+
+            document.getElementById('count-s').textContent = counts.S;
+            document.getElementById('count-a').textContent = counts.A;
+            document.getElementById('count-b-layer').textContent = layers.B;
+            document.getElementById('count-c-layer').textContent = layers.C;
+            document.getElementById('total-count').textContent = `(${analyzedKeywords.length}件)`;
+
+            // 推奨対策
+            let recommendation = '';
+            if (counts.S > 0) {
+                recommendation += `<p class="mb-2"><strong>S優先が${counts.S}件あります。</strong>ブルーオーシャン領域です。早急に記事作成を推奨します。</p>`;
+            }
+            if (layers.B > 0 || layers.C > 0) {
+                recommendation += `<p class="mb-2"><strong>B層（${layers.B}件）・C層（${layers.C}件）</strong>を優先的に作成し、SATと差別化しましょう。</p>`;
+            }
+            if (layers.A > 0) {
+                recommendation += `<p><strong>A層（${layers.A}件）</strong>は土台として必要最低限カバーしてください。</p>`;
+            }
+            document.getElementById('strategy-recommendation').innerHTML = recommendation || '分析結果がありません';
+
+            // 優先キーワード
+            const priorityKws = analyzedKeywords.filter(kw => kw.strategyPriority === 'S' || kw.strategyPriority === 'A');
+            document.getElementById('priority-keywords').innerHTML = priorityKws.length > 0
+                ? priorityKws.slice(0, 10).map(kw => `
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                        <span class="px-2 py-1 rounded text-xs font-bold text-white ${kw.strategyPriority === 'S' ? 'priority-s' : 'priority-a'}">${kw.strategyPriority}</span>
+                        <span class="px-2 py-0.5 rounded text-xs ${kw.contentType === 'A' ? 'layer-a' : kw.contentType === 'B' ? 'layer-b' : 'layer-c'}">${kw.contentType}層</span>
+                        <span class="font-medium flex-1">${kw.keyword}</span>
+                        <span class="text-xs text-gray-500">${kw.recommendation}</span>
+                    </div>
+                `).join('')
+                : '<p class="text-gray-500 text-center py-4">S・A優先のキーワードはありません</p>';
+
+            // テーブル
+            renderTable();
+        }
+
+        function renderTable() {
+            let filtered = analyzedKeywords;
+
+            if (currentFilter.layer !== 'all') {
+                filtered = filtered.filter(kw => kw.contentType === currentFilter.layer);
+            }
+            if (currentFilter.priority) {
+                filtered = filtered.filter(kw => kw.strategyPriority === currentFilter.priority);
+            }
+
+            const coverageLabels = { high: '高', mid: '中', low: '低' };
+            const diffLabels = { high: '大', mid: '中', low: '小' };
+
+            document.getElementById('keyword-table').innerHTML = filtered.map((kw, idx) => `
+                <tr class="border-b hover:bg-gray-50 cursor-pointer" onclick="selectKeyword('${kw.keyword.replace(/'/g, "\\'")}')">
+                    <td class="p-2 text-center">
+                        <input type="radio" name="selected-kw" value="${kw.keyword}" class="cursor-pointer" onclick="event.stopPropagation(); selectKeyword('${kw.keyword.replace(/'/g, "\\'")}')">
+                    </td>
+                    <td class="p-2">${kw.keyword}</td>
+                    <td class="p-2 text-center">
+                        <span class="px-2 py-0.5 rounded text-xs font-medium ${kw.contentType === 'A' ? 'layer-a' : kw.contentType === 'B' ? 'layer-b' : 'layer-c'}">${kw.contentType}</span>
+                    </td>
+                    <td class="p-2 text-center">
+                        <span class="px-2 py-0.5 rounded text-xs font-bold text-white ${kw.strategyPriority === 'S' ? 'priority-s' : kw.strategyPriority === 'A' ? 'priority-a' : kw.strategyPriority === 'B' ? 'priority-b' : 'priority-c'}">${kw.strategyPriority}</span>
+                    </td>
+                    <td class="p-2 text-center text-xs ${kw.competitorCoverage === 'low' ? 'text-green-600 font-bold' : kw.competitorCoverage === 'high' ? 'text-red-500' : 'text-gray-500'}">${coverageLabels[kw.competitorCoverage]}</td>
+                    <td class="p-2 text-center text-xs ${kw.diffPotential === 'high' ? 'text-green-600 font-bold' : kw.diffPotential === 'low' ? 'text-red-500' : 'text-gray-500'}">${diffLabels[kw.diffPotential]}</td>
+                    <td class="p-2 text-xs text-gray-600">${kw.recommendation}</td>
+                </tr>
+            `).join('');
+        }
+
+        // キーワード選択
+        let selectedKeyword = null;
+        function selectKeyword(keyword) {
+            selectedKeyword = analyzedKeywords.find(kw => kw.keyword === keyword);
+            if (!selectedKeyword) return;
+
+            // ラジオボタンをチェック
+            const radio = document.querySelector(`input[name="selected-kw"][value="${keyword}"]`);
+            if (radio) radio.checked = true;
+
+            // 表示更新
+            document.getElementById('selected-kw-text').textContent = keyword;
+            document.getElementById('selected-kw-info').textContent =
+                `${selectedKeyword.contentType}層 / ${selectedKeyword.strategyPriority}優先 / ${selectedKeyword.recommendation}`;
+
+            // 記事生成セクションを表示
+            document.getElementById('article-section').classList.remove('hidden');
+
+            // 層に応じて推奨記事タイプを選択
+            if (selectedKeyword.contentType === 'C') {
+                document.querySelector('input[name="article-type"][value="experience"]').checked = true;
+            } else if (selectedKeyword.contentType === 'B') {
+                document.querySelector('input[name="article-type"][value="industry"]').checked = true;
+            } else {
+                document.querySelector('input[name="article-type"][value="pillar"]').checked = true;
+            }
+
+            // スクロール
+            document.getElementById('article-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // フィルター
+        function filterByLayer(layer) {
+            currentFilter.layer = layer;
+            currentFilter.priority = null;
+            updateFilterButtons();
+            renderTable();
+        }
+
+        function filterByPriority(priority) {
+            currentFilter.priority = priority;
+            currentFilter.layer = 'all';
+            updateFilterButtons();
+            renderTable();
+        }
+
+        function updateFilterButtons() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-amber-500');
+            });
+        }
+
+        // Excel出力
+        function exportExcel() {
+            if (analyzedKeywords.length === 0) return;
+
+            const coverageLabels = { high: '高（強い）', mid: '中', low: '低（チャンス）' };
+            const diffLabels = { high: '大（狙い目）', mid: '中', low: '小' };
+
+            const data = analyzedKeywords.map(kw => ({
+                'キーワード': kw.keyword,
+                '検索ボリューム': kw.volume,
+                'コンテンツ層': kw.contentType,
+                '層の説明': kw.contentTypeName,
+                '対策優先度': kw.strategyPriority,
+                '競合カバー状況': coverageLabels[kw.competitorCoverage],
+                '差別化余地': diffLabels[kw.diffPotential],
+                '業種特化': kw.targetIndustry || '-',
+                '一次情報タイプ': kw.primaryInfoType || '-',
+                'KCI強み活用': kw.kciStrength || '-',
+                '推奨対策': kw.recommendation
+            }));
+
+            // サマリーシート
+            const summary = [];
+            const counts = { S: 0, A: 0, B: 0, C: 0 };
+            const layers = { A: 0, B: 0, C: 0 };
+            analyzedKeywords.forEach(kw => {
+                counts[kw.strategyPriority]++;
+                layers[kw.contentType]++;
+            });
+
+            summary.push({ '項目': '【対策優先度別】', '件数': '', '推奨アクション': '' });
+            summary.push({ '項目': 'S（最優先）', '件数': counts.S, '推奨アクション': '早急に記事作成' });
+            summary.push({ '項目': 'A（優先）', '件数': counts.A, '推奨アクション': '独自視点で記事作成' });
+            summary.push({ '項目': 'B（中優先）', '件数': counts.B, '推奨アクション': '一次情報追加で差別化' });
+            summary.push({ '項目': 'C（低優先）', '件数': counts.C, '推奨アクション': '内部リンク用として最小限に' });
+            summary.push({ '項目': '', '件数': '', '推奨アクション': '' });
+            summary.push({ '項目': '【コンテンツ層別】', '件数': '', '推奨アクション': '' });
+            summary.push({ '項目': 'A層（制度解説系）', '件数': layers.A, '推奨アクション': '土台として必要最低限カバー' });
+            summary.push({ '項目': 'B層（業種特化系）', '件数': layers.B, '推奨アクション': '優先的に記事作成' });
+            summary.push({ '項目': 'C層（体験・事例系）', '件数': layers.C, '推奨アクション': '最優先で作成' });
+
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(data), '競合対策分析');
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(summary), '対策サマリー');
+            XLSX.writeFile(wb, 'competitor-strategy.xlsx');
+        }
+
+        // CSV出力
+        function exportCSV() {
+            if (analyzedKeywords.length === 0) return;
+
+            const coverageLabels = { high: '高', mid: '中', low: '低' };
+            const diffLabels = { high: '大', mid: '中', low: '小' };
+
+            const data = analyzedKeywords.map(kw => ({
+                'キーワード': kw.keyword,
+                '検索ボリューム': kw.volume,
+                'コンテンツ層': kw.contentType,
+                '対策優先度': kw.strategyPriority,
+                '競合カバー': coverageLabels[kw.competitorCoverage],
+                '差別化余地': diffLabels[kw.diffPotential],
+                '推奨対策': kw.recommendation
+            }));
+
+            const csv = Papa.unparse(data);
+            const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csv], { type: 'text/csv;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'competitor-strategy.csv';
+            a.click();
+        }
+
+        // ========== 記事生成機能 ==========
+        const AI_CONFIG = {
+            claude: { name: 'Claude', url: 'https://claude.ai', color: 'orange' },
+            chatgpt: { name: 'ChatGPT', url: 'https://chat.openai.com/', color: 'green' },
+            gemini: { name: 'Gemini', url: 'https://gemini.google.com/', color: 'blue' }
+        };
+
+        function generateArticle() {
+            if (!selectedKeyword) {
+                alert('キーワードを選択してください');
+                return;
+            }
+
+            const articleType = document.querySelector('input[name="article-type"]:checked').value;
+            const aiType = document.querySelector('input[name="ai-select"]:checked').value;
+            const aiConfig = AI_CONFIG[aiType];
+            const kw = selectedKeyword;
+            const year = new Date().getFullYear();
+
+            // 記事タイプ別のプロンプト生成
+            let prompt = '';
+
+            if (articleType === 'pillar') {
+                prompt = generatePillarPrompt(kw, year);
+            } else if (articleType === 'howto') {
+                prompt = generateHowtoPrompt(kw, year);
+            } else if (articleType === 'experience') {
+                prompt = generateExperiencePrompt(kw, year);
+            } else if (articleType === 'industry') {
+                prompt = generateIndustryPrompt(kw, year);
+            }
+
+            // モーダル表示
+            document.getElementById('ai-modal-title').innerHTML = `<span class="material-symbols-outlined">auto_awesome</span> ${aiConfig.name}用プロンプト`;
+            document.getElementById('ai-modal-description').textContent = `以下のプロンプトをコピーして${aiConfig.name}に貼り付けてください`;
+            document.getElementById('ai-prompt').value = prompt;
+            document.getElementById('ai-link').href = aiConfig.url;
+            document.getElementById('ai-link-text').textContent = `${aiConfig.name}を開く`;
+            document.getElementById('ai-modal').classList.remove('hidden');
+        }
+
+        // ピラー記事（A層向け・網羅的）
+        function generatePillarPrompt(kw, year) {
+            return `あなたは建設業の安全教育に詳しいSEOライターです。以下のキーワードで、競合（SAT株式会社）を上回る網羅的なピラー記事を作成してください。
+
+【ターゲットキーワード】
+${kw.keyword}
+
+【競合対策情報】
+- コンテンツ層: ${kw.contentTypeName}
+- 競合カバー状況: ${kw.competitorCoverage === 'high' ? '高（競合が強い）' : kw.competitorCoverage === 'low' ? '低（チャンス）' : '中'}
+- 差別化余地: ${kw.diffPotential === 'high' ? '大（狙い目）' : kw.diffPotential === 'low' ? '小' : '中'}
+- 推奨対策: ${kw.recommendation}
+
+【記事構成案】
+# ${kw.keyword}完全ガイド【${year}年最新版】
+
+## ${kw.keyword.split(' ')[0]}とは？基本と法的根拠
+- 定義と目的
+- 法的根拠（労働安全衛生法など）
+- なぜ必要なのか
+
+## 受講対象者と資格要件
+- 受講が義務付けられている人
+- 受講資格・条件
+
+## カリキュラム・講習内容
+- 学科講習の内容
+- 実技講習（必要な場合）
+- 講習時間
+
+## 受講方法を比較
+- オンライン講座
+- 対面講座
+- 出張講習
+
+## 費用・料金相場
+- 受講形式別の料金比較
+- 助成金・補助金情報
+
+## よくある質問（FAQ）
+- 受講に関する疑問を5つ以上
+
+## まとめ
+- KCI教育センターの講座紹介
+
+【差別化ポイント - 重要】
+競合（SAT）との差別化のため、以下を必ず含めてください：
+1. 具体的な数字（料金、時間など）を明記
+2. 「現場では〜」「実務上は〜」など経験ベースの表現
+3. よくある失敗例や注意点
+4. 法令の条文番号を明記
+
+【執筆ルール】
+- 文体：「です・ます」調
+- 文字数：4000〜6000文字
+- 専門用語は初出時に説明
+- 見出しはH2（##）、H3（###）を使用
+- Markdown形式で出力
+
+よろしくお願いします。`;
+        }
+
+        // ハウツー記事
+        function generateHowtoPrompt(kw, year) {
+            return `あなたは建設業の安全教育に詳しいSEOライターです。以下のキーワードで、手順が明確なハウツー記事を作成してください。
+
+【ターゲットキーワード】
+${kw.keyword}
+
+【競合対策情報】
+- 推奨対策: ${kw.recommendation}
+- 差別化余地: ${kw.diffPotential === 'high' ? '大（狙い目）' : '中〜小'}
+
+【記事構成案】
+# ${kw.keyword}の手順を徹底解説【${year}年版】
+
+## この記事でわかること
+- 箇条書きで3〜5点
+
+## 【ステップ1】〇〇を確認する
+## 【ステップ2】〇〇を準備する
+## 【ステップ3】〇〇に申し込む
+## 【ステップ4】〇〇を受講する
+## 【ステップ5】〇〇を取得する
+
+## よくある失敗と対処法
+- 実際にありがちなミスを3つ以上
+
+## まとめ：最短で〇〇するには
+
+【差別化ポイント】
+- 具体的な手順を番号付きで説明
+- 各ステップで「ここがポイント」を追加
+- 失敗例を含める（競合にない情報）
+
+【執筆ルール】
+- 文体：「です・ます」調
+- 文字数：2500〜4000文字
+- Markdown形式で出力
+
+よろしくお願いします。`;
+        }
+
+        // 体験記事（C層向け）
+        function generateExperiencePrompt(kw, year) {
+            return `あなたは建設業の安全教育に詳しいSEOライターです。以下のキーワードで、受講者目線の体験記事を作成してください。
+
+【ターゲットキーワード】
+${kw.keyword}
+
+【重要】これはC層（体験・事例系）コンテンツです
+競合（SAT）が書けない「一次情報」として、リアルな体験談形式で書いてください。
+
+【記事構成案】
+# ${kw.keyword}を実際に受講してみた【${year}年体験レポート】
+
+## はじめに：なぜ受講することになったのか
+- 受講のきっかけ（架空でOK）
+- 不安だったこと
+
+## 受講前の準備
+- 必要だったもの
+- 事前に調べておいてよかったこと
+
+## 受講当日の流れ
+- タイムスケジュール
+- 実際の講習内容
+- 印象に残ったこと
+
+## 正直な感想：良かった点・改善してほしい点
+- メリット3つ
+- 「ここはちょっと…」と思った点
+
+## これから受講する人へのアドバイス
+- 持っていくと便利なもの
+- 心構え
+- よくある質問への回答
+
+## まとめ
+
+【差別化ポイント - 最重要】
+- 「〜と思った」「〜して助かった」など主観的な表現を使用
+- 具体的なエピソードを含める
+- 「正直に言うと〜」など率直な感想
+- 競合サイトには絶対に書けない「生の声」を意識
+
+【執筆ルール】
+- 文体：「です・ます」調（ややカジュアル可）
+- 文字数：2500〜4000文字
+- 一人称視点で書く
+- Markdown形式で出力
+
+よろしくお願いします。`;
+        }
+
+        // 業種特化記事（B層向け）
+        function generateIndustryPrompt(kw, year) {
+            // キーワードから業種を推測
+            let industry = '建設業';
+            if (/製造/.test(kw.keyword)) industry = '製造業';
+            else if (/内装/.test(kw.keyword)) industry = '内装工事業';
+            else if (/電気/.test(kw.keyword)) industry = '電気工事業';
+            else if (/設備/.test(kw.keyword)) industry = '設備工事業';
+            else if (/物流|倉庫/.test(kw.keyword)) industry = '物流業';
+            else if (kw.targetIndustry) industry = kw.targetIndustry + '業';
+
+            return `あなたは建設業の安全教育に詳しいSEOライターです。以下のキーワードで、業種に特化した専門記事を作成してください。
+
+【ターゲットキーワード】
+${kw.keyword}
+
+【重要】これはB層（業種特化系）コンテンツです
+競合（SAT）がカバーしていない「${industry}向け」の専門的な切り口で書いてください。
+
+【記事構成案】
+# ${industry}における${kw.keyword.split(' ')[0]}のポイント【${year}年版】
+
+## ${industry}で${kw.keyword.split(' ')[0]}が必要な理由
+- 業界特有の背景
+- 法的な義務
+
+## ${industry}ならではの注意点
+- 業種特有のリスク
+- 現場でよくある事例
+
+## ${industry}向けの受講方法
+- おすすめの受講形式
+- 業務への影響を最小限にするコツ
+
+## ${industry}の現場で活かすポイント
+- 受講後に実践すべきこと
+- 現場での具体的な活用方法
+
+## ${industry}の事例紹介
+- 架空の事例でOK
+- 「A社では〜」「B現場では〜」
+
+## まとめ：${industry}の方へ
+
+【差別化ポイント - 最重要】
+- 業種特有の用語や状況を使用
+- 「${industry}では〜」という表現を多用
+- 一般的な説明ではなく、業種に特化した具体例
+- 競合が書いていないニッチな情報
+
+【執筆ルール】
+- 文体：「です・ます」調
+- 文字数：3000〜5000文字
+- 専門用語は適度に使用（読者は業界人）
+- Markdown形式で出力
+
+よろしくお願いします。`;
+        }
+
+        // AIモーダル操作
+        function closeAIModal() {
+            document.getElementById('ai-modal').classList.add('hidden');
+        }
+
+        function copyAIPrompt() {
+            const textarea = document.getElementById('ai-prompt');
+            textarea.select();
+            document.execCommand('copy');
+            alert('プロンプトをコピーしました！');
+        }
+
+        function showHelp() {
+            document.getElementById('help-modal').classList.add('show');
+        }
+        function hideHelp() {
+            document.getElementById('help-modal').classList.remove('show');
+        }
+    </script>
+
+    <!-- ヘルプボタン -->
+    <button class="help-btn" onclick="showHelp()">
+        <span class="material-symbols-outlined" style="font-size: 28px; color: white;">help</span>
+    </button>
+
+    <!-- ヘルプモーダル -->
+    <div class="help-modal" id="help-modal" onclick="if(event.target===this)hideHelp()">
+        <div class="help-content">
+            <button class="help-close" onclick="hideHelp()">&times;</button>
+            <h2><span class="material-symbols-outlined">help</span> 競合対策分析ツール ヘルプ</h2>
+
+            <h3>ツールの概要</h3>
+            <p>このツールは、競合サイト（主にSAT）との差別化戦略を立案するための分析ツールです。キーワードをコンテンツ層（A/B/C）に分類し、優先度と対策方針を提案します。</p>
+
+            <h3>コンテンツ3層戦略</h3>
+            <div class="step-box">
+                <strong>基本方針:</strong> 競合と同じ土俵で戦わず、差別化できる領域を優先的に攻める
+            </div>
+
+            <h4>A層：制度解説系</h4>
+            <ul>
+                <li>「〜とは」「義務」「法令」など基礎情報</li>
+                <li>SATと<strong>競合する領域</strong>（レッドオーシャン）</li>
+                <li>土台として最低限カバーするが、優先度は低め</li>
+                <li>例：「職長教育とは」「安全衛生責任者 義務」</li>
+            </ul>
+
+            <h4>B層：業種特化系</h4>
+            <ul>
+                <li>「建設業の〜」「製造ラインでの〜」など業種別切り口</li>
+                <li>SATにない領域（<strong>ブルーオーシャン</strong>）</li>
+                <li>差別化の重要ポイント、積極的に作成</li>
+                <li>例：「建設業 職長教育」「製造業 安全教育」</li>
+            </ul>
+
+            <h4>C層：体験・事例系</h4>
+            <ul>
+                <li>受講者の声、失敗談、現場のコツなど一次情報</li>
+                <li><strong>競合が真似できない最大の差別化</strong></li>
+                <li>E-E-A-T（経験）の強化に直結</li>
+                <li>例：「職長教育 体験談」「フルハーネス 失敗例」</li>
+            </ul>
+
+            <h3>優先度の判定ロジック</h3>
+            <div class="step-box">
+                <strong>自動判定基準:</strong>
+            </div>
+            <ul>
+                <li><strong>S優先（最優先）</strong>: B層・C層のキーワードで、競合カバーが低い。ブルーオーシャン領域</li>
+                <li><strong>A優先</strong>: B層・C層で競合カバーが中程度。差別化可能な領域</li>
+                <li><strong>B優先（中優先）</strong>: A層だが一次情報で差別化可能、またはB層で競合が強い</li>
+                <li><strong>C優先（低優先）</strong>: A層で競合が強い。最小限のカバーに留める</li>
+            </ul>
+
+            <h3>競合カバー状況の判定</h3>
+            <ul>
+                <li><strong>高（競合が強い）</strong>: 「とは」「義務」「法令」などA層キーワード</li>
+                <li><strong>中</strong>: 一般的な情報収集キーワード</li>
+                <li><strong>低（チャンス）</strong>: 業種特化、体験談、具体的なシナリオなど</li>
+            </ul>
+
+            <h3>記事タイプの選び方</h3>
+            <ul>
+                <li><strong>ピラー記事</strong>: A層向け。網羅的なガイド</li>
+                <li><strong>ハウツー記事</strong>: 手順解説。CV導線に直結</li>
+                <li><strong>体験記事</strong>: C層向け。一人称視点で差別化</li>
+                <li><strong>業種特化</strong>: B層向け。ニッチ領域を攻める</li>
+            </ul>
+
+            <div class="warning-box">
+                <strong>記事作成時の注意事項</strong>
+                <ul style="margin-top: 8px;">
+                    <li><strong>ハルシネーション（AI幻覚）の禁止</strong>: AIが生成した内容は必ず事実確認を行ってください。法令の条文番号、料金、講習時間などは公式情報源で確認すること</li>
+                    <li><strong>競合サイトの完全コピー禁止</strong>: 競合分析は構成の参考にのみ使用し、文章の丸写しは絶対にしないでください。著作権侵害およびSEOペナルティの対象となります</li>
+                    <li><strong>一次情報の追加</strong>: 自社の強み、実際の受講者の声、現場での経験など、オリジナルの情報を必ず追加してください</li>
+                    <li><strong>公式情報源の確認</strong>: 厚生労働省、都道府県労働局などの公式サイトで最新情報を確認してください</li>
+                </ul>
+            </div>
+
+            <h3>効果的な差別化のポイント</h3>
+            <ul>
+                <li><strong>具体的な数字</strong>: 「〇〇時間」「△△円」など具体的な情報</li>
+                <li><strong>現場視点</strong>: 「現場では〜」「実務上は〜」という表現</li>
+                <li><strong>失敗例・注意点</strong>: 競合が書かないリアルな情報</li>
+                <li><strong>業界特有の課題</strong>: 建設業、製造業など業種別の視点</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

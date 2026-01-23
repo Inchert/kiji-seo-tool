@@ -82,6 +82,76 @@
         .error.show {
             display: block;
         }
+        .help-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+        .help-btn:hover {
+            transform: scale(1.1);
+        }
+        .help-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .help-modal.show {
+            display: flex;
+        }
+        .help-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 30px;
+        }
+        .help-content h2 {
+            color: #6366f1;
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .help-content h3 {
+            color: #1e293b;
+            font-size: 16px;
+            margin: 20px 0 10px;
+        }
+        .help-content p, .help-content li {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .help-content ul {
+            padding-left: 20px;
+        }
+        .help-close {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #94a3b8;
+        }
     </style>
 </head>
 <body>
@@ -98,6 +168,48 @@
         <p class="error" id="error">パスワードが正しくありません</p>
     </div>
 
+    <!-- ヘルプボタン -->
+    <button class="help-btn" onclick="showHelp()">
+        <span class="material-symbols-outlined" style="font-size: 28px; color: #6366f1;">help</span>
+    </button>
+
+    <!-- ヘルプモーダル -->
+    <div class="help-modal" id="help-modal" onclick="if(event.target===this)hideHelp()">
+        <div class="help-content">
+            <button class="help-close" onclick="hideHelp()">&times;</button>
+            <h2><span class="material-symbols-outlined">help</span> ログインページについて</h2>
+
+            <h3>このページの目的</h3>
+            <p>KCI SEOキーワード分析ツールへのアクセスを制限するためのログインページです。</p>
+
+            <h3>認証の仕組み</h3>
+            <ul>
+                <li><strong>パスワード認証</strong>: 入力されたパスワードをSHA-256でハッシュ化し、事前に設定されたハッシュ値と照合します</li>
+                <li><strong>セッション管理</strong>: 認証成功後、ブラウザのsessionStorageに認証状態を保存します</li>
+                <li><strong>有効期限</strong>: 認証は24時間有効です。期限が切れると再ログインが必要です</li>
+                <li><strong>自動リダイレクト</strong>: 認証済みの場合、自動的にメインツールへ移動します</li>
+            </ul>
+
+            <h3>セキュリティについて</h3>
+            <ul>
+                <li>パスワードはクライアント側でハッシュ化されるため、平文でネットワークを流れません</li>
+                <li>ハッシュ値のみがコードに保存されており、元のパスワードは推測困難です</li>
+                <li>タブ/ブラウザを閉じるとセッションがクリアされます</li>
+            </ul>
+
+            <h3>パスワードを忘れた場合</h3>
+            <p>管理者にお問い合わせください。</p>
+        </div>
+    </div>
+
+    <script>
+        function showHelp() {
+            document.getElementById('help-modal').classList.add('show');
+        }
+        function hideHelp() {
+            document.getElementById('help-modal').classList.remove('show');
+        }
+    </script>
     <script>
         // パスワードのハッシュ値（SHA-256）
         const CORRECT_HASH = '7d8f01174d4b2d0c4c3429453745e7a0f6ba4499e381f13939307680e7783edf';
