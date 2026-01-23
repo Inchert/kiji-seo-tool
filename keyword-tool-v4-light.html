@@ -1334,14 +1334,14 @@
         <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 id="ai-modal-title" class="text-xl font-bold">AIに送るプロンプト</h2>
+                    <h2 id="ai-modal-title" class="text-xl font-bold">生成AIに送るプロンプト</h2>
                     <button type="button" onclick="closeAIModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
                 </div>
-                <p id="ai-modal-description" class="text-sm text-gray-600 mb-4">以下のプロンプトをコピーしてAIに貼り付けてください</p>
+                <p id="ai-modal-description" class="text-sm text-gray-600 mb-4">以下のプロンプトをコピーして生成AIに貼り付けてください</p>
                 <textarea id="ai-prompt" class="w-full h-64 p-4 border rounded-xl text-sm font-mono" readonly></textarea>
                 <div class="flex gap-3 mt-4">
                     <button type="button" onclick="copyAIPrompt()" class="btn-primary text-white px-6 py-2 rounded-lg flex-1">プロンプトをコピー</button>
-                    <a id="ai-link" href="https://claude.ai/" target="_blank" class="bg-gray-100 px-6 py-2 rounded-lg text-center hover:bg-gray-200">AIを開く</a>
+                    <a id="ai-link" href="#" target="_blank" class="hidden bg-gray-100 px-6 py-2 rounded-lg text-center hover:bg-gray-200">生成AIを開く</a>
                 </div>
             </div>
         </div>

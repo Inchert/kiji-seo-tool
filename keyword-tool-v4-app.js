@@ -2404,11 +2404,10 @@ ${dataInfo}
 よろしくお願いします。`;
 
     // モーダルを更新
-    document.getElementById('ai-modal-title').textContent = `${aiConfig.icon} ${aiConfig.name}に送るプロンプト`;
-    document.getElementById('ai-modal-description').textContent = `以下のプロンプトをコピーして${aiConfig.name}に貼り付けてください`;
+    document.getElementById('ai-modal-title').textContent = '生成AIに送るプロンプト';
+    document.getElementById('ai-modal-description').textContent = '以下のプロンプトをコピーして生成AIに貼り付けてください';
     document.getElementById('ai-prompt').value = prompt;
-    document.getElementById('ai-link').href = aiConfig.url;
-    document.getElementById('ai-link').textContent = `${aiConfig.name}を開く`;
+    document.getElementById('ai-link').classList.add('hidden'); // 特定AIへのリンクは非表示
     document.getElementById('ai-modal').classList.remove('hidden');
 }
 
