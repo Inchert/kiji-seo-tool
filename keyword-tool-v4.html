@@ -1245,80 +1245,102 @@ https://example.com/page3
 
                         <!-- SEO採点セクション -->
                         <div class="mt-8 border-t pt-8">
-                            <div class="flex items-center justify-between mb-4">
-                                <h3 class="font-bold text-gray-800 flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-emerald-600">speed</span>
-                                    SEO採点
-                                    <span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">NEW</span>
-                                </h3>
-                                <button type="button" onclick="runSEOScoring()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
-                                    <span class="material-symbols-outlined icon-sm">play_arrow</span>
-                                    採点を実行
-                                </button>
-                            </div>
+                            <h3 class="font-bold text-gray-800 flex items-center gap-2 mb-4">
+                                <span class="material-symbols-outlined text-emerald-600">speed</span>
+                                SEO採点
+                            </h3>
 
-                            <div id="seo-score-result" class="hidden">
-                                <div class="grid md:grid-cols-3 gap-6">
-                                    <!-- 総合スコア -->
-                                    <div class="bg-white rounded-xl p-6 shadow-sm border text-center">
-                                        <h4 class="font-semibold text-gray-600 mb-4">総合スコア</h4>
-                                        <div class="seo-score-ring mx-auto">
-                                            <svg width="120" height="120">
-                                                <circle class="bg" cx="60" cy="60" r="50"/>
-                                                <circle class="progress" id="score-ring-progress" cx="60" cy="60" r="50"
-                                                    stroke="#22c55e" stroke-dasharray="314" stroke-dashoffset="314"/>
-                                            </svg>
-                                            <div class="seo-score-value" id="total-score-value">--</div>
+                            <div id="seo-score-result">
+                                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                    <!-- 記事品質スコア -->
+                                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-200">
+                                        <h4 class="font-semibold text-blue-700 mb-3 text-center flex items-center justify-center gap-2">
+                                            <span class="material-symbols-outlined icon-sm">article</span>
+                                            記事品質スコア
+                                        </h4>
+                                        <div class="flex items-center justify-center gap-4">
+                                            <div class="seo-score-ring" style="width: 90px; height: 90px;">
+                                                <svg width="90" height="90">
+                                                    <circle class="bg" cx="45" cy="45" r="38" stroke-width="8"/>
+                                                    <circle class="progress" id="article-score-ring" cx="45" cy="45" r="38"
+                                                        stroke="#3b82f6" stroke-width="8" stroke-dasharray="239" stroke-dashoffset="239"/>
+                                                </svg>
+                                                <div class="seo-score-value" id="article-score-value" style="font-size: 22px;">--</div>
+                                            </div>
+                                            <div class="text-left">
+                                                <div id="article-score-grade" class="text-xl font-bold text-blue-700">--</div>
+                                                <p class="text-xs text-blue-600">タイトル・メタ・見出し</p>
+                                            </div>
                                         </div>
-                                        <div id="score-grade" class="mt-3 text-lg font-bold">--</div>
-                                        <p id="score-comment" class="text-sm text-gray-500 mt-1">採点を実行してください</p>
                                     </div>
 
-                                    <!-- 項目別スコア -->
-                                    <div class="md:col-span-2 bg-white rounded-xl p-6 shadow-sm border">
-                                        <h4 class="font-semibold text-gray-600 mb-4">項目別スコア</h4>
-                                        <div id="score-items">
-                                            <div class="score-item">
-                                                <span class="text-sm text-gray-600">タイトル最適化</span>
-                                                <div class="flex items-center gap-2">
-                                                    <div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div>
-                                                    <span class="text-sm font-medium w-8">--</span>
-                                                </div>
+                                    <!-- 総合SEOスコア -->
+                                    <div class="bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl p-5 border border-emerald-200">
+                                        <h4 class="font-semibold text-emerald-700 mb-3 text-center flex items-center justify-center gap-2">
+                                            <span class="material-symbols-outlined icon-sm">monitoring</span>
+                                            総合SEOスコア
+                                        </h4>
+                                        <div class="flex items-center justify-center gap-4">
+                                            <div class="seo-score-ring" style="width: 90px; height: 90px;">
+                                                <svg width="90" height="90">
+                                                    <circle class="bg" cx="45" cy="45" r="38" stroke-width="8"/>
+                                                    <circle class="progress" id="score-ring-progress" cx="45" cy="45" r="38"
+                                                        stroke="#22c55e" stroke-width="8" stroke-dasharray="239" stroke-dashoffset="239"/>
+                                                </svg>
+                                                <div class="seo-score-value" id="total-score-value" style="font-size: 22px;">--</div>
                                             </div>
-                                            <div class="score-item">
-                                                <span class="text-sm text-gray-600">メタディスクリプション</span>
-                                                <div class="flex items-center gap-2">
-                                                    <div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div>
-                                                    <span class="text-sm font-medium w-8">--</span>
-                                                </div>
+                                            <div class="text-left">
+                                                <div id="score-grade" class="text-xl font-bold text-emerald-700">--</div>
+                                                <p class="text-xs text-emerald-600">E-E-A-T・CTA含む</p>
                                             </div>
-                                            <div class="score-item">
-                                                <span class="text-sm text-gray-600">見出し構造</span>
-                                                <div class="flex items-center gap-2">
-                                                    <div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div>
-                                                    <span class="text-sm font-medium w-8">--</span>
-                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 項目別スコア -->
+                                <div class="bg-white rounded-xl p-4 shadow-sm border">
+                                    <h4 class="font-semibold text-gray-600 mb-3 text-sm">項目別スコア</h4>
+                                    <div id="score-items" class="grid md:grid-cols-2 gap-x-4">
+                                        <div class="score-item">
+                                            <span class="text-sm text-gray-600">タイトル最適化</span>
+                                            <div class="flex items-center gap-2">
+                                                <div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div>
+                                                <span class="text-sm font-medium w-8">--</span>
                                             </div>
-                                            <div class="score-item">
-                                                <span class="text-sm text-gray-600">E-E-A-T要素</span>
-                                                <div class="flex items-center gap-2">
-                                                    <div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div>
-                                                    <span class="text-sm font-medium w-8">--</span>
-                                                </div>
+                                        </div>
+                                        <div class="score-item">
+                                            <span class="text-sm text-gray-600">メタディスクリプション</span>
+                                            <div class="flex items-center gap-2">
+                                                <div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div>
+                                                <span class="text-sm font-medium w-8">--</span>
                                             </div>
-                                            <div class="score-item">
-                                                <span class="text-sm text-gray-600">CTA設計</span>
-                                                <div class="flex items-center gap-2">
-                                                    <div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div>
-                                                    <span class="text-sm font-medium w-8">--</span>
-                                                </div>
+                                        </div>
+                                        <div class="score-item">
+                                            <span class="text-sm text-gray-600">見出し構造</span>
+                                            <div class="flex items-center gap-2">
+                                                <div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div>
+                                                <span class="text-sm font-medium w-8">--</span>
                                             </div>
-                                            <div class="score-item">
-                                                <span class="text-sm text-gray-600">一次情報・差別化</span>
-                                                <div class="flex items-center gap-2">
-                                                    <div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div>
-                                                    <span class="text-sm font-medium w-8">--</span>
-                                                </div>
+                                        </div>
+                                        <div class="score-item">
+                                            <span class="text-sm text-gray-600">E-E-A-T要素</span>
+                                            <div class="flex items-center gap-2">
+                                                <div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div>
+                                                <span class="text-sm font-medium w-8">--</span>
+                                            </div>
+                                        </div>
+                                        <div class="score-item">
+                                            <span class="text-sm text-gray-600">CTA設計</span>
+                                            <div class="flex items-center gap-2">
+                                                <div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div>
+                                                <span class="text-sm font-medium w-8">--</span>
+                                            </div>
+                                        </div>
+                                        <div class="score-item">
+                                            <span class="text-sm text-gray-600">一次情報・差別化</span>
+                                            <div class="flex items-center gap-2">
+                                                <div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div>
+                                                <span class="text-sm font-medium w-8">--</span>
                                             </div>
                                         </div>
                                     </div>
@@ -5456,6 +5478,11 @@ ${mainKw}に関する記事です。
             }
 
             document.getElementById('article-design-result').classList.remove('hidden');
+
+            // SEO採点を自動実行
+            setTimeout(() => {
+                runSEOScoring();
+            }, 100);
         }
 
         // SEO統合版の記事構成を生成する関数
@@ -9103,20 +9130,46 @@ ${layerStrategy}
                 grade = 'D'; gradeColor = '#ef4444'; comment = '要改善。SEO要素を追加してください';
             }
 
+            // 記事品質スコア（タイトル+メタ+見出しのみ）
+            const articleScore = scores.title + scores.meta + scores.headings;
+            const articleMax = 55; // 20 + 15 + 20
+            const articlePercentage = Math.round((articleScore / articleMax) * 100);
+
+            let articleGrade, articleGradeColor;
+            if (articlePercentage >= 90) { articleGrade = 'S'; articleGradeColor = '#3b82f6'; }
+            else if (articlePercentage >= 80) { articleGrade = 'A'; articleGradeColor = '#3b82f6'; }
+            else if (articlePercentage >= 70) { articleGrade = 'B'; articleGradeColor = '#60a5fa'; }
+            else if (articlePercentage >= 60) { articleGrade = 'C'; articleGradeColor = '#f59e0b'; }
+            else { articleGrade = 'D'; articleGradeColor = '#ef4444'; }
+
             // UI更新
-            document.getElementById('seo-score-result').classList.remove('hidden');
+
+            // 記事品質スコア表示
+            const articleRing = document.getElementById('article-score-ring');
+            if (articleRing) {
+                const articleCircumference = 239; // 2 * π * 38
+                const articleOffset = articleCircumference - (articlePercentage / 100) * articleCircumference;
+                articleRing.style.stroke = articleGradeColor;
+                articleRing.style.strokeDashoffset = articleOffset;
+            }
+            const articleValueEl = document.getElementById('article-score-value');
+            if (articleValueEl) articleValueEl.textContent = articleScore;
+            const articleGradeEl = document.getElementById('article-score-grade');
+            if (articleGradeEl) {
+                articleGradeEl.textContent = articleGrade;
+                articleGradeEl.style.color = articleGradeColor;
+            }
 
             // 総合スコアリング表示
             const ringProgress = document.getElementById('score-ring-progress');
-            const circumference = 314; // 2 * π * 50
+            const circumference = 239; // 2 * π * 38
             const offset = circumference - (percentage / 100) * circumference;
             ringProgress.style.stroke = gradeColor;
             ringProgress.style.strokeDashoffset = offset;
 
             document.getElementById('total-score-value').textContent = totalScore;
-            document.getElementById('score-grade').textContent = 'ランク: ' + grade;
+            document.getElementById('score-grade').textContent = grade;
             document.getElementById('score-grade').style.color = gradeColor;
-            document.getElementById('score-comment').textContent = comment;
 
             // 項目別スコア更新
             const scoreItems = document.querySelectorAll('#score-items .score-item');
