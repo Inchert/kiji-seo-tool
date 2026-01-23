@@ -101,6 +101,27 @@
             line-height: 1;
         }
         .help-close:hover { color: #64748b; }
+
+        /* SEO採点ツール */
+        .seo-score-ring {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+        .seo-score-ring svg { transform: rotate(-90deg); }
+        .seo-score-ring circle { fill: none; stroke-width: 10; }
+        .seo-score-ring .bg { stroke: #e2e8f0; }
+        .seo-score-ring .progress { stroke-linecap: round; transition: stroke-dashoffset 0.8s ease-out; }
+        .seo-score-value { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; font-weight: bold; }
+        .score-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-radius: 8px; margin-bottom: 6px; }
+        .score-item.good { background: #dcfce7; }
+        .score-item.warning { background: #fef3c7; }
+        .score-item.bad { background: #fee2e2; }
+        .score-bar { width: 60px; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+        .score-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease-out; }
+        .score-bar-fill.good { background: #22c55e; }
+        .score-bar-fill.warning { background: #f59e0b; }
+        .score-bar-fill.bad { background: #ef4444; }
     </style>
 </head>
 <body class="bg-gradient-to-br from-slate-50 to-indigo-50 min-h-screen">
@@ -621,6 +642,57 @@
                             </div>
                         </div>
 
+                        <!-- SEO採点セクション -->
+                        <div class="mt-8 border-t pt-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-bold text-gray-800 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-emerald-600">speed</span>
+                                    SEO採点
+                                    <span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">NEW</span>
+                                </h3>
+                                <button type="button" onclick="runSEOScoring()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
+                                    <span class="material-symbols-outlined icon-sm">play_arrow</span>
+                                    採点を実行
+                                </button>
+                            </div>
+
+                            <div id="seo-score-result" class="hidden">
+                                <div class="grid md:grid-cols-3 gap-6">
+                                    <div class="bg-white rounded-xl p-6 shadow-sm border text-center">
+                                        <h4 class="font-semibold text-gray-600 mb-4">総合スコア</h4>
+                                        <div class="seo-score-ring mx-auto">
+                                            <svg width="120" height="120">
+                                                <circle class="bg" cx="60" cy="60" r="50"/>
+                                                <circle class="progress" id="score-ring-progress" cx="60" cy="60" r="50" stroke="#22c55e" stroke-dasharray="314" stroke-dashoffset="314"/>
+                                            </svg>
+                                            <div class="seo-score-value" id="total-score-value">--</div>
+                                        </div>
+                                        <div id="score-grade" class="mt-3 text-lg font-bold">--</div>
+                                        <p id="score-comment" class="text-sm text-gray-500 mt-1">採点を実行してください</p>
+                                    </div>
+                                    <div class="md:col-span-2 bg-white rounded-xl p-6 shadow-sm border">
+                                        <h4 class="font-semibold text-gray-600 mb-4">項目別スコア</h4>
+                                        <div id="score-items">
+                                            <div class="score-item"><span class="text-sm text-gray-600">タイトル最適化</span><div class="flex items-center gap-2"><div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div><span class="text-sm font-medium w-8">--</span></div></div>
+                                            <div class="score-item"><span class="text-sm text-gray-600">メタディスクリプション</span><div class="flex items-center gap-2"><div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div><span class="text-sm font-medium w-8">--</span></div></div>
+                                            <div class="score-item"><span class="text-sm text-gray-600">見出し構造</span><div class="flex items-center gap-2"><div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div><span class="text-sm font-medium w-8">--</span></div></div>
+                                            <div class="score-item"><span class="text-sm text-gray-600">E-E-A-T要素</span><div class="flex items-center gap-2"><div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div><span class="text-sm font-medium w-8">--</span></div></div>
+                                            <div class="score-item"><span class="text-sm text-gray-600">CTA設計</span><div class="flex items-center gap-2"><div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div><span class="text-sm font-medium w-8">--</span></div></div>
+                                            <div class="score-item"><span class="text-sm text-gray-600">一次情報・差別化</span><div class="flex items-center gap-2"><div class="score-bar"><div class="score-bar-fill" style="width: 0%"></div></div><span class="text-sm font-medium w-8">--</span></div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-200">
+                                    <h4 class="font-semibold text-amber-800 mb-3 flex items-center gap-2"><span class="material-symbols-outlined icon-sm">lightbulb</span>改善提案</h4>
+                                    <ul id="score-suggestions" class="text-sm text-amber-700 space-y-2"><li>採点を実行すると改善提案が表示されます</li></ul>
+                                </div>
+                                <details class="mt-4">
+                                    <summary class="cursor-pointer text-sm text-gray-500 hover:text-gray-700 flex items-center gap-2"><span class="material-symbols-outlined icon-sm">expand_more</span>詳細レポートを表示</summary>
+                                    <div id="score-detail-report" class="mt-3 bg-gray-50 rounded-lg p-4 text-sm"><pre class="whitespace-pre-wrap font-mono text-gray-700"></pre></div>
+                                </details>
+                            </div>
+                        </div>
+
                         <!-- アクションボタン -->
                         <div class="mt-8 p-6 bg-gradient-to-r from-indigo-50 to-slate-50 rounded-xl">
                             <h3 class="font-bold text-gray-800 mb-4 text-center">次のアクション</h3>
@@ -916,6 +988,125 @@
         }
         function hideHelp() {
             document.getElementById('help-modal').classList.remove('show');
+        }
+
+        // ========== SEO採点機能 ==========
+        function runSEOScoring() {
+            const outline = document.getElementById('article-outline')?.textContent || '';
+            const integratedOutline = document.getElementById('article-outline-integrated')?.innerHTML || '';
+            const titleSuggestions = document.getElementById('title-suggestions')?.textContent || '';
+            const metaDescription = document.getElementById('meta-description')?.textContent || '';
+            const primarySources = document.getElementById('primary-sources')?.textContent || '';
+            const eeatTips = document.getElementById('pro-tips-eeat')?.textContent || '';
+            const ctaTips = document.getElementById('pro-tips-cta')?.textContent || '';
+
+            if (!outline && !integratedOutline) {
+                alert('まず「記事構成を生成」を実行してください');
+                return;
+            }
+
+            const scores = {};
+            const suggestions = [];
+            let detailReport = '';
+
+            // 1. タイトル最適化 (20点満点)
+            scores.title = 0;
+            detailReport += '【タイトル最適化】\n';
+            if (titleSuggestions) {
+                const titleLength = titleSuggestions.split('\n')[0]?.length || 0;
+                if (titleLength >= 25 && titleLength <= 40) { scores.title += 10; detailReport += '✓ タイトル文字数が適切\n'; }
+                else if (titleLength > 0) { scores.title += 5; suggestions.push('タイトルは25-40文字が最適です'); detailReport += '△ タイトル文字数が最適範囲外\n'; }
+                if (/【|】|\[|\]|｜/.test(titleSuggestions)) { scores.title += 5; detailReport += '✓ 記号を使用して視認性を向上\n'; }
+                if (/\d{4}年|最新/.test(titleSuggestions)) { scores.title += 5; detailReport += '✓ 年号・最新表記で鮮度をアピール\n'; }
+                else { suggestions.push('タイトルに年号を入れると鮮度がアピールできます'); }
+            } else { suggestions.push('SEOタイトル案を確認してください'); }
+
+            // 2. メタディスクリプション (15点満点)
+            scores.meta = 0;
+            detailReport += '\n【メタディスクリプション】\n';
+            if (metaDescription) {
+                const metaLength = metaDescription.length;
+                if (metaLength >= 80 && metaLength <= 160) { scores.meta += 8; detailReport += '✓ 文字数が適切\n'; }
+                else if (metaLength > 0) { scores.meta += 4; suggestions.push('メタディスクリプションは80-160文字が最適です'); }
+                if (/申込|受講|無料|最短|オンライン/.test(metaDescription)) { scores.meta += 7; detailReport += '✓ アクション喚起ワードを含む\n'; }
+                else { suggestions.push('メタディスクリプションにCTA要素を追加しましょう'); }
+            }
+
+            // 3. 見出し構造 (20点満点)
+            scores.headings = 0;
+            detailReport += '\n【見出し構造】\n';
+            const h2Count = (outline.match(/^##\s/gm) || integratedOutline.match(/<h2/gi) || []).length;
+            const h3Count = (outline.match(/^###\s/gm) || integratedOutline.match(/<h3/gi) || []).length;
+            if (h2Count >= 4 && h2Count <= 10) { scores.headings += 10; detailReport += '✓ H2見出し数が適切\n'; }
+            else if (h2Count > 0) { scores.headings += 5; if (h2Count < 4) suggestions.push('H2見出しを増やすと網羅性が向上します'); }
+            if (h3Count >= 5) { scores.headings += 10; detailReport += '✓ H3見出しで詳細な構造化\n'; }
+            else if (h3Count > 0) { scores.headings += 5; }
+
+            // 4. E-E-A-T要素 (20点満点)
+            scores.eeat = 0;
+            detailReport += '\n【E-E-A-T要素】\n';
+            const content = outline + integratedOutline + eeatTips;
+            if (/体験|実際に|現場|受講者の声/.test(content)) { scores.eeat += 5; detailReport += '✓ Experience要素を含む\n'; }
+            else { suggestions.push('経験要素を追加しましょう'); }
+            if (/専門|資格|講師|法令|厚生労働省/.test(content)) { scores.eeat += 5; detailReport += '✓ Expertise要素を含む\n'; }
+            if (/運営会社|認定|公式|実績/.test(content)) { scores.eeat += 5; detailReport += '✓ Authoritativeness要素を含む\n'; }
+            if (/安心|信頼|サポート|保証/.test(content)) { scores.eeat += 5; detailReport += '✓ Trust要素を含む\n'; }
+
+            // 5. CTA設計 (10点満点)
+            scores.cta = 0;
+            detailReport += '\n【CTA設計】\n';
+            if (/CTA|申込|お申し込み|今すぐ|無料|ボタン/.test(content + ctaTips)) { scores.cta += 5; detailReport += '✓ CTAの配置を考慮\n'; }
+            else { suggestions.push('CTAの配置を検討しましょう'); }
+            if (/複数|導入部|まとめ|各セクション/.test(ctaTips)) { scores.cta += 5; detailReport += '✓ 複数箇所へのCTA配置\n'; }
+
+            // 6. 一次情報・差別化 (15点満点)
+            scores.differentiation = 0;
+            detailReport += '\n【一次情報・差別化】\n';
+            if (primarySources && primarySources.length > 20) { scores.differentiation += 5; detailReport += '✓ 一次情報源を参照\n'; }
+            else { suggestions.push('公式情報源を参照に追加しましょう'); }
+            if (/独自|オリジナル|KCI|自社|当社/.test(content)) { scores.differentiation += 5; detailReport += '✓ 独自コンテンツ要素を含む\n'; }
+            if (/FAQ|よくある質問|Q&A/.test(content)) { scores.differentiation += 5; detailReport += '✓ FAQセクションを含む\n'; }
+            else { suggestions.push('FAQセクションを追加すると強調スニペット獲得の可能性が上がります'); }
+
+            // 総合スコア計算
+            const totalScore = scores.title + scores.meta + scores.headings + scores.eeat + scores.cta + scores.differentiation;
+            const percentage = Math.round((totalScore / 100) * 100);
+
+            let grade, gradeColor, comment;
+            if (percentage >= 90) { grade = 'S'; gradeColor = '#22c55e'; comment = '素晴らしい！'; }
+            else if (percentage >= 80) { grade = 'A'; gradeColor = '#22c55e'; comment = '優秀！'; }
+            else if (percentage >= 70) { grade = 'B'; gradeColor = '#84cc16'; comment = '良好！'; }
+            else if (percentage >= 60) { grade = 'C'; gradeColor = '#f59e0b'; comment = '改善の余地あり'; }
+            else { grade = 'D'; gradeColor = '#ef4444'; comment = '要改善'; }
+
+            // UI更新
+            document.getElementById('seo-score-result').classList.remove('hidden');
+            const ringProgress = document.getElementById('score-ring-progress');
+            const offset = 314 - (percentage / 100) * 314;
+            ringProgress.style.stroke = gradeColor;
+            ringProgress.style.strokeDashoffset = offset;
+            document.getElementById('total-score-value').textContent = totalScore;
+            document.getElementById('score-grade').textContent = 'ランク: ' + grade;
+            document.getElementById('score-grade').style.color = gradeColor;
+            document.getElementById('score-comment').textContent = comment;
+
+            const scoreItems = document.querySelectorAll('#score-items .score-item');
+            const scoreData = [{ score: scores.title, max: 20 }, { score: scores.meta, max: 15 }, { score: scores.headings, max: 20 }, { score: scores.eeat, max: 20 }, { score: scores.cta, max: 10 }, { score: scores.differentiation, max: 15 }];
+            scoreItems.forEach((item, i) => {
+                const data = scoreData[i];
+                const pct = Math.round((data.score / data.max) * 100);
+                const bar = item.querySelector('.score-bar-fill');
+                const label = item.querySelector('.score-item > div > span:last-child');
+                bar.style.width = pct + '%';
+                bar.className = 'score-bar-fill ' + (pct >= 80 ? 'good' : pct >= 50 ? 'warning' : 'bad');
+                label.textContent = data.score + '/' + data.max;
+                item.className = 'score-item ' + (pct >= 80 ? 'good' : pct >= 50 ? 'warning' : 'bad');
+            });
+
+            const suggestionsEl = document.getElementById('score-suggestions');
+            suggestionsEl.innerHTML = suggestions.length > 0 ? suggestions.map(s => '<li>• ' + s + '</li>').join('') : '<li>🎉 改善点はありません！</li>';
+            document.querySelector('#score-detail-report pre').textContent = detailReport;
+            document.getElementById('seo-score-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     </script>
 
