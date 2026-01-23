@@ -977,6 +977,56 @@
                 <li><strong>チェックリスト</strong>: 準備・持ち物。実用性が高くブックマークされやすい</li>
                 <li><strong>法改正・ニュース</strong>: 最新情報。専門性アピール</li>
             </ul>
+
+            <h4>記事タイプの自動推奨</h4>
+            <p>グループ名に含まれるキーワードから、最適な記事タイプを自動で推奨します：</p>
+            <div style="background: #f0fdf4; padding: 12px; border-radius: 6px; font-size: 13px; margin: 8px 0;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    <tr style="border-bottom: 1px solid #86efac;">
+                        <th style="text-align: left; padding: 6px 8px;">キーワードパターン</th>
+                        <th style="text-align: left; padding: 6px 8px;">推奨タイプ</th>
+                    </tr>
+                    <tr><td style="padding: 4px 8px;">テスト、答え、例文、記入例</td><td style="padding: 4px 8px;">→ チェックリスト</td></tr>
+                    <tr><td style="padding: 4px 8px;">オンライン、Web、eラーニング、通信</td><td style="padding: 4px 8px;">→ ハウツー</td></tr>
+                    <tr><td style="padding: 4px 8px;">更新、期限、届出、申請</td><td style="padding: 4px 8px;">→ FAQ形式</td></tr>
+                    <tr><td style="padding: 4px 8px;">東京、大阪、名古屋などの地域名</td><td style="padding: 4px 8px;">→ 選び方ガイド</td></tr>
+                    <tr><td style="padding: 4px 8px;">費用、料金、価格、相場、値段</td><td style="padding: 4px 8px;">→ 選び方ガイド</td></tr>
+                    <tr><td style="padding: 4px 8px;">とは、基礎、基本、意味、違い</td><td style="padding: 4px 8px;">→ 用語解説</td></tr>
+                    <tr><td style="padding: 4px 8px;">体験、レビュー、感想、口コミ</td><td style="padding: 4px 8px;">→ 事例・体験談</td></tr>
+                    <tr><td style="padding: 4px 8px;">法改正、改定、義務化、新制度</td><td style="padding: 4px 8px;">→ 法改正・ニュース</td></tr>
+                    <tr><td style="padding: 4px 8px;">申込、受講、手続き、手順</td><td style="padding: 4px 8px;">→ ハウツー</td></tr>
+                    <tr><td style="padding: 4px 8px;">上記以外</td><td style="padding: 4px 8px;">→ ピラー記事（デフォルト）</td></tr>
+                </table>
+            </div>
+            <p style="font-size: 13px; color: #666;">※推奨は参考です。グループ内のキーワードや検索意図に応じて適切なタイプを選択してください。</p>
+
+            <h4>SEOスコアリング</h4>
+            <p>生成した記事構成のSEO最適化度を自動評価します：</p>
+            <ul>
+                <li><strong>記事スコア（55点満点）</strong>: タイトル・見出し・本文の最適化度を評価
+                    <ul style="font-size: 13px; color: #666;">
+                        <li>タイトル: キーワード含有、文字数（30〜35文字推奨）</li>
+                        <li>見出し: H2/H3の階層構造、キーワード配置</li>
+                        <li>本文: メタディスクリプション、CTA配置</li>
+                    </ul>
+                </li>
+                <li><strong>総合SEOスコア（100点満点）</strong>: 記事スコア + 追加評価項目
+                    <ul style="font-size: 13px; color: #666;">
+                        <li>E-E-A-T対策、内部リンク戦略、構造化データ対応</li>
+                        <li>モバイル最適化、ページ速度考慮</li>
+                    </ul>
+                </li>
+            </ul>
+            <p style="font-size: 13px;">スコア横の「詳細を見る」をクリックすると、各項目の評価詳細を確認できます。</p>
+
+            <h4>生成AIへのプロンプト出力</h4>
+            <p>「生成AIに貼り付け」ボタンで、記事作成用のプロンプトをコピーできます：</p>
+            <ul>
+                <li><strong>記事生成プロンプト</strong>: 見出し構成を元に記事本文を生成するプロンプト</li>
+                <li><strong>評価プロンプト</strong>: 作成した記事のSEO観点での評価を依頼するプロンプト</li>
+            </ul>
+            <p style="font-size: 13px; color: #666;">※ChatGPT、Claude、Geminiなど、お好みの生成AIに貼り付けてご利用ください。</p>
+
             <h4>プロ向けSEO戦略</h4>
             <ul>
                 <li><strong>E-E-A-T</strong>: 経験・専門性・権威性・信頼性を高めるポイント</li>
